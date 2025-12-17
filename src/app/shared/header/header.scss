@@ -1,0 +1,184 @@
+.elicom-header {
+    width: 100%;
+    background: white;
+    font-family: 'Poppins', sans-serif;
+
+    .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 40px;
+
+        .logo {
+            font-size: 34px;
+            font-family: "Rubik Wet Paint", system-ui;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            overflow: hidden;
+            margin: 0 20px;
+
+            input {
+                flex: 1;
+                padding: 8px 10px;
+                border: none;
+                outline: none;
+                font-size: 15px;
+            }
+
+            button {
+                background: #000;
+                color: #fff;
+                border: none;
+                margin-top: 3px;
+                margin-right: 3px;
+                border-radius: 5px;
+                height: 33px;
+                width: 54px;
+                cursor: pointer;
+
+                &:hover {
+                    background: #333;
+                }
+            }
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+
+            i {
+                font-size: 20px;
+                cursor: pointer;
+                color: #000;
+            }
+
+            .user-menu-wrapper,
+            .cart-wrapper,
+            .currency-menu-wrapper {
+                position: relative;
+
+                .user-tooltip-box,
+                .cart-tooltip-box,
+                .currency-tooltip-box {
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    padding: 10px 20px;
+                    z-index: 999;
+                    background: #434fff;
+                }
+
+                .currency-tooltip-box {
+                    top: 35px;
+                    left: 0;
+                    right: auto;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: 0.3s ease;
+
+                    &.active {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+    }
+
+    .position-relative {
+        position: relative;
+        margin-left: 10px;
+        margin-bottom: 10px;
+
+        .scroll-btn {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background: #fff; // white background
+            color: #000;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+
+            &:hover {
+                background: rgb(253, 251, 251);
+            }
+
+            &.left {
+                left: 0;
+                margin-left: 90.9rem;
+                border-radius: 4px 0 0 4px;
+            }
+
+            &.right {
+                right: 0;
+                border-radius: 0 4px 4px 0;
+            }
+        }
+
+        .elicom-navbar {
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            scrollbar-width: none; // hide scrollbar Firefox
+            -ms-overflow-style: none; // hide scrollbar IE/Edge
+
+            &::-webkit-scrollbar {
+                display: none; // hide scrollbar Chrome/Safari
+            }
+
+            .navbar-nav {
+                display: flex;
+                flex-wrap: nowrap; // single line
+                margin: 0;
+                padding: 0;
+                list-style: none;
+
+                .nav-item {
+                    display: inline-block;
+                    margin-left: 1px;
+
+                    .nav-link {
+                        display: inline-block;
+                        padding: 8px 15px;
+                        font-size: 13px;
+                        color: #000;
+                        text-decoration: none; // remove underline
+                        white-space: nowrap;
+                        transition: 0.3s;
+
+                        &:hover,
+                        &.active {
+                            background-color: #c8c7c7;
+                            border-radius: 4px;
+                        }
+
+                        i {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+}

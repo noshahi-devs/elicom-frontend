@@ -1,0 +1,122 @@
+<header class="elicom-header">
+
+  <!-- TOP BAR -->
+  <div class="header-top">
+    <div class="logo">ELICOM</div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+      <button><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- ICONS -->
+    <div class="header-icons">
+
+      <!-- USER -->
+      <div class="user-menu-wrapper">
+        <span class="user-icon">
+          <i class="far fa-user"></i>
+        </span>
+
+        <!-- <div class="user-tooltip-box">
+          <p>My Profile</p>
+          <p class="user-name">sharjeelnoshahi</p>
+          <p>My Orders</p>
+          <p>My Coupons <span style="color:red;">●</span></p>
+          <hr />
+          <p>SwitchAccounts</p>
+          <p>Sign Out</p>
+        </div> -->
+      </div>
+
+
+
+      <!-- CART -->
+      <div class="cart-wrapper" (mouseenter)="cartDropdown.set(true)" (mouseleave)="cartDropdown.set(false)">
+        <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        <div class="cart-tooltip-box" *ngIf="cartDropdown()">
+          <div class="tooltip-content">
+            <img src="assets/images/emptycart.PNG" alt="Cart Empty">
+            <p>Shopping cart is Empty</p>
+            <a href="#">Go to Shop</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- WISHLIST / MESSAGE -->
+      <a href="#"><i class="far fa-heart"></i></a>
+      <a href="#"><i class="far fa-comment-dots"></i></a>
+
+      <!-- GLOBE -->
+      <div class="currency-menu-wrapper" (mouseenter)="globeDropdown.set(true)" (mouseleave)="globeDropdown.set(false)">
+        <a href="#"><i class="fas fa-globe"></i></a>
+        <div class="currency-tooltip-box" *ngIf="globeDropdown()">
+          <div class="tooltip-section">
+            <p class="section-title">Currency</p>
+            <select>
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+              <option value="GBP">£ GBP</option>
+              <option value="JPY">¥ JPY</option>
+            </select>
+          </div>
+          <div class="tooltip-section">
+            <p class="section-title">Language</p>
+            <div class="language-options">
+              <span class="active">English</span>
+              <span>Español</span>
+            </div>
+          </div>
+          <a href="#" class="international-link">International Site</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <div class="position-relative">
+    <nav class="elicom-navbar" #navbar>
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item"><a class="nav-link" href="#">Categories <i class="fa-solid fa-angle-down"></i></a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">New In</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Women Clothing</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Kids</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Curve</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Men Clothing</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Shoes</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Underwear & Sleepwear</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Home & Kitchen</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Jewelry & Accessories</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Beauty & Health</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Baby & Maternity</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Bags & Luggage</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Sports & Outdoors</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Textiles</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Cell Phones & Accessories</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Electronics</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Toys & Games</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Tools & Home Improvement</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Office & School Supplies</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Pet Supplies</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Appliances</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Automotive</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Books & Magazine</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Food & Beverages</a></li>
+      </ul>
+    </nav>
+
+    <button class="scroll-btn left" (click)="scrollLeft()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <button class="scroll-btn right" (click)="scrollRight()">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+
+</header>
