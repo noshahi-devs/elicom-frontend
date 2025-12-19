@@ -95,59 +95,27 @@
         }
     }
 
-    .position-relative {
+    .elicom-navbar-wrapper {
         position: relative;
-        margin-left: 10px;
-        margin-bottom: 10px;
-
-        .scroll-btn {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 40px;
-            background: #fff; // white background
-            color: #000;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-
-            &:hover {
-                background: rgb(253, 251, 251);
-            }
-
-            &.left {
-                left: 0;
-                margin-left: 90.9rem;
-                border-radius: 4px 0 0 4px;
-            }
-
-            &.right {
-                right: 0;
-                border-radius: 0 4px 4px 0;
-            }
-        }
+        width: 100%;
+        display: flex;
 
         .elicom-navbar {
-            overflow-x: auto;
-            white-space: nowrap;
-            margin-right: 50px;
             display: flex;
-            align-items: center;
-            scrollbar-width: none; // hide scrollbar Firefox
-            -ms-overflow-style: none; // hide scrollbar IE/Edge
+            overflow-x: auto; // only nav scroll
+            white-space: nowrap;
+            flex: 1;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-right: 70px; // thoda space for scroll button
 
             &::-webkit-scrollbar {
-                display: none; // hide scrollbar Chrome/Safari
+                display: none;
             }
 
             .navbar-nav {
                 display: flex;
-                flex-wrap: nowrap; // single line
+                flex-wrap: nowrap;
                 margin: 0;
                 padding: 0;
                 list-style: none;
@@ -161,9 +129,8 @@
                         padding: 8px 15px;
                         font-size: 13px;
                         color: #000;
-                        text-decoration: none; // remove underline
                         white-space: nowrap;
-                        transition: 0.3s;
+                        text-decoration: none;
 
                         &:hover,
                         &.active {
@@ -175,6 +142,36 @@
                             margin-left: 5px;
                         }
                     }
+                }
+            }
+
+            /* Scroll Buttons fixed at right side */
+            .scroll-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 36px;
+                height: 36px;
+                border: none;
+                background: #fff;
+                color: #000;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 10;
+
+                &:hover {
+                    background: #e9e1e1;
+                }
+
+                &.left {
+                    right: 35px; // left button just left of right button
+                }
+
+                &.right {
+                    right: 0; // right button at wrapper right edge
                 }
             }
         }

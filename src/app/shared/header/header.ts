@@ -10,23 +10,19 @@ export class Header {
   cartDropdown = signal(false);
   globeDropdown = signal(false);
 
- @ViewChild('navbar', { static: true })
-navbar!: ElementRef<HTMLElement>;
+  @ViewChild('navbar', { static: true })
+  navbar!: ElementRef<HTMLElement>;
 
-scrollAmount = 200;
+  scrollAmount = 200;
 
-scrollLeft() {
-  this.navbar.nativeElement.scrollBy({
-    left: -this.scrollAmount,
-    behavior: 'smooth'
-  });
-}
+  scrollLeft() {
+    const navbar = document.querySelector('.elicom-navbar');
+    if (navbar) navbar.scrollBy({ left: -200, behavior: 'smooth' });
+  }
 
-scrollRight() {
-  this.navbar.nativeElement.scrollBy({
-    left: this.scrollAmount,
-    behavior: 'smooth'
-  });
-}
+  scrollRight() {
+    const navbar = document.querySelector('.elicom-navbar');
+    if (navbar) navbar.scrollBy({ left: 200, behavior: 'smooth' });
+  }
 
 }

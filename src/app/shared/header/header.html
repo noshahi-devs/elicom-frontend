@@ -27,7 +27,7 @@
           <hr />
           <p>SwitchAccounts</p>
           <p>Sign Out</p>
-        </div> -->
+        </div> --> 
       </div>
 
 
@@ -76,10 +76,11 @@
   </div>
 
   <!-- NAVBAR -->
-  <div class="position-relative">
-    <nav class="elicom-navbar" #navbar>
-      <ul class="navbar-nav flex-row">
-        <li class="nav-item"><a class="nav-link" href="#">Categories <i class="fa-solid fa-angle-down"></i></a></li>
+  <div class="elicom-navbar-wrapper">
+  <nav class="elicom-navbar" #navbar>
+    <ul class="navbar-nav flex-row">
+      <!-- Nav items -->
+      <li class="nav-item"><a class="nav-link" href="#">Categories <i class="fa-solid fa-angle-down"></i></a></li>
         <li class="nav-item"><a class="nav-link active" href="#">New In</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Women Clothing</a></li>
@@ -106,17 +107,21 @@
         <li class="nav-item"><a class="nav-link" href="#">Automotive</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Books & Magazine</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Food & Beverages</a></li>
-      </ul>
-    </nav>
+      <!-- aur baki items -->
+    </ul>
+    
+    <!-- Scroll Buttons inside nav wrapper -->
+    <div class="scroll-btns">
+      <button class="scroll-btn left" (click)="scrollLeft()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="scroll-btn right" (click)="scrollRight()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</div>
 
-    <button class="scroll-btn left" (click)="scrollLeft()">
-      <i class="fa-solid fa-chevron-left"></i>
-    </button>
-
-    <button class="scroll-btn right" (click)="scrollRight()">
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
-  </div>
 
 
 </header>
