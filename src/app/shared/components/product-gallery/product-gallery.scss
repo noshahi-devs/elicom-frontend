@@ -1,0 +1,20 @@
+.gallery {
+  display: flex;
+  gap: 15px;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  img {
+    width: 60px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+  }
+}
+
+.main-image img {
+  width: 400px;
+}

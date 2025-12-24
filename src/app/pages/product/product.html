@@ -1,0 +1,13 @@
+<div class="product-page">
+
+  <app-product-gallery
+    [images]="selectedColor.images">
+  </app-product-gallery>
+
+  <app-product-info
+    [product]="product"
+    [selectedColor]="selectedColor"
+    (colorChange)="onColorChange($event)">
+  </app-product-info>
+
+</div>

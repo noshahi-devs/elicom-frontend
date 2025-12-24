@@ -1,0 +1,12 @@
+.product-page {
+  width: 85%;
+  margin: 40px auto;
+  display: flex;
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .product-page {
+    flex-direction: column;
+  }
+}

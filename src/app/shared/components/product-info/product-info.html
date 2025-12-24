@@ -1,0 +1,19 @@
+<div class="product-info">
+
+  <h2>{{ product.title }}</h2>
+
+  <div class="price">
+    ${{ product.price }}
+    <span class="discount">-{{ product.discount }}%</span>
+  </div>
+
+  <div class="colors">
+    <span
+      *ngFor="let c of product.colors"
+      class="color-dot"
+      [style.background]="c.code"
+      (click)="selectColor(c)">
+    </span>
+  </div>
+
+</div>
