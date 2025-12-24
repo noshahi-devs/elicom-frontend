@@ -70,12 +70,172 @@ export class HomeComponent {
       hoverImage: 'assets/images/card_4.jpg'
     },
     {
-      id: 1,
+      id: 2,
       title: 'Summer Casual Shirt',
       price: 12.99,
       discount: 13,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg'
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
+    },
+    {
+      id: 2,
+      title: 'Summer Casual Shirt',
+      price: 12.99,
+      discount: 13,
+      image: 'assets/images/card_3.jpg',
+      hoverImage: 'assets/images/card_4.jpg'
     }
   ];
 
