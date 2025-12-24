@@ -60,7 +60,8 @@
 
     .subscribe-container {
         margin-top: 10px;
-        width: 37rem;
+        width: 592px;
+        border: 1px solid #ccc;
 
         h3 {
             font-size: 12px;
@@ -143,9 +144,9 @@
 
             span {
                 display: inline-flex;
-                margin-top: 3px; // 🔥 KEY FIX
+                margin-top: 3px;
                 align-items: center;
-                white-space: nowrap; // 🔥 force single line
+                white-space: nowrap;
             }
 
             a {
@@ -162,6 +163,35 @@
         }
 
     }
+
+    @media (max-width: 768px) {
+        .subscribe-container {
+            max-width: 100%;
+
+            .subscribe-group {
+
+                input,
+                select {
+                    font-size: 13px;
+                    padding: 7px;
+                }
+
+                select {
+                    max-width: 70px;
+                }
+
+                button {
+                    padding: 7px 40px;
+                    border: none;
+                    background-color: #000;
+                    color: #fff;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
 
     .footer-bottom {
         display: flex;
