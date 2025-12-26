@@ -1,0 +1,70 @@
+<div class="product-info-column">
+  <div class="right-box">
+    
+    <!-- Title & Share -->
+    <div class="title-row">
+      <div class="title">{{ title }}</div>
+      <div class="share-container">
+        <span class="share-icon">
+          <a href="#" class="share-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </span>
+        <!-- Share popup (Twitter, Facebook, Pinterest) -->
+      </div>
+    </div>
+
+    <!-- SKU & Rating -->
+    <div class="sku">
+      <span>SKU: {{ sku }}</span>
+      <i class="fa-solid fa-clone"></i>
+      <div class="rating">
+        <span *ngFor="let r of [1,2,3,4,5]; let i = index" [ngClass]="i < rating ? 'fa-solid fa-star' : 'fa-regular fa-star'"></span>
+        <span class="review-count">({{ reviewCount }}+ Reviews)</span>
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div class="price-container">
+      <div class="price-now"><span>$</span>{{ priceNow }}</div>
+      <div class="price-old-and-discount">
+        <div class="price-old">${{ priceOld }}</div>
+        <div class="discount-box">-{{ discount }}%</div>
+      </div>
+    </div>
+
+    <!-- Color Selection -->
+    <div class="section-title color-title">
+      Color:
+    </div>
+    <div class="color-list">
+      <div *ngFor="let color of colors" class="color-item" [ngClass]="{'active': color.active}">
+        <img [src]="color.src" [alt]="color.name">
+        <span *ngIf="color.hot" class="hot-tag">HOT</span>
+      </div>
+    </div>
+
+    <!-- Size Selection -->
+    <div class="size-area">
+      <div class="size-buttons">
+        <button *ngFor="let size of sizes" (click)="selectSize(size)" [ngClass]="{'selected': selectedSize === size}">
+          {{ size }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Quantity -->
+    <div class="quantity-selector">
+      <button (click)="decrementQty()">-</button>
+      <input type="text" [value]="quantity" readonly>
+      <button (click)="incrementQty()">+</button>
+    </div>
+
+    <!-- Add to Cart & Favourite -->
+    <div class="add-cart-section">
+      <button class="add-cart" (click)="addToCart()">ADD TO CART</button>
+      <button class="fav-btn" (click)="toggleFav()">
+        <i [ngClass]="fav ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+      </button>
+    </div>
+
+  </div>
+</div>

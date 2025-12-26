@@ -8,19 +8,39 @@
 
 .product-layout {
   display: flex;
-  gap: 30px;
+  gap: 0px;
   align-items: flex-start;
+  border: 3px solid blue;
 }
 
 /* left side */
-app-product-gallery {
-  flex: 1;
-}
+// app-product-gallery {
+//   flex: 1;
+// }
 
 /* right side */
-app-product-info {
-  flex: 1;
+// app-product-info {
+//   flex: 1;
+// }
+
+.product-detail-wrapper {
+  display: flex;
+  gap: 30px;
+  width: 100%;
 }
+
+/* LEFT SIDE – Gallery */
+.product-gallery-col {
+//   flex: 0 0 55%;   // gallery fixed width
+  max-width: 55%;
+}
+
+/* RIGHT SIDE – Info */
+.product-info-col {
+  flex: 0 0 45%;
+  max-width: 45%;
+}
+
 
 @media (max-width: 768px) {
   .product-layout {
