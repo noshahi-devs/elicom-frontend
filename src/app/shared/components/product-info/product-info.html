@@ -1,70 +1,111 @@
 <div class="product-info-column">
-  <div class="right-box">
-    
-    <!-- Title & Share -->
-    <div class="title-row">
-      <div class="title">{{ title }}</div>
-      <div class="share-container">
-        <span class="share-icon">
-          <a href="#" class="share-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-        </span>
-        <!-- Share popup (Twitter, Facebook, Pinterest) -->
-      </div>
-    </div>
+    <div class="right-box">
 
-    <!-- SKU & Rating -->
-    <div class="sku">
-      <span>SKU: {{ sku }}</span>
-      <i class="fa-solid fa-clone"></i>
-      <div class="rating">
-        <span *ngFor="let r of [1,2,3,4,5]; let i = index" [ngClass]="i < rating ? 'fa-solid fa-star' : 'fa-regular fa-star'"></span>
-        <span class="review-count">({{ reviewCount }}+ Reviews)</span>
-      </div>
-    </div>
+        <!-- Title & Share -->
+        <div class="title-row">
+            <div class="title">{{ product.title }}</div>
+            <div class="share-container">
+                <span class="share-icon">
+                    <a href="#" class="share-btn"><i class="fa-solid fa-arrow-up-right-from-square"
+                            style="color: #74C0FC;"></i></a>
+                </span>
+                <div class="share-popup">
+                    <a href="https://twitter.com/intent/tweet?url=YOUR_PRODUCT_URL&text=Check%20out%20this%20product%21"
+                        target="_blank" class="social-link">
+                        <i class="fab fa-twitter social-icon-fa twitter"></i>
+                    </a>
+                    <a href="https://pinterest.com/pin/create/button/?url=YOUR_PRODUCT_URL&media=YOUR_IMAGE_URL&description=YOUR_PRODUCT_DESCRIPTION"
+                        target="_blank" class="social-link">
+                        <i class="fab fa-pinterest social-icon-fa pinterest"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_PRODUCT_URL" target="_blank"
+                        class="social-link">
+                        <i class="fab fa-facebook-f social-icon-fa facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-    <!-- Price -->
-    <div class="price-container">
-      <div class="price-now"><span>$</span>{{ priceNow }}</div>
-      <div class="price-old-and-discount">
-        <div class="price-old">${{ priceOld }}</div>
-        <div class="discount-box">-{{ discount }}%</div>
-      </div>
-    </div>
+        <!-- SKU & Rating -->
+        <div class="sku">
+            <span>SKU: {{ product.sku }}</span>
+            <i class="fa-solid fa-clone"></i>
+            <div class="rating">
+                <span *ngFor="let r of [1,2,3,4,5]; let i = index"
+                    [ngClass]="i < rating ? 'fa-solid fa-star' : 'fa-regular fa-star'"></span>
+                <span class="review-count">({{ product.reviewCount }}+ Reviews)</span>
+            </div>
+        </div>
 
-    <!-- Color Selection -->
-    <div class="section-title color-title">
-      Color:
-    </div>
-    <div class="color-list">
-      <div *ngFor="let color of colors" class="color-item" [ngClass]="{'active': color.active}">
-        <img [src]="color.src" [alt]="color.name">
-        <span *ngIf="color.hot" class="hot-tag">HOT</span>
-      </div>
-    </div>
+        <!-- Price -->
+        <div class="price-container">
+            <div class="price-now"><span>$</span>{{ product.priceNow }}</div>
+            <div class="price-old-and-discount">
+                <div class="price-old">${{ product.priceOld }}</div>
+                <div class="discount-box">-{{ product.discount }}%</div>
+            </div>
+        </div>
 
-    <!-- Size Selection -->
-    <div class="size-area">
-      <div class="size-buttons">
-        <button *ngFor="let size of sizes" (click)="selectSize(size)" [ngClass]="{'selected': selectedSize === size}">
-          {{ size }}
-        </button>
-      </div>
-    </div>
+        <!-- AD / OFFER SLOT -->
+        <div class="ad-slot" *ngIf="adBanner; else productContent">
+            <div class="klarna-box">
+                <span class="klarna-text">
+                    {{ adBanner.text }}
+                    <span class="klarna-logo">{{ adBanner.brand }}</span>
+                    <i class="fa-regular fa-circle-question"></i>
+                </span>
+            </div>
+        </div>
 
-    <!-- Quantity -->
-    <div class="quantity-selector">
-      <button (click)="decrementQty()">-</button>
-      <input type="text" [value]="quantity" readonly>
-      <button (click)="incrementQty()">+</button>
-    </div>
+        <!-- NORMAL PRODUCT CONTENT -->
+        <ng-template #productContent>
+            <div class="product-main-info">
+                <h1>{{ product.title }}</h1>
+                <p>{{ product.description }}</p>
+                <!-- baki product info -->
+            </div>
+        </ng-template>
 
-    <!-- Add to Cart & Favourite -->
-    <div class="add-cart-section">
-      <button class="add-cart" (click)="addToCart()">ADD TO CART</button>
-      <button class="fav-btn" (click)="toggleFav()">
-        <i [ngClass]="fav ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
-      </button>
-    </div>
 
-  </div>
+        <!-- Color Selection -->
+        <div class="section-title color-title">
+            Color: <strong>{{ selectedColorName }}</strong>
+        </div>
+
+        <div class="color-list">
+            <div *ngFor="let color of colors" class="color-item" [ngClass]="{ 'active': color.active }"
+                (click)="selectColor(color)">
+                <img [src]="color.src" [alt]="color.name">
+                <span *ngIf="color.hot" class="hot-tag">HOT</span>
+            </div>
+        </div>
+
+
+
+        <!-- Size Selection -->
+        <div class="size-area">
+            <div class="size-buttons">
+                <button *ngFor="let size of sizes" (click)="selectSize(size)"
+                    [ngClass]="{'selected': selectedSize === size}">
+                    {{ size }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="quantity-selector">
+            <button (click)="decrementQty()">-</button>
+            <input type="text" [value]="quantity" readonly>
+            <button (click)="incrementQty()">+</button>
+        </div>
+
+        <!-- Add to Cart & Favourite -->
+        <div class="add-cart-section">
+            <button class="add-cart" (click)="addToCart()">ADD TO CART</button>
+            <button class="fav-btn" (click)="toggleFav()">
+                <i [ngClass]="fav ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+            </button>
+        </div>
+
+    </div>
 </div>

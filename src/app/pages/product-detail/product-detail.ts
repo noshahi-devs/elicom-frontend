@@ -21,8 +21,7 @@ export class ProductDetail {
   breadcrumbItems = [
     'Home',
     'Women Apparel',
-    'Women Jeans',
-    'Black Skinny Jeans'
+    'Black Skinny Women Jeans '
   ];
 
 }

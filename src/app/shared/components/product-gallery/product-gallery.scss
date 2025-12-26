@@ -1,14 +1,13 @@
 /* ===== LEFT PRODUCT GALLERY ===== */
 .left-column {
-    width: 45% !important;
-    margin-left: 11rem;
+    width: 100%;
+    margin-left: 0;
     display: flex;
     flex-direction: column;
     position: sticky;
     top: 10px;
     height: calc(100vh - 20px);
     overflow-y: auto;
-    // scrollbar-width: none;
     border: 5px solid green;
 
     &::-webkit-scrollbar {
@@ -20,7 +19,7 @@
 .image-box {
     display: flex;
     gap: 2px;
-    align-items: flex-start; 
+    align-items: flex-start;
 }
 
 /* ===== THUMBNAILS ===== */
