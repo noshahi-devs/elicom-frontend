@@ -3,7 +3,7 @@
     <div class="row ">
 
       <!-- COMPANY INFO -->
-      <div class="col-md-2 col-sm-6 mb-4" sty>
+      <div class="col-md-2 col-sm-6 mb-4">
         <h6>Company Info</h6>
         <a href="#">About Elicom</a>
         <a href="#">Social Responsibility</a>
@@ -32,7 +32,7 @@
       </div>
 
       <!-- SOCIAL & SUBSCRIBE -->
-      <div class="col-md-4 col-sm-6 mb-4">
+      <div class="col-12 col-sm-6 mb-4">
         <h6>Find Us On App</h6>
         <div class="social-icons mb-3">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -54,14 +54,14 @@
             <input type="email" placeholder="Your Email Address">
             <button>Subscribe</button>
           </div>
-          <div class="subscribe-group phone-sms">
-            <select>
-              <option value="+92">PK +92</option>
-              <option value="+93">Afghanistan +93</option>
-              <option value="+355">Albania +355</option>
-              <option value="+213">Algeria +213</option>
+          <div class="subscribe-group phone-input">
+            <select [value]="selectedCountryCode" (change)="updatePhoneCode($event)" style="border: 1px solid blue; padding: 10px;">
+              <option *ngFor="let country of countries" [value]="country.code">
+                {{ country.name }} {{ country.code }}
+              </option>
             </select>
-            <input type="tel" placeholder="Your phone number for SMS">
+
+            <input type="tel" [value]="phoneNumber" (input)="onPhoneInput($event)" placeholder="Your phone number">
             <button>Subscribe</button>
           </div>
           <div class="subscribe-group phone-whatsapp">
