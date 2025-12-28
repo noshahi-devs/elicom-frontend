@@ -441,65 +441,66 @@
         background: #f7f8fa;
         border-radius: 8px;
         padding: 18px;
-    }
 
-    .title-main {
-        font-size: 14px;
-        font-weight: 700;
-        margin-bottom: 12px;
 
-        span {
+        .title-main {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+
+            span {
+                font-weight: 400;
+            }
+        }
+
+        .row-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-top: 1px solid #f0f0f0;
+
+            &:first-of-type {
+                border-top: none;
+            }
+        }
+
+        .green-text {
+            color: #198055;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .gray {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        .normal {
             font-weight: 400;
         }
-    }
 
-    .row-item {
-        display: flex;
-        gap: 12px;
-        padding: 12px 0;
-        border-top: 1px solid #f0f0f0;
-
-        &:first-of-type {
-            border-top: none;
+        .security-pill {
+            background: #eefaf8;
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-right: 6px;
         }
-    }
 
-    .green-text {
-        color: #198055;
-        font-weight: 700;
-        font-size: 14px;
-    }
-
-    .gray {
-        color: #777;
-        font-size: 13px;
-    }
-
-    .bold {
-        font-weight: 700;
-    }
-
-    .normal {
-        font-weight: 400;
-    }
-
-    .security-pill {
-        background: #eefaf8;
-        padding: 5px 8px;
-        border-radius: 5px;
-        font-size: 12px;
-        margin-right: 6px;
-    }
-
-    .red-box {
-        background: #f6b6b6;
-        padding: 6px 10px;
-        border-radius: 6px;
-        margin-top: 6px;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 700;
-        display: inline-block;
+        .red-box {
+            background: #f6b6b6;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-top: 6px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+        }
     }
 
     .accordion-wrap {
@@ -612,7 +613,7 @@
 
         img {
             width: 80px;
-            height: 80px;
+            height: 60px;
             border-radius: 50%;
         }
     }
@@ -645,6 +646,10 @@
         color: #777;
         margin-top: 6px;
     }
+}
 
-
+@media (max-width: 600px) {
+    .ship-box{
+        width: 310px !important;
+    }
 }

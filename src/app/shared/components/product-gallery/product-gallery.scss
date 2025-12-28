@@ -16,7 +16,7 @@
 
 /* ===== IMAGE CONTAINER ===== */
 .image-box {
-    display: flex;
+    display: flex; 
     gap: 2px;
     align-items: flex-start;
 }
@@ -141,6 +141,8 @@
 @media (max-width: 600px) {
     .main-image {
         height: 420px;
+        margin-left: 0px;
+        border-radius: 5px;
     }
 
     .arrow {

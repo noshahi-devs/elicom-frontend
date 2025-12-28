@@ -1,5 +1,5 @@
 .breadcrumb {
-    margin-left: 12rem;
+    margin-left: 10.5rem;
     display: flex;
     flex-direction: row;
 
@@ -21,5 +21,12 @@
 @media (max-width: 600px) {
     .breadcrumb {
         font-size: 12px;
+        margin-left: 3rem;
+    }
+    span:last-child {
+        color: #000;
+        font-size: 13px;
+        margin-top: 0px !important;
+        margin-left: 5px;
     }
 }
