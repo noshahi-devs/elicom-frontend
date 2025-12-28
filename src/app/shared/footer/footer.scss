@@ -90,13 +90,13 @@
             }
 
             button {
-                padding: 10px 25px; // 🔥 button wider
+                padding: 10px 32px; // 🔥 button wider
                 border: none;
                 background: #000;
                 color: #fff;
                 font-weight: bold;
-                white-space: nowrap;
                 font-size: 15px;
+                white-space: nowrap;
                 cursor: pointer;
             }
 
@@ -104,7 +104,7 @@
             &.subscribe-email {
                 input {
                     flex: 1; // 🔥 max horizontal space
-                    padding: 10px; // visual width increase
+                    padding: 9px; // visual width increase
                     border: 1px solid #ccc;
                     border-right: none;
                 }
@@ -113,23 +113,26 @@
             /* ===== PHONE & WHATSAPP ===== */
             &.phone-sms,
             &.phone-whatsapp {
+
                 select {
-                    width: 85px; // 🔥 country code aur chota
-                    min-width: 85px;
-                    padding: 10px;
+                    width: 110px; // 🔥 MUST be >= text width
+                    min-width: 110px;
+                    padding: 10px 28px 10px 12px;
                     border: 1px solid #ccc;
-                    border-right: none;
                     background: #fff;
+
+                   
                 }
 
                 input {
-                    flex: 1; // 🔥 input ko zyada width
-                    padding: 12px;
+                    flex: 1;
+                    padding: 9px;
                     border: 1px solid #ccc;
                     border-left: none;
                 }
             }
         }
+
 
 
         .terms {

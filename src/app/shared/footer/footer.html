@@ -54,14 +54,15 @@
             <input type="email" placeholder="Your Email Address">
             <button>Subscribe</button>
           </div>
-          <div class="subscribe-group phone-input">
-            <select [value]="selectedCountryCode" (change)="updatePhoneCode($event)" style="border: 1px solid blue; padding: 10px;">
-              <option *ngFor="let country of countries" [value]="country.code">
-                {{ country.name }} {{ country.code }}
-              </option>
+          
+          <div class="subscribe-group phone-sms">
+            <select>
+              <option value="+92">PK +92 </option>
+              <option value="+93">Afghanistan +93</option>
+              <option value="+355">Albania +355</option>
+              <option value="+213">Algeria +213</option>
             </select>
-
-            <input type="tel" [value]="phoneNumber" (input)="onPhoneInput($event)" placeholder="Your phone number">
+            <input type="text" placeholder="Your phone number">
             <button>Subscribe</button>
           </div>
           <div class="subscribe-group phone-whatsapp">
