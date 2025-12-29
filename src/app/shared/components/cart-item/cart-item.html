@@ -1,2 +1,71 @@
-<p>cart-item works!</p>
- 
+<div class="cart-wrapper">
+
+    <!-- LEFT SIDE -->
+    <div class="lhs">
+
+        <!-- COUPON LINE -->
+        <div class="top-line">
+            <span>✔ Use coupon now to save</span>
+            <span class="red-text">$10.00</span>
+        </div>
+
+        <!-- ALL ITEMS -->
+        <div class="all-items white-box">
+            <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event.target.checked)" />
+            <b>ALL ITEMS ({{ products.length }})</b>
+        </div>
+
+        <!-- PRODUCT LOOP -->
+        <div class="product-box white-box" *ngFor="let p of products">
+            <input type="checkbox" [checked]="p.selected" (change)="toggleItem()" />
+
+            <div class="img-wrap">
+                <img [src]="p.image" />
+                <span class="ribbon" *ngIf="p.soldOut">Almost Sold Out</span>
+            </div>
+
+            <div class="details">
+                <div class="title">{{ p.title }}</div>
+                <div class="brand">Sold by {{ p.brand }}</div>
+
+                <div class="price-row">
+                    <span class="new">${{ p.price }}</span>
+                    <span class="old" *ngIf="p.oldPrice">${{ p.oldPrice }}</span>
+                </div>
+
+                <div class="actions">
+                    <div class="qty">
+                        <button (click)="decreaseQty(p)">−</button>
+                        <span>{{ p.qty }}</span>
+                        <button (click)="increaseQty(p)">+</button>
+                    </div>
+
+                    <i class="fa-regular fa-heart"></i>
+                    <i class="fa-solid fa-trash" (click)="removeItem(p.id)"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE SUMMARY -->
+    <div class="rhs white-box">
+        <h3>Order Summary</h3>
+
+        <ng-container *ngIf="hasSelectedItems; else empty">
+            <div class="summary-row">
+                <span>Total</span>
+                <b>${{ totalPrice }}</b>
+            </div>
+
+            <button class="checkout-btn">
+                Checkout Now
+            </button>
+        </ng-container>
+
+        <ng-template #empty>
+            <p class="muted">No item selected</p>
+        </ng-template>
+    </div>
+
+</div>
