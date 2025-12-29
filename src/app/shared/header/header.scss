@@ -1,4 +1,4 @@
-.elicom-header {
+.header {
     width: 100%;
     background: white;
     font-family: 'Poppins', sans-serif;
@@ -95,12 +95,12 @@
         }
     }
 
-    .elicom-navbar-wrapper {
+    .navbar-wrapper {
         position: relative;
         width: 100%;
         display: flex;
 
-        .elicom-navbar {
+        .navbar {
             display: flex;
             overflow-x: auto; // only nav scroll
             white-space: nowrap;
