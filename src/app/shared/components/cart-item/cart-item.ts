@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-cart-item',
-  standalone: true,          // ✅ MUST
+  standalone: true,          // MUST
   templateUrl: './cart-item.html',
   styleUrl: './cart-item.scss',
 })

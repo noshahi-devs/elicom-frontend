@@ -5,14 +5,14 @@
 
         <!-- COUPON LINE -->
         <div class="top-line">
-            <span>✔ Use coupon now to save</span>
-            <span class="red-text">$10.00</span>
+            <span><i class="fa-solid fa-check"></i> Use coupon now to save</span>
+            <span class="red-text">$10.11</span>
         </div>
 
         <!-- ALL ITEMS -->
         <div class="all-items white-box">
-            <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event.target.checked)" />
-            <b>ALL ITEMS ({{ products.length }})</b>
+            <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event.target.checked)" class="form-check-input me-2"  />
+            <span class="fw-bold"><b>ALL ITEMS ({{ products.length }})</b></span>
         </div>
 
         <!-- PRODUCT LOOP -->
