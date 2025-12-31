@@ -2,13 +2,19 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-cart-item',
-  standalone: true,          // MUST
+  standalone: true,
   templateUrl: './cart-item.html',
-  styleUrl: './cart-item.scss',
+  styleUrls: ['./cart-item.scss'],  // fixed typo from styleUrl
 })
 export class CartItem {
 
-  // ===== HARD CODED (API READY STRUCTURE) =====
+  // ================= SHOP =================
+  shop = {
+    name: 'NOSHAHI',
+    selected: true,
+  };
+
+  // ================= PRODUCTS (hardcoded for now) =================
   products = [
     {
       id: 1,
@@ -20,6 +26,7 @@ export class CartItem {
       qty: 1,
       selected: true,
       soldOut: false,
+      fav: false,
     },
     {
       id: 2,
@@ -30,44 +37,44 @@ export class CartItem {
       oldPrice: null,
       qty: 1,
       selected: false,
-      soldOut: true,
+      soldOut: false,
+      fav: false,
     }
   ];
 
-  allSelected = false;
+  allSelected: boolean = false;
 
-  // ===== COMPUTED =====
-  get hasSelectedItems(): boolean {
-    return this.products.some(p => p.selected);
-  }
+  // ================= FREE SHIPPING CONFIG =================
+  freeShippingLimit = 500;  // Hardcode kar di, adjust karo apne products ke hisab se
 
+  // ================= COMPUTED =================
   get totalPrice(): number {
     return this.products
       .filter(p => p.selected)
       .reduce((sum, p) => sum + (p.price * p.qty), 0);
   }
 
-  // ===== ACTIONS =====
-  toggleAll(checked: boolean) {
-    this.allSelected = checked;
+  get remainingForFreeShipping(): number {
+    const remaining = this.freeShippingLimit - this.totalPrice;
+    return remaining > 0 ? remaining : 0;
+  }
+
+  get showFreeShippingBanner(): boolean {
+    return this.remainingForFreeShipping > 0;
+  }
+
+  // ================= ACTIONS =================
+  toggleShop(event: any) {
+    const checked = event.target.checked;
+    this.shop.selected = checked;
     this.products.forEach(p => p.selected = checked);
+    this.allSelected = checked;
   }
 
   toggleItem() {
     this.allSelected = this.products.every(p => p.selected);
+    this.shop.selected = this.allSelected;
   }
 
-  increaseQty(p: any) {
-    p.qty++;
-  }
-
-  decreaseQty(p: any) {
-    if (p.qty > 1) {
-      p.qty--;
-    }
-  }
-
-  removeItem(id: number) {
-    this.products = this.products.filter(p => p.id !== id);
-  }
+  
 }

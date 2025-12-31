@@ -9,43 +9,57 @@
             <span class="red-text">$10.11</span>
         </div>
 
+
+
         <!-- ALL ITEMS -->
         <div class="all-items white-box">
-            <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event.target.checked)" class="form-check-input me-2"  />
+            <input type="checkbox" [checked]="allSelected" (change)="toggleAll($event.target.checked)"
+                class="form-check-input me-2" />
             <span class="fw-bold"><b>ALL ITEMS ({{ products.length }})</b></span>
         </div>
 
-        <!-- PRODUCT LOOP -->
-        <div class="product-box white-box" *ngFor="let p of products">
-            <input type="checkbox" [checked]="p.selected" (change)="toggleItem()" />
+        <!-- SHOP NAME / BRAND HEADER -->
+        <div class="d-flex align-items-center brand-name">
 
-            <div class="img-wrap">
-                <img [src]="p.image" />
-                <span class="ribbon" *ngIf="p.soldOut">Almost Sold Out</span>
-            </div>
+            <!-- SHOP CHECKBOX -->
+            <input type="checkbox" class="form-check-input me-2" [checked]="shop.selected"
+                (change)="toggleShop($event)">
 
-            <div class="details">
-                <div class="title">{{ p.title }}</div>
-                <div class="brand">Sold by {{ p.brand }}</div>
+            <!-- SHOP ICON -->
+            <svg style="width:20px;height:20px;" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M4.02392 2.16675C3.66381 2.16675 3.33301 2.36523 3.16354 2.68298L2.0101 4.84568C1.25754 6.25672 1.5275 7.99524 2.67251 9.11163C2.8211 9.2565 2.97729 9.38258 3.1391 9.49069V16.6667C3.1391 17.311 3.66144 17.8333 4.30577 17.8333H15.6947C16.339 17.8333 16.8613 17.311 16.8613 16.6667V9.49041C17.023 9.38236 17.179 9.25637 17.3275 9.11163C18.4725 7.99524 18.7425 6.25672 17.9899 4.84568L16.8365 2.68298C16.6709 2.37258 16.3466 2.16675 15.9783 2.16675H10V3.66675H15.6611L16.6664 5.55156C17.1049 6.37388 16.9476 7.38703 16.2803 8.03763C15.2531 9.03914 13.5278 8.31146 13.5278 6.87761V6.30961L12.0276 6.30957V6.38895C12.0276 7.50886 11.1197 8.41673 9.99982 8.41673C8.88821 8.41673 7.98551 7.52226 7.9722 6.41381V6.30961L6.47205 6.30957V6.38895C6.47205 6.39989 6.4721 6.41082 6.4722 6.42174V6.87761C6.4722 8.31146 4.74686 9.03914 3.71966 8.03763C3.05238 7.38703 2.89506 6.37388 3.33363 5.55156L4.33886 3.66675H10V2.16675H4.02392ZM7.36784 8.73802C6.73516 9.58606 5.68929 10.0636 4.6391 9.99841V16.3333H15.3613V9.99838C14.3109 10.0637 13.2647 9.5861 12.632 8.7378C11.986 9.46127 11.0461 9.91673 9.99982 9.91673C8.95367 9.91673 8.01388 9.46136 7.36784 8.73802Z"
+                    fill="currentColor"></path>
+            </svg>
 
-                <div class="price-row">
-                    <span class="new">${{ p.price }}</span>
-                    <span class="old" *ngIf="p.oldPrice">${{ p.oldPrice }}</span>
-                </div>
+            <!-- SHOP NAME -->
+            <span class="fw-bold shop-name">
+                {{ shop.name }}
+            </span>
 
-                <div class="actions">
-                    <div class="qty">
-                        <button (click)="decreaseQty(p)">−</button>
-                        <span>{{ p.qty }}</span>
-                        <button (click)="increaseQty(p)">+</button>
-                    </div>
-
-                    <i class="fa-regular fa-heart"></i>
-                    <i class="fa-solid fa-trash" (click)="removeItem(p.id)"></i>
-                </div>
-            </div>
         </div>
 
+        <!-- ================= FREE SHIPPING ================= -->
+        <!-- ================= FREE SHIPPING ================= -->
+<div class="free-ship" *ngIf="remainingForFreeShipping > 0">
+  <svg style="width:16px;height:16px;" width="18" height="18" viewBox="0 0 18 18"
+    xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd"
+      d="M13.0565 2.25V5.94L16.9274 7.20551V14.5887H14.9347C14.7713 15.2688 14.1592 15.7742 13.429 15.7742C12.6989 15.7742 12.0867 15.2688 11.9234 14.5887H6.76691C6.60359 15.2688 5.99146 15.7742 5.26129 15.7742C4.53112 15.7742 3.91899 15.2688 3.75567 14.5887H1.49194V11.4701H2.99194V13.0885H11.556V3.75H2.99194V5.7335H6.1129V7.2335H1.49194V2.25H13.0565Z"
+      fill="#222">
+    </path>
+  </svg>
+
+  Buy <span>${{ remainingForFreeShipping }}</span> more to enjoy
+  <span>FREE STANDARD SHIPPING!</span>
+
+  <b>Add <i class="fa-solid fa-angle-right"></i></b>
+</div>
+
+
+        <!-- PRODUCT LOOP -->
+        
     </div>
 
     <!-- RIGHT SIDE SUMMARY -->

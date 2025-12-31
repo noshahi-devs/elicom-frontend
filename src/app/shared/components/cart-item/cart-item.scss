@@ -53,6 +53,37 @@
       margin-top: 4px;
     }
   }
+
+  .brand-name {
+    background: #fff;
+    padding: 10px 15px;
+    width: 100%;
+    height: 40px;
+    margin-top: 3px;
+  }
+
+  .free-ship {
+    display: flex;
+    background: #F5FCFB;
+    padding: 10px 15px;
+    width: 100%;
+    height: 40px;
+    font-size: small;
+    margin-top: -8px;
+    gap: 5px;
+
+    span {
+      color: red;
+    }
+
+    b {
+      margin-left: 28.5rem;
+    }
+
+    i {
+      margin-left: 3px;
+    }
+  }
 }
 
 /* RIGHT */
