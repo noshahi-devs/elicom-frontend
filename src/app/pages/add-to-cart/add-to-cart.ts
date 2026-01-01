@@ -49,6 +49,8 @@ toggleAll(val: boolean) {
   this.products.forEach(p => p.selected = val);
 }
 
+
+
 updateProduct() {}
 
 removeProduct(id: number) {
