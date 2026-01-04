@@ -16,15 +16,15 @@ export class CartItem {
     selected: true,
   };
 
-  // ================= PRODUCTS (HARD CODED – API READY) =================
+  // ================= PRODUCTS (API READY) =================
   products = [
     {
       id: 1,
       title: 'STARSHIPPER EZwear Black Slant Pocket Ripped Skinny Jeans',
       brand: 'STARSHIPPER EZwear',
       image: 'assets/images/card_3.jpg',
-      price: 10.11,
-      oldPrice: 13.11,
+      price: 10.99, 
+      oldPrice: 30.59,
       qty: 1,
       color: 'Black',
       size: 'S',
@@ -35,7 +35,11 @@ export class CartItem {
     }
   ];
 
-  // ================= ALL ITEMS =================
+  // ================= COUPON (API READY) =================
+  // API se ayega, agar coupon na ho → 0
+  couponValue: number = 12.00;
+
+  // ================= SELECT =================
   get allSelected(): boolean {
     return this.products.length > 0 && this.products.every(p => p.selected);
   }
@@ -45,13 +49,12 @@ export class CartItem {
     this.products.forEach(p => p.selected = checked);
   }
 
-  // ================= SHOP =================
   toggleShop(checked: boolean) {
     this.shop.selected = checked;
     this.products.forEach(p => p.selected = checked);
   }
 
-  // ================= PRODUCT =================
+
   toggleProduct(p: any, checked: boolean) {
     p.selected = checked;
     this.shop.selected = this.products.every(x => x.selected);
@@ -75,16 +78,51 @@ export class CartItem {
     this.products = this.products.filter(p => p.id !== id);
   }
 
-  // ================= FREE SHIPPING =================
-  freeShippingLimit = 500;
+  // =====================================================
+  // ================= PRICE LOGIC (CORRECT) =============
+  // =====================================================
 
-  get totalPrice(): number {
+  /** 🔹 Retail Price = Old Price ka total */
+  get retailPrice(): number {
+    return this.products
+      .filter(p => p.selected)
+      .reduce((sum, p) => sum + (p.oldPrice || p.price) * p.qty, 0);
+  }
+
+  /** 🔹 Estimated Price = Asal / Final Price ka total */
+  get estimatedPrice(): number {
     return this.products
       .filter(p => p.selected)
       .reduce((sum, p) => sum + p.price * p.qty, 0);
   }
 
+  /** 🔹 Promotion (sirf display ke liye) */
+  get promotionDiscount(): number {
+    return Math.max(
+      this.retailPrice - this.estimatedPrice - this.couponValue,
+      0
+    );
+  }
+
+  /** 🔹 Total Saved */
+  get totalSaved(): number {
+    return this.retailPrice - this.estimatedPrice;
+  }
+
+  /** 🔹 Selected Items Count */
+  get selectedItemCount(): number {
+    return this.products.filter(p => p.selected).length;
+  }
+
+  /** 🔹 Reward Points (example: floor of estimated) */
+  get rewardPoints(): number {
+    return Math.floor(this.estimatedPrice);
+  }
+
+  // ================= FREE SHIPPING =================
+  freeShippingLimit = 500;
+
   get remainingForFreeShipping(): number {
-    return Math.max(this.freeShippingLimit - this.totalPrice, 0);
+    return Math.max(this.freeShippingLimit - this.estimatedPrice, 0);
   }
 }

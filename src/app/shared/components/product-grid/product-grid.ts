@@ -26,3 +26,4 @@ export class ProductGridComponent {
     this.visibleCount += 25;
   }
 }
+ 

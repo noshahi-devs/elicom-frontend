@@ -106,10 +106,99 @@
         </div>
     </div>
 
-    <!-- RIGHT SIDE (OUTSIDE LHS — THIS FIXES LAYOUT) -->
-    <div class="rhs white-box">
-        <h3>Order Summary</h3>
-        <p class="muted">No item selected</p>
-    </div>
+    <!-- RIGHT SIDE -->
+    <div class="rhs">
+        <div class="order-summary-lhs">
+            <div class="order-card">
+                <h2 class="title">Order Summary</h2>
+                <p class="subtitle">
+                    Proceed to apply discounts and account confirm the final price.
+                </p>
+                <!-- PRODUCT THUMBNAILS -->
+                <div class="summary-products">
+                    <div class="summary-thumb" *ngFor="let p of products" [class.disabled]="!p.selected">
+                        <div class="img-wrapper">
+                            <img [src]="p.image" alt="product">
+                            <!-- CHECK BADGE -->
+                            <div class="check-badge" *ngIf="p.selected">✓</div>
+                            <!-- SOLD OUT -->
+                            <div class="sold-out-overlay" *ngIf="p.soldOut">
+                                Almost Sold Out
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PRICE SUMMARY -->
+            <div class="price-summary">
+                <div class="row">
+                    <span class="label-bold">Retail Price:</span>
+                    <span class="value-bold price">${{ retailPrice | number:'1.2-2' }}</span>
+                </div>
+                <div class="row promo">
+                    <span>Promotions:</span>
+                    <span class="red-text price">
+                        -${{ promotionDiscount | number:'1.2-2' }}
+                    </span>
+                </div>
+                <div class="row coupon-single-line">
+                    <span class="coupon-text">
+                        Coupon:
+                        <span class="timer-box" *ngIf="couponValue > 0"></span>
+                    </span>
+                    <span class="red-text price">-${{ couponValue | number:'1.2-2' }}</span>
+                </div>
 
+                <p class="disclaimer">
+                    This is an estimated price, the actual price after discount will be calculated at checkout.
+                </p>
+                <hr class="divider">
+                <div class="row estimated">
+                    <span class="label-bold">Estimated Price:</span>
+                    <span class="total-price price">
+                        ${{ estimatedPrice | number:'1.2-2' }}
+                    </span>
+                </div>
+                <div class="saved-amount">
+                    Saved ${{ totalSaved | number:'1.2-2' }}
+                </div>
+                <div class="reward-points">
+                    Reward <span class="orange-text">{{ rewardPoints }}</span> SMARTCART Points
+                    <span class="info-icon">?</span>
+                </div>
+                <button class="checkout-btn">
+                    <span class="btn-main-text">
+                        Checkout Now ({{ selectedItemCount }})
+                    </span>
+                </button>
+                <p class="footer-note">
+                    Apply a Coupon Code, SMARTCART Points on the next step.
+                </p>
+            </div>
+
+        </div>
+        <div class="payment-card">
+            <h3 class="payment-title">We Accept</h3>
+            <div class="payment-grid">
+                <div class="pay-logo"><img src="assets/images/Visa.png" alt="Visa"></div>
+                <div class="pay-logo"><img src="assets/images/mastercard.png" alt="Mastercard"></div>
+                <div class="pay-logo"><img src="assets/images/gcash.jpeg" alt="gcash"></div>
+                <div class="pay-logo"><img src="assets/images/american express.png" alt="Amex"></div>
+                <div class="pay-logo"><img src="assets/images/hbl.png" alt="HBL"></div>
+                <div class="pay-logo"><img src="assets/images/Applepay.png" alt="Applepay"></div>
+
+                <div class="pay-logo"><img src="assets/images/paypal.png" alt="Paypal"></div>
+                <div class="pay-logo"><img src="assets/images/bankAlfalah.png" alt="Bank Alfalah"></div>
+                <div class="pay-logo"><img src="assets/images/bankislami.png" alt="Bank Islami"></div>
+                <div class="pay-logo"><img src="assets/images/jazzcash.png" alt="Jazzcash"></div>
+                <div class="pay-logo"><img src="assets/images/easipaisa.png" alt="Easipaisa"></div>
+                <div class="pay-logo"><img src="assets/images/cabal.png" alt="Cabal"></div>
+
+                <div class="pay-logo"><img src="assets/images/chase.png" alt="Chase"></div>
+                <div class="pay-logo"><img src="assets/images/bankofamerica.png" alt="Bank of America"></div>
+                <div class="pay-logo"><img src="assets/images/citibank.png" alt="Citibank"></div>
+            </div>
+        </div>
+
+    </div>
 </div>

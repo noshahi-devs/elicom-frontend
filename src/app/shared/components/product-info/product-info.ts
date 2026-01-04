@@ -45,7 +45,7 @@ export class ProductInfo implements OnInit {
   };
 
   rating = 4;
-
+ 
   // COLORS
   colors = [
     { src: 'assets/images/1.webp', name: 'Black', active: true },
