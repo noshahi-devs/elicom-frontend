@@ -16,7 +16,10 @@ export class OrderProcessHeader {
   @Input() province: string = 'Punjab';
   @Input() city: string = 'Lahore';
 
+  @Input() showLocation: boolean = true; // ✅ NEW
+
   get shippingAddress(): string {
     return `Ship to ${this.country}, ${this.province}, ${this.city}`;
   }
 }
+

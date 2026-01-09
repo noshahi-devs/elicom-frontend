@@ -1,0 +1,30 @@
+<app-order-process-header [showLocation]="false">
+</app-order-process-header>
+<div class="checkout-wrapper">
+  <div class="top-bar" *ngIf="showTopBar">
+    <div class="content">
+      <span class="item">
+        <i class="check">✔</i> Free shipping
+      </span>
+      <span class="dot">·</span>
+
+      <span class="item">Free Return</span>
+      <span class="dot">·</span>
+
+      <span class="item">500 Points if Late</span>
+      <span class="dot">·</span>
+
+
+      <span class="item">No Hidden Fees</span>
+    </div>
+  </div>
+  <!-- breadcrumb -->
+  <app-order-process-breadcrumb [activeStep]="1"></app-order-process-breadcrumb>
+
+  <div class="checkout-content">
+    <div class="lhs">
+      <app-shipping-address></app-shipping-address>
+    </div>
+    <div class="rhs"></div>
+  </div>
+</div>
