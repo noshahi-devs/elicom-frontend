@@ -23,6 +23,7 @@ export class ShippingAddress {
 
   touched: any = {};
   focused: any = {};
+  showSummary: boolean | undefined;
 
   focus(field: string) {
     this.focused[field] = true;
@@ -54,8 +55,39 @@ export class ShippingAddress {
     return this.touched[field] && !this.fields[field];
   }
 
+  
   submit(e: Event) {
     e.preventDefault();
-    Object.keys(this.fields).forEach(f => this.touched[f] = true);
+
+    const valid = Object.values(this.data).every(v => v);
+    if (valid) {
+      this.showSummary = true;
+    }
   }
+  data(data: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  edit() {
+    this.showSummary = false;
+  }
+
+
+  // address = {
+  //   firstName: 'Adeel',
+  //   lastName: 'Noshahi',
+  //   phone: '03281642297',
+  //   line1: 'Thokar Niaz Baig Lahore Punjab Pakistan',
+  //   line2: 'Punjab Lahore 26335-1418'
+  // };
+
+
+  // onChange() {
+  //   console.log('Change clicked');
+  // }
+
+
+  // onEdit() {
+  //   console.log('Edit clicked');
+  // }
 }

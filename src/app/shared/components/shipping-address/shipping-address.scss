@@ -6,7 +6,8 @@
   max-width: 100%;
   margin: auto;
   background: #fff;
-  perspective: 1200px; /* 3D base */
+  perspective: 1200px;
+  /* 3D base */
 
   h1 {
     font-size: 26px;
@@ -22,7 +23,7 @@
   .col-6 {
     width: 50%;
 
-    .province{
+    .province {
       padding: 15px 10px 15px 13px;
       line-height: 1px;
     }
@@ -39,20 +40,20 @@
 
     /* 3D look */
     transform: translateZ(0);
-    transition: 
+    transition:
       transform 0.25s ease,
       box-shadow 0.25s ease,
       border-color 0.25s ease,
       background-color 0.25s ease;
 
     box-shadow:
-      0 1px 0 rgba(0,0,0,0.04),
-      inset 0 0 0 rgba(0,0,0,0);
+      0 1px 0 rgba(0, 0, 0, 0.04),
+      inset 0 0 0 rgba(0, 0, 0, 0);
 
     &:hover {
       transform: translateY(-1px) translateZ(4px);
       box-shadow:
-        0 6px 16px rgba(0,0,0,0.08);
+        0 6px 16px rgba(0, 0, 0, 0.08);
     }
   }
 
@@ -61,8 +62,8 @@
     border-color: #ff3b30;
     background: #fff5f5;
     box-shadow:
-      0 0 0 1px rgba(255,59,48,0.15),
-      0 6px 14px rgba(255,59,48,0.15);
+      0 0 0 1px rgba(255, 59, 48, 0.15),
+      0 6px 14px rgba(255, 59, 48, 0.15);
   }
 
   /* ================= STATIC LABEL ================= */
@@ -90,7 +91,7 @@
       font-size: 13px;
       color: #777;
       pointer-events: none;
-      transition: 
+      transition:
         transform 0.25s ease,
         font-size 0.25s ease,
         color 0.25s ease;
@@ -102,7 +103,7 @@
       color: #444;
     }
 
-    input:focus + label {
+    input:focus+label {
       transform: translateY(-15px);
       font-size: 12px;
       color: #000;
@@ -229,7 +230,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
       background-color: #fff;
       color: #000;
       border: 1px solid #000;
@@ -237,8 +238,86 @@
 
     &:active {
       transform: translateY(4px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    }
+  }
+
+  .section {
+    background: #fff;
+    border: 1px solid #df1212;
+    padding: 18px;
+
+
+    /* HEADER */
+    .shipping-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ADDRESS CARD */
+    .address-box {
+      display: flex;
+      flex-direction: row;
+      gap: 14px;
+      margin-top: 12px;
+      border: 1px solid #f20404;
+      padding: 14px;
+
+
+      /* LEFT STRIPE */
+      .stripe {
+        width: 5px;
+        background: linear-gradient(180deg,
+            red,
+            white,
+            blue,
+            white,
+            green,
+            white,
+            yellow);
+        border-radius: 3px;
+      }
+
+      /* NEW FLEX WRAPPER */
+      .addr-content {
+        display: flex;
+        justify-content: space-between;
+        /* 🔥 KEY */
+        align-items: center;
+        width: 100%;
+        /* 🔥 MOST IMPORTANT */
+      }
+
+      /* TEXT */
+      .addr-text {
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .name-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .addr-name {
+        font-weight: 700;
+      }
+
+      .addr-phone {
+        color: #777;
+      }
+
+      /* EDIT BUTTON */
+      .edit-address {
+        border: 1px solid #222;
+        background: #fff;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: bold;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -249,6 +328,7 @@
     opacity: 0;
     transform: translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -275,3 +355,6 @@
     }
   }
 }
+
+
+  

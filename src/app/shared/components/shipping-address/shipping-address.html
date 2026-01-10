@@ -1,4 +1,3 @@
-
 <div class="container">
   <h1>Shipping Address</h1>
 
@@ -9,7 +8,7 @@
       <label>Location*</label>
       <select (change)="set('location',$event)" (blur)="touch('location')">
         <option value="" disabled selected>Select Location</option>
-        <option value="US">United States</option>
+        <option value="United State">United States</option>
       </select>
     </div>
     <div class="error-text" *ngIf="invalid('location')">This field is required</div>
@@ -107,6 +106,34 @@
     </div>
 
     <button class="save-btn">SAVE</button>
-
   </form>
+
+  <!-- Shipping form fill Address  -->
+  <!-- SUMMARY -->
+  <div class="section" *ngIf="showSummary">
+
+    <div class="shipping-head">
+      <h2 class="section-title">Shipping Address</h2>
+      <button class="change-btn" (click)="edit()">Change <i class="fa-solid fa-angle-right"></i></button>
+    </div>
+
+    <div class="address-box">
+      <div class="addr-text">
+        <div class="line-1">
+          <strong>{{ fields.firstName }} {{ fields.lastName }}</strong>
+          {{ fields.phone }}
+        </div>
+
+        <div class="line-2">{{ fields.address1 }}</div>
+
+        <div class="line-3">
+         {{ fields.location }}, {{ fields.state }}, {{ fields.city }} {{ fields.zip }}
+        </div>
+      </div>
+
+      <button class="edit-address" (click)="edit()">Edit Address</button>
+    </div>
+  </div>
+
+
 </div>
