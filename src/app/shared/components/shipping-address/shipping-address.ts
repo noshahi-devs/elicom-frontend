@@ -1,6 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+type FieldKey =
+  | 'location'
+  | 'firstName'
+  | 'lastName'
+  | 'phone'
+  | 'address1'
+  | 'state'
+  | 'city'
+  | 'zip';
+
 @Component({
   selector: 'app-shipping-address',
   standalone: true,
@@ -10,8 +20,9 @@ import { CommonModule } from '@angular/common';
 })
 export class ShippingAddress {
 
-  // ===== FORM DATA =====
-  fields: any = {
+  showSummary = false;
+
+  emptyFields = {
     location: '',
     firstName: '',
     lastName: '',
@@ -22,54 +33,64 @@ export class ShippingAddress {
     zip: ''
   };
 
-  touched: any = {};
-  focused: any = {};
+  fields = { ...this.emptyFields };
+  savedFields: typeof this.emptyFields | null = null;
 
-  // ===== UI STATE =====
-  showSummary = false;
+  touched: Partial<Record<FieldKey, boolean>> = {};
+  focused: Partial<Record<FieldKey, boolean>> = {};
 
-  // ===== INPUT HANDLERS =====
-  set(field: string, e: Event) {
-    this.fields[field] = (e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value;
+  /* ================= HELPERS ================= */
+
+  set(field: FieldKey, e: Event) {
+    const value = (e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value;
+    this.fields[field] = value;
   }
 
-  focus(field: string) {
+  focus(field: FieldKey) {
     this.focused[field] = true;
   }
 
-  blur(field: string) {
+  blur(field: FieldKey) {
     this.focused[field] = false;
     this.touch(field);
   }
 
-  touch(field: string) {
+  touch(field: FieldKey) {
     this.touched[field] = true;
   }
 
-  // ===== VALIDATION =====
-  invalid(field: string): boolean {
-    return this.touched[field] && !this.fields[field];
+  invalid(field: FieldKey): boolean {
+    return !!this.touched[field] && !this.fields[field];
   }
 
-  isInvalid(field: string): boolean {
-    return this.touched[field] && !this.fields[field];
-  }
+  /* ================= SAVE ================= */
 
-  // ===== SUBMIT =====
   submit(e: Event) {
     e.preventDefault();
 
-    // mark all touched
-    Object.keys(this.fields).forEach(f => this.touched[f] = true);
+    (Object.keys(this.fields) as FieldKey[]).forEach(f => this.touch(f));
 
-    const valid = Object.values(this.fields).every(v => v);
-    if (valid) {
-      this.showSummary = true; // 🔥 form hide, summary show
-    }
+    const isValid = (Object.values(this.fields) as string[]).every(v => v.trim() !== '');
+    if (!isValid) return;
+
+    this.savedFields = { ...this.fields };
+    this.showSummary = true;
   }
 
-  // ===== EDIT / CHANGE =====
+  /* ================= EDIT ================= */
+
   edit() {
-    this.showSummary = false; // 🔥 summary hide, form show
+    if (!this.savedFields) return;
+    this.fields = { ...this.savedFields };
+    this.showSummary = false;
+  }
+
+  /* ================= CHANGE ================= */
+
+  change() {
+    this.fields = { ...this.emptyFields };
+    this.touched = {};
+    this.focused = {};
+    this.showSummary = false;
   }
 }
