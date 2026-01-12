@@ -55,6 +55,8 @@
       box-shadow:
         0 6px 16px rgba(0, 0, 0, 0.08);
     }
+
+
   }
 
   /* ERROR STATE */
@@ -244,9 +246,7 @@
   }
 
   .section {
-    background: #fff;
-    border: 1px solid #df1212;
-    padding: 18px;
+    background: transparent;
 
 
     /* HEADER */
@@ -254,46 +254,105 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        border-bottom: none;
+        padding: 13px 0 8px;
+      }
+
+      .change-btn {
+        border: none;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      &.change-btn:hover {
+        text-decoration: underline;
+      }
+
+      i {
+        font-size: 12px;
+        color: #999;
+        line-height: 1;
+        margin-top: 2px;
+      }
     }
 
     /* ADDRESS CARD */
     .address-box {
+      position: relative;
       display: flex;
       flex-direction: row;
       gap: 14px;
-      margin-top: 12px;
-      border: 1px solid #f20404;
-      padding: 14px;
+      margin: 3px 0 0 2px;
+      border: 1px solid #ccc;
+      border-left: 1px solid transparent;
+      padding: 8px 10px 10px 12px;
+      border-radius: 8px;
+      background: transparent;
 
+      /* 3D Shadow Effect */
+      box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        /* subtle shadow bottom */
+        0 2px 10px rgba(0, 0, 0, 0.1);
+      /* deeper shadow */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-      /* LEFT STRIPE */
-      .stripe {
-        width: 5px;
-        background: linear-gradient(180deg,
-            red,
-            white,
-            blue,
-            white,
-            green,
-            white,
-            yellow);
-        border-radius: 3px;
+      &:hover {
+        transform: translateY(-4px) rotateX(1deg);
+        /* slight lift + tilt */
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.15),
+          0 10px 20px rgba(0, 0, 0, 0.2);
       }
 
-      /* NEW FLEX WRAPPER */
+      /* LEFT GRADIENT STRIPE */
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 100%;
+        border-radius: 8px 0 0 8px;
+        /* rounded on top-left & bottom-left */
+        background: linear-gradient(to bottom,
+            white,
+            red,
+            white,
+            rgb(69, 230, 104),
+            white,
+            rgb(226, 238, 9),
+            white,
+            blue,
+            white);
+        z-index: 2;
+      }
+
       .addr-content {
         display: flex;
         justify-content: space-between;
-        /* 🔥 KEY */
         align-items: center;
         width: 100%;
-        /* 🔥 MOST IMPORTANT */
       }
 
-      /* TEXT */
       .addr-text {
         font-size: 13px;
         line-height: 1.45;
+        font-weight: 400;
+        z-index: 3;
+        /* stripe ke upar text rahe */
+        position: relative;
       }
 
       .name-row {
@@ -311,14 +370,29 @@
 
       /* EDIT BUTTON */
       .edit-address {
+        margin-left: auto;
+        height: 30px;
         border: 1px solid #222;
         background: #fff;
-        padding: 6px 12px;
-        font-size: 13px;
-        font-weight: bold;
+        padding: 1px 10px;
+        margin-top: 13px;
+        font-size: 11px;
         cursor: pointer;
+        font-weight: bold;
+        z-index: 3;
+        position: relative;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+          background-color: #fff;
+          color: #000;
+          border: 1px solid #000;
+        }
       }
     }
+
   }
 }
 
@@ -355,6 +429,3 @@
     }
   }
 }
-
-
-  

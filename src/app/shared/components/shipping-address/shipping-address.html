@@ -1,14 +1,16 @@
 <div class="container">
-  <h1>Shipping Address</h1>
 
-  <form (submit)="submit($event)" novalidate>
+  <!-- ================= FORM ================= -->
+  <form *ngIf="!showSummary" (submit)="submit($event)" novalidate>
+
+    <h1>Shipping Address</h1>
 
     <!-- Location -->
-    <div class="field static country" [class.error]="invalid('location')">
+    <div class="field static" [class.error]="invalid('location')">
       <label>Location*</label>
       <select (change)="set('location',$event)" (blur)="touch('location')">
         <option value="" disabled selected>Select Location</option>
-        <option value="United State">United States</option>
+        <option value="United States">United States</option>
       </select>
     </div>
     <div class="error-text" *ngIf="invalid('location')">This field is required</div>
@@ -17,103 +19,73 @@
     <div class="row">
       <div class="col-6">
         <div class="field floating" [class.active]="fields.firstName" [class.error]="invalid('firstName')">
-          <input type="text" placeholder=" " (input)="set('firstName',$event)" (blur)="touch('firstName')">
+          <input placeholder=" " (input)="set('firstName',$event)" (blur)="touch('firstName')" />
           <label>First Name*</label>
         </div>
-        <div class="error-text" *ngIf="invalid('firstName')">This field is required</div>
+        <div class="error-text" *ngIf="invalid('firstName')">Required</div>
       </div>
 
       <div class="col-6">
         <div class="field floating" [class.active]="fields.lastName" [class.error]="invalid('lastName')">
-          <input type="text" placeholder=" " (input)="set('lastName',$event)" (blur)="touch('lastName')">
+          <input placeholder=" " (input)="set('lastName',$event)" (blur)="touch('lastName')" />
           <label>Last Name*</label>
         </div>
-        <div class="error-text" *ngIf="invalid('lastName')">This field is required</div>
+        <div class="error-text" *ngIf="invalid('lastName')">Required</div>
       </div>
     </div>
 
     <!-- Phone -->
     <div class="field phone" [class.error]="invalid('phone')">
       <span>US +1</span>
-      <input type="text" placeholder="Phone Number*" (input)="set('phone',$event)" (blur)="touch('phone')" />
+      <input placeholder="Phone*" (input)="set('phone',$event)" (blur)="touch('phone')" />
     </div>
-    <div class="error-text" *ngIf="invalid('phone')">This field is required</div>
+    <div class="error-text" *ngIf="invalid('phone')">Required</div>
 
-    <!-- Address 1 -->
+    <!-- Address --> 
     <div class="field static" [class.error]="invalid('address1')">
-      <label>Address Line 1*</label>
+      <label>Address*</label>
       <textarea (input)="set('address1',$event)" (blur)="touch('address1')"></textarea>
     </div>
-    <div class="error-text" *ngIf="invalid('address1')">This field is required</div>
-
-    <!-- Address 2 -->
-    <div class="field static">
-      <label>Address Line 2</label>
-      <textarea></textarea>
-    </div>
+    <div class="error-text" *ngIf="invalid('address1')">Required</div>
 
     <!-- State / City -->
     <div class="row">
       <div class="col-6">
         <div class="field static province" [class.error]="invalid('state')">
-          <label>State/Province*</label>
+          <label>State / Province*</label>
           <select (change)="set('state',$event)" (blur)="touch('state')">
-            <option value="" disabled selected>Please Choose</option>
+            <option value="" disabled selected>Select</option>
             <option value="New York">New York</option>
             <option value="California">California</option>
           </select>
         </div>
-        <div class="error-text" *ngIf="invalid('state')">This field is required</div>
+        <div class="error-text" *ngIf="invalid('state')">Required</div>
       </div>
 
       <div class="col-6">
         <div class="field floating" [class.active]="focused.city || fields.city" [class.error]="invalid('city')">
+          <input (focus)="focus('city')" (input)="set('city',$event)" (blur)="blur('city')" />
           <label>City*</label>
-          <input type="text" (focus)="focus('city')" (input)="set('city',$event)" (blur)="blur('city')" />
         </div>
-        <div class="error-text" *ngIf="invalid('city')">This field is required</div>
+        <div class="error-text" *ngIf="invalid('city')">Required</div>
       </div>
     </div>
 
     <!-- Zip -->
-    <div class="field floating" [class.active]="focused.zip || fields.zip" [class.error]="isInvalid('zip')">
-      <label>Post/Zip Code*</label>
-      <input type="text" (focus)="focus('zip')" (input)="setValue('zip', $event)" (blur)="blur('zip')">
+    <div class="field floating" [class.active]="focused.zip || fields.zip" [class.error]="invalid('zip')">
+      <input (focus)="focus('zip')" (input)="set('zip',$event)" (blur)="blur('zip')" />
+      <label>Zip Code*</label>
     </div>
-    <div class="error-text" *ngIf="isInvalid('zip')">ZIP code is required</div>
-
-    <!-- Footer -->
-    <div class="footer-row">
-      <label class="default-check">
-        <input type="checkbox">
-        <span>Make Default</span>
-      </label>
-      <div class="links">
-        <a href="#">General Address Tips</a>
-        <a href="#">Privacy & Cookie Policy</a>
-      </div>
-    </div>
-
-    <div class="security">
-      <i class="fa fa-lock"></i>
-      <div>
-        <strong>Security & Privacy</strong>
-        <p>
-          We maintain industry-standard physical, technical, and administrative
-          measures to safeguard your personal information.
-        </p>
-      </div>
-    </div>
+    <div class="error-text" *ngIf="invalid('zip')">Required</div>
 
     <button class="save-btn">SAVE</button>
   </form>
 
-  <!-- Shipping form fill Address  -->
-  <!-- SUMMARY -->
+  <!-- ================= SUMMARY ================= -->
   <div class="section" *ngIf="showSummary">
 
     <div class="shipping-head">
-      <h2 class="section-title">Shipping Address</h2>
+      <h1>Shipping Address</h1>
       <button class="change-btn" (click)="edit()">Change <i class="fa-solid fa-angle-right"></i></button>
     </div>
 
@@ -123,17 +95,14 @@
           <strong>{{ fields.firstName }} {{ fields.lastName }}</strong>
           {{ fields.phone }}
         </div>
-
         <div class="line-2">{{ fields.address1 }}</div>
-
         <div class="line-3">
-         {{ fields.location }}, {{ fields.state }}, {{ fields.city }} {{ fields.zip }}
+          {{ fields.location }}, {{ fields.state }}, {{ fields.city }} {{ fields.zip }}
         </div>
       </div>
 
       <button class="edit-address" (click)="edit()">Edit Address</button>
     </div>
   </div>
-
 
 </div>

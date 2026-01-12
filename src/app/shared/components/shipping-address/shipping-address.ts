@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ShippingAddress {
 
+  // ===== FORM DATA =====
   fields: any = {
     location: '',
     firstName: '',
@@ -23,7 +24,14 @@ export class ShippingAddress {
 
   touched: any = {};
   focused: any = {};
-  showSummary: boolean | undefined;
+
+  // ===== UI STATE =====
+  showSummary = false;
+
+  // ===== INPUT HANDLERS =====
+  set(field: string, e: Event) {
+    this.fields[field] = (e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value;
+  }
 
   focus(field: string) {
     this.focused[field] = true;
@@ -34,19 +42,11 @@ export class ShippingAddress {
     this.touch(field);
   }
 
-  set(field: string, e: Event) {
-    const value = (e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value;
-    this.fields[field] = value;
-  }
-
-  setValue(field: string, e: Event) {
-    this.fields[field] = (e.target as HTMLInputElement).value;
-  }
-
   touch(field: string) {
     this.touched[field] = true;
   }
 
+  // ===== VALIDATION =====
   invalid(field: string): boolean {
     return this.touched[field] && !this.fields[field];
   }
@@ -55,39 +55,21 @@ export class ShippingAddress {
     return this.touched[field] && !this.fields[field];
   }
 
-  
+  // ===== SUBMIT =====
   submit(e: Event) {
     e.preventDefault();
 
-    const valid = Object.values(this.data).every(v => v);
+    // mark all touched
+    Object.keys(this.fields).forEach(f => this.touched[f] = true);
+
+    const valid = Object.values(this.fields).every(v => v);
     if (valid) {
-      this.showSummary = true;
+      this.showSummary = true; // 🔥 form hide, summary show
     }
   }
-  data(data: any) {
-    throw new Error('Method not implemented.');
-  }
 
+  // ===== EDIT / CHANGE =====
   edit() {
-    this.showSummary = false;
+    this.showSummary = false; // 🔥 summary hide, form show
   }
-
-
-  // address = {
-  //   firstName: 'Adeel',
-  //   lastName: 'Noshahi',
-  //   phone: '03281642297',
-  //   line1: 'Thokar Niaz Baig Lahore Punjab Pakistan',
-  //   line2: 'Punjab Lahore 26335-1418'
-  // };
-
-
-  // onChange() {
-  //   console.log('Change clicked');
-  // }
-
-
-  // onEdit() {
-  //   console.log('Edit clicked');
-  // }
 }
