@@ -1,5 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { CategoryService } from '../../../services/category';
 
 @Component({
   selector: 'app-category-carousel',
@@ -11,8 +13,10 @@ import { CommonModule } from '@angular/common';
 export class CategoryCarouselComponent implements OnInit {
 
   categories: any[] = [];
+  myCategories: any[] = [];
   slides: any[][] = [];
 
+  constructor(private adeel: CategoryService) { }
   currentSlide = 0;
   enableCarousel = false;
 
@@ -24,16 +28,35 @@ export class CategoryCarouselComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
     this.calculateLayout();
+    this.loadMyCategories();
   }
 
   /* 🔹 TEMP DATA (API later) */
   loadCategories() {
-    this.categories = Array.from({ length: 40 }).map((_, i) => ({
+    this.myCategories = Array.from({ length: 40 }).map((_, i) => ({
       id: i + 1,
       name: `Category ${i + 1}`,
       image: `https://i.pravatar.cc/150?img=${i + 1}`
     }));
   }
+
+
+
+  loadMyCategories() {
+    this.adeel.getAllCategories().subscribe({
+      next: (res) => {
+        console.log('API Response:', res);
+        // res is already the array of items
+        this.categories = res;
+        console.log('My Categories:', this.categories);
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+      }
+    });
+  }
+
+
 
   /* 🔹 RESPONSIVE LOGIC */
   @HostListener('window:resize')

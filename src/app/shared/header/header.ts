@@ -1,7 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, signal, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
+  standalone: true, // <-- this makes it standalone
+  imports: [CommonModule],
   templateUrl: './header.html',
   styleUrls: ['./header.scss']
 })
