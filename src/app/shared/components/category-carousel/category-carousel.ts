@@ -26,21 +26,11 @@ export class CategoryCarouselComponent implements OnInit {
   itemsPerSlide = 16;
 
   ngOnInit(): void {
-    this.loadCategories();
     this.calculateLayout();
     this.loadMyCategories();
   }
 
-  /* 🔹 TEMP DATA (API later) */
-  loadCategories() {
-    this.myCategories = Array.from({ length: 40 }).map((_, i) => ({
-      id: i + 1,
-      name: `Category ${i + 1}`,
-      image: `https://i.pravatar.cc/150?img=${i + 1}`
-    }));
-  }
-
-
+ 
 
   loadMyCategories() {
     this.adeel.getAllCategories().subscribe({
