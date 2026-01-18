@@ -5,9 +5,19 @@
 .container {
   max-width: 100%;
   margin: auto;
-  background: #fff;
   perspective: 1200px;
-  /* 3D base */
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.12);
+  }
 
   h1 {
     font-size: 26px;
@@ -214,7 +224,7 @@
   /* ================= BUTTON ================= */
   .save-btn {
     width: 220px;
-    margin: 20px auto;
+    margin: 10px auto;
     display: block;
     background: #000;
     color: #fff;
