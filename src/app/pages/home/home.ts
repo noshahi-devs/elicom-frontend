@@ -53,9 +53,9 @@ export class HomeComponent implements OnInit {
 
   loadCategories() {
     console.log('HomeComponent: Loading categories...');
-    // Load from Homepage endpoint
-    this.categoryService.getHomepageCategories().subscribe((res: any[]) => {
-      console.log('HomeComponent: Homepage Categories received:', res.length);
+    // Load from GetAll endpoint so debug view shows all 21
+    this.categoryService.getAllCategories().subscribe((res: any[]) => {
+      console.log('HomeComponent: Debug Categories received:', res.length);
       setTimeout(() => {
         this.categoriesDebug = res;
       });

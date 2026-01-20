@@ -35,16 +35,14 @@ export class CategoryCarouselComponent implements OnInit {
 
   loadMyCategories() {
     console.group('Category Carousel Loading');
-    this.adeel.getHomepageCategories().subscribe({
+    // Switching to getAllCategories so ALL 21 categories show up
+    this.adeel.getAllCategories().subscribe({
       next: (res) => {
-        console.log('Success! Count:', res.length, res);
+        console.log('Carousel: Received All Categories. Count:', res.length);
         setTimeout(() => {
           this.categories = res || [];
           this.buildSlides();
-          if (this.categories.length > 0) {
-            console.log('Carousel UI: Data Ready');
-            alert('CATEGORIES ARE IN YOUR BROWSER! Count: ' + this.categories.length);
-          }
+          console.log('Carousel: Slides built. Total slides:', this.slides.length);
         }, 100);
         console.groupEnd();
       },
@@ -90,6 +88,18 @@ export class CategoryCarouselComponent implements OnInit {
 
     // 🔥 MAIN RULE
     this.enableCarousel = this.categories.length > this.itemsPerSlide;
+  }
+
+  getCategoryImage(cat: any): string {
+    if (cat.imageUrl && cat.imageUrl !== 'string' && cat.imageUrl.includes('.')) {
+      if (cat.imageUrl.startsWith('http')) return cat.imageUrl;
+      if (cat.imageUrl === 'test.jpg' || cat.imageUrl === 'category.png') {
+        return `https://picsum.photos/seed/${cat.name}/110/110`;
+      }
+      return `https://localhost:44311/images/products/${cat.imageUrl}`;
+    }
+    const seed = cat.id || cat.categoryId || cat.name || 'default';
+    return `https://picsum.photos/seed/${seed}/110/110`;
   }
 
   next() {
