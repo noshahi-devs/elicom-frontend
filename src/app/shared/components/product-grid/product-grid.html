@@ -5,10 +5,9 @@
     <div class="product-card" *ngFor="let product of visibleProducts"
       [routerLink]="['/product-detail', product.productId, product.id]">
 
-      <img [src]="getFirstImage(product.productImage)" class="product-img main-img">
+      <img [src]="getFirstImage(product)" class="product-img main-img">
 
-      <img *ngIf="getSecondImage(product.productImage)" [src]="getSecondImage(product.productImage)"
-        class="product-img hover-img">
+      <img *ngIf="getSecondImage(product)" [src]="getSecondImage(product)" class="product-img hover-img">
 
       <div class="card-body">
         <div class="product-title">{{ product.productName }}</div>

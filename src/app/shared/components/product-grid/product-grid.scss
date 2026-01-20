@@ -42,6 +42,10 @@
   opacity: 1;
 }
 
+.product-card:hover .main-img {
+  filter: brightness(0.9);
+}
+
 .card-body { padding: 10px; }
 
 .product-title {
