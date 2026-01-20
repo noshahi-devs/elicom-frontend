@@ -42,45 +42,49 @@
               <span class="red-text">$10.00</span>
             </div>
 
-            <div class="view-cart-header">
-              <input type="checkbox" id="hoverAllCheck" checked>
-              <span>ELICOM</span>
-            </div>
-
             <!-- EMPTY STATE -->
             <div *ngIf="cartService.items().length === 0" style="padding: 20px; text-align: center;">
               <p>Shopping cart is Empty</p>
             </div>
 
-            <!-- PRODUCT LIST (SCROLLABLE) -->
+            <!-- PRODUCT LIST GROUPED BY STORE (SCROLLABLE) -->
             <div class="product-card-scroll" *ngIf="cartService.items().length > 0">
-              <div class="product-card show-hover" *ngFor="let item of cartService.items()">
-                <input type="checkbox" class="prod-check" checked>
-                <img [src]="item.image" />
+              <!-- Loop through each store -->
+              <div *ngFor="let storeName of getStores()">
+                <!-- Store Header with Checkbox -->
+                <div class="view-cart-header">
+                  <input type="checkbox" [id]="'store-' + storeName"
+                    [checked]="isStoreChecked(storeName) || isAnyStoreItemChecked(storeName)"
+                    [indeterminate]="isAnyStoreItemChecked(storeName) && !isStoreChecked(storeName)"
+                    (change)="onStoreCheckboxChange(storeName, $event)">
+                  <span>{{ storeName }}</span>
+                </div>
 
-                <div class="prod-details">
-                  <div class="prod-title">{{ item.name }}</div>
-                  <div class="sold-by">Sold by ELICOM</div>
-                  <div class="color-qty">
-                    <div class="sizes">{{ item.color }} / ({{ item.size }})</div>
-                    <div class="qty-box-modal">
-                      Qty:
-                      <span class="qty-val">{{ item.quantity }}</span>
-                      <span class="qty-arrow" (click)="toggleQtyDropdown(item)">
-                        {{ activeQtyDropdown === (item.productId + '-' + item.size + '-' + item.color) ? '▲' : '▼' }}
-                      </span>
+                <!-- Products for this store -->
+                <div class="product-card show-hover" *ngFor="let item of getItemsByStore(storeName)">
+                  <input type="checkbox" class="prod-check" [checked]="item.isChecked"
+                    (change)="onItemCheckboxChange(item)">
+                  <img [src]="item.image" />
 
-                      <!-- QTY DROPDOWN -->
-                      <div class="dropdown-list show"
-                        *ngIf="activeQtyDropdown === (item.productId + '-' + item.size + '-' + item.color)">
-                        <div *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" (click)="setQty(item, q)">{{ q }}</div>
+                  <div class="prod-details">
+                    <div class="prod-title">{{ item.name }}</div>
+                    <div class="sold-by">Sold by {{ item.storeName }}</div>
+                    <div class="color-qty">
+                      <div class="sizes">{{ item.color }} / ({{ item.size }})</div>
+                      <div class="qty-box-modal">
+                        <span class="qty-label">Qty:</span>
+                        <div class="qty-controls">
+                          <button class="qty-btn-modal" (click)="decrementQty(item)">-</button>
+                          <span class="qty-val">{{ item.quantity }}</span>
+                          <button class="qty-btn-modal" (click)="incrementQty(item)">+</button>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="price-del">
-                    <div class="price">${{ item.price | number:'1.2-2' }}</div>
-                    <div class="del-icon" (click)="deleteItem(item)">🗑</div>
+                    <div class="price-del">
+                      <div class="price">${{ item.price | number:'1.2-2' }}</div>
+                      <div class="del-icon" (click)="removeItem(item)">🗑</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -89,7 +93,8 @@
             <div class="total-area">
               <div class="hover-all-checkbox-total-price">
                 <div class="top-line-all">
-                  <input type="checkbox" id="allCheck" checked>
+                  <input type="checkbox" id="allCheck" [checked]="isAllChecked()"
+                    (change)="onAllCheckboxChange($event)">
                   <span class="All-text">All</span>
                 </div>
                 Total: <span class="del" id="hoverTotalPrice">${{ cartService.totalPrice | number:'1.2-2' }}</span>
@@ -97,7 +102,7 @@
             </div>
 
             <div class="view-cart">
-              <a href="cart.html">VIEW CART (<span id="hoverCartQty">{{ cartService.totalItems }}</span>)</a>
+              <a routerLink="/add-to-cart">VIEW CART (<span id="hoverCartQty">{{ cartService.totalItems }}</span>)</a>
             </div>
           </div>
         </div>

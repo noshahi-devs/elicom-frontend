@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CartService, CartItem as CartItemModel } from '../../../services/cart';
 
 @Component({
   selector: 'app-cart-item',
@@ -8,122 +9,93 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cart-item.html',
   styleUrls: ['./cart-item.scss'],
 })
-export class CartItem {
+export class CartItem implements AfterViewChecked {
+  cartService = inject(CartService);
 
-  // ================= SHOP =================
-  shop = {
-    name: 'STARSHIPPER',
-    selected: true,
-  };
+  ngAfterViewChecked() {
+    // Set indeterminate state for store checkboxes
+    this.getStores().forEach(storeName => {
+      const checkbox = document.getElementById('cart-store-' + storeName) as HTMLInputElement;
+      if (checkbox) {
+        const isPartiallyChecked = this.isAnyStoreItemChecked(storeName) && !this.isStoreChecked(storeName);
+        checkbox.indeterminate = isPartiallyChecked;
+      }
+    });
+  }
 
-  // ================= PRODUCTS (API READY) =================
-  products = [
-    {
-      id: 1,
-      title: 'STARSHIPPER EZwear Black Slant Pocket Ripped Skinny Jeans',
-      brand: 'STARSHIPPER EZwear',
-      image: 'assets/images/card_3.jpg',
-      price: 10.99, 
-      oldPrice: 30.59,
-      qty: 1,
-      color: 'Black',
-      size: 'S',
-      selected: true,
-      soldOut: true, 
-      fav: false,
-      showDeleteConfirm: false,
-    },
-    {
-      id: 2,
-      title: 'Another Product Title',
-      brand: 'Another Brand',
-      image: 'assets/images/card_4.jpg',
-      price: 15.99, 
-      oldPrice: 35.59,
-      qty: 6,
-      color: 'Yellow',
-      size: 'L',
-      selected: true,
-      soldOut: true, 
-      fav: false,
-      showDeleteConfirm: false,
-    },
-    {
-      id: 3,
-      title: 'STARSHIPPER EZwear Red Slant Pocket Ripped Skinny Jeans',
-      brand: 'STARSHIPPER EZwear',
-      image: 'assets/images/card_2.jpg',
-      price: 10.99, 
-      oldPrice: 30.59,
-      qty: 3,
-      color: 'Red',
-      size: 'M',
-      selected: true,
-      soldOut: true, 
-      fav: false,
-      showDeleteConfirm: false,
+  // ================= CHECKBOX METHODS =================
+  onItemCheckboxChange(item: CartItemModel) {
+    this.cartService.toggleItemCheckbox(item.productId, item.size, item.color);
+  }
+
+  onStoreCheckboxChange(storeName: string, event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    this.cartService.toggleStoreCheckbox(storeName, checkbox.checked);
+  }
+
+  onAllCheckboxChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    this.cartService.toggleAllCheckbox(checkbox.checked);
+  }
+
+  isStoreChecked(storeName: string): boolean {
+    return this.cartService.isStoreChecked(storeName);
+  }
+
+  isAnyStoreItemChecked(storeName: string): boolean {
+    return this.cartService.isAnyStoreItemChecked(storeName);
+  }
+
+  isAllChecked(): boolean {
+    return this.cartService.isAllChecked();
+  }
+
+  getStores(): string[] {
+    return this.cartService.getStores();
+  }
+
+  getItemsByStore(storeName: string): CartItemModel[] {
+    return this.cartService.getItemsByStore(storeName);
+  }
+
+  // ================= QUANTITY METHODS =================
+  incrementQty(item: CartItemModel) {
+    this.cartService.updateQuantity(item.productId, item.size, item.color, item.quantity + 1);
+  }
+
+  decrementQty(item: CartItemModel) {
+    if (item.quantity > 1) {
+      this.cartService.updateQuantity(item.productId, item.size, item.color, item.quantity - 1);
     }
-  ];
-
-  // ================= COUPON (API READY) =================
-  // API se ayega, agar coupon na ho → 0
-  couponValue: number = 12.00;
-
-  // ================= SELECT =================
-  get allSelected(): boolean {
-    return this.products.length > 0 && this.products.every(p => p.selected);
-  }
-
-  toggleAll(checked: boolean) {
-    this.shop.selected = checked;
-    this.products.forEach(p => p.selected = checked);
-  }
-
-  toggleShop(checked: boolean) {
-    this.shop.selected = checked;
-    this.products.forEach(p => p.selected = checked);
-  }
-
-
-  toggleProduct(p: any, checked: boolean) {
-    p.selected = checked;
-    this.shop.selected = this.products.every(x => x.selected);
   }
 
   // ================= FAVORITE =================
-  toggleFav(p: any) {
-    p.fav = !p.fav;
+  toggleFav(item: CartItemModel) {
+    this.cartService.toggleFavorite(item.productId, item.size, item.color);
   }
 
   // ================= DELETE =================
-  openDelete(p: any) {
-    p.showDeleteConfirm = true;
+  removeItem(item: CartItemModel) {
+    this.cartService.removeItem(item.productId, item.size, item.color);
   }
 
-  cancelDelete(p: any) {
-    p.showDeleteConfirm = false;
-  }
-
-  confirmDelete(id: number) {
-    this.products = this.products.filter(p => p.id !== id);
-  }
-
-  // =====================================================
-  // ================= PRICE LOGIC (CORRECT) =============
-  // =====================================================
-
+  // ================= PRICE CALCULATIONS =================
   /** 🔹 Retail Price = Old Price ka total */
   get retailPrice(): number {
-    return this.products
-      .filter(p => p.selected)
-      .reduce((sum, p) => sum + (p.oldPrice || p.price) * p.qty, 0);
+    return this.cartService.items()
+      .filter(p => p.isChecked)
+      .reduce((sum, p) => sum + (p.oldPrice || p.price) * p.quantity, 0);
   }
 
   /** 🔹 Estimated Price = Asal / Final Price ka total */
   get estimatedPrice(): number {
-    return this.products
-      .filter(p => p.selected)
-      .reduce((sum, p) => sum + p.price * p.qty, 0);
+    return this.cartService.totalPrice;
+  }
+
+  /** 🔹 Coupon Value (hardcoded for now, can be from API) */
+  get couponValue(): number {
+    // This can be fetched from an API or calculated based on promotions
+    return 12.00;
   }
 
   /** 🔹 Promotion (sirf display ke liye) */
@@ -141,7 +113,7 @@ export class CartItem {
 
   /** 🔹 Selected Items Count */
   get selectedItemCount(): number {
-    return this.products.filter(p => p.selected).length;
+    return this.cartService.items().filter(p => p.isChecked).length;
   }
 
   /** 🔹 Reward Points (example: floor of estimated) */
