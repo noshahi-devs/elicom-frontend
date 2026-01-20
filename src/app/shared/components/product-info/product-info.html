@@ -39,9 +39,9 @@
 
         <!-- Price -->
         <div class="price-container">
-            <div class="price-now"><span>$</span>{{ product.priceNow }}</div>
-            <div class="price-old-and-discount">
-                <div class="price-old">${{ product.priceOld }}</div>
+            <div class="price-now"><span>$</span>{{ product.priceNow | number:'1.2-2' }}</div>
+            <div class="price-old-and-discount" *ngIf="product.priceOld > product.priceNow">
+                <div class="price-old">${{ product.priceOld | number:'1.2-2' }}</div>
                 <div class="discount-box">-{{ product.discount }}%</div>
             </div>
         </div>
@@ -59,7 +59,7 @@
 
         <!-- NORMAL PRODUCT CONTENT -->
         <ng-template #productContent>
-            <div class="product-main-info"> 
+            <div class="product-main-info">
                 <h1>{{ product.title }}</h1>
                 <p>{{ product.description }}</p>
                 <!-- baki product info -->

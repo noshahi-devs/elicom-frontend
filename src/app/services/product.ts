@@ -95,14 +95,22 @@ export class ProductService {
         );
     }
 
-    getProductDetail(productId: string, storeProductId: string): Observable<ProductDetailDto> {
+    getProductDetail(productId: string, storeProductId: string): Observable<ProductDetailDto | null> {
+        console.log(`fetching ProductDetail for Product:${productId}, StoreProduct:${storeProductId}`);
         return this.http.get<any>(`${this.apiUrl}/GetProductDetail`, {
             params: {
                 productId: productId,
                 storeProductId: storeProductId
             }
         }).pipe(
-            map(res => res.result)
+            map(res => {
+                console.log('ProductDetail API Response:', res);
+                return res.result;
+            }),
+            catchError(err => {
+                console.error('getProductDetail API Error:', err);
+                return of(null);
+            })
         );
     }
 

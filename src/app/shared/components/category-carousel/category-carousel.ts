@@ -35,15 +35,13 @@ export class CategoryCarouselComponent implements OnInit {
 
   loadMyCategories() {
     console.group('Category Carousel Loading');
-    // Switching to getAllCategories so ALL 21 categories show up
     this.adeel.getAllCategories().subscribe({
       next: (res) => {
         console.log('Carousel: Received All Categories. Count:', res.length);
-        setTimeout(() => {
-          this.categories = res || [];
-          this.buildSlides();
-          console.log('Carousel: Slides built. Total slides:', this.slides.length);
-        }, 100);
+        this.categories = res || [];
+        this.buildSlides();
+        this.cdr.detectChanges(); // Refresh UI immediately
+        console.log('Carousel: Slides built. Total slides:', this.slides.length);
         console.groupEnd();
       },
       error: (err) => {
@@ -73,6 +71,7 @@ export class CategoryCarouselComponent implements OnInit {
     this.itemsPerSlide = this.itemsPerRow * this.rows;
 
     this.buildSlides();
+    this.cdr.detectChanges(); // Refresh on resize
   }
 
   /* 🔹 SLIDE BUILDER */

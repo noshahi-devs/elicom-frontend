@@ -41,9 +41,8 @@ export class HomeComponent implements OnInit {
     this.productService.getGlobalMarketplaceProducts().subscribe({
       next: (res: GlobalMarketplaceProduct[]) => {
         console.log('HomeComponent: Products received:', res.length);
-        setTimeout(() => {
-          this.products = res;
-        });
+        this.products = res;
+        this.cdr.detectChanges(); // Trigger immediately
       },
       error: (err: any) => {
         console.error('HomeComponent: Products error:', err);
@@ -53,17 +52,10 @@ export class HomeComponent implements OnInit {
 
   loadCategories() {
     console.log('HomeComponent: Loading categories...');
-    // Load from GetAll endpoint so debug view shows all 21
     this.categoryService.getAllCategories().subscribe((res: any[]) => {
       console.log('HomeComponent: Debug Categories received:', res.length);
-      setTimeout(() => {
-        this.categoriesDebug = res;
-      });
-    });
-
-    // Also load from GetAll endpoint just for debug
-    this.categoryService.getAllCategories().subscribe((res: any[]) => {
-      console.log('HomeComponent: GetAll Categories received:', res.length);
+      this.categoriesDebug = res;
+      this.cdr.detectChanges(); // Trigger immediately
     });
   }
 }

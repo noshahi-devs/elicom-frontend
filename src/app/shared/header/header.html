@@ -23,13 +23,82 @@
 
 
       <!-- CART -->
-      <div class="cart-wrapper" (mouseenter)="cartDropdown.set(true)" (mouseleave)="cartDropdown.set(false)">
-        <a href="#"><i class="fas fa-shopping-cart"></i></a>
-        <div class="cart-tooltip-box" *ngIf="cartDropdown()">
-          <div class="tooltip-content">
-            <img src="assets/images/emptycart.PNG" alt="Cart Empty">
-            <p>Shopping cart is Empty</p>
-            <a href="#">Go to Shop</a>
+      <!-- CART -->
+      <div class="cart-wrapper" (mouseenter)="onMouseEnterCart()" (mouseleave)="onMouseLeaveCart()">
+        <a href="javascript:void(0)" class="cart-icon-link" (click)="cartDropdown.set(!cartDropdown())">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="iconCartQty" *ngIf="cartService.totalItems > 0">{{ cartService.totalItems
+            }}</span>
+        </a>
+
+        <!-- HOVER CART MODAL -->
+        <div id="hoverCartModal" class="hover-cart-modal" *ngIf="cartDropdown()">
+          <div class="hover-cart-content">
+            <span class="hover-close" (click)="closeModal()">&times;</span>
+
+            <div class="top-line">
+              <input type="checkbox" id="hoverMain" checked>
+              <span class="black-text">Use coupon now to save</span>
+              <span class="red-text">$10.00</span>
+            </div>
+
+            <div class="view-cart-header">
+              <input type="checkbox" id="hoverAllCheck" checked>
+              <span>ELICOM</span>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div *ngIf="cartService.items().length === 0" style="padding: 20px; text-align: center;">
+              <p>Shopping cart is Empty</p>
+            </div>
+
+            <!-- PRODUCT LIST (SCROLLABLE) -->
+            <div class="product-card-scroll" *ngIf="cartService.items().length > 0">
+              <div class="product-card show-hover" *ngFor="let item of cartService.items()">
+                <input type="checkbox" class="prod-check" checked>
+                <img [src]="item.image" />
+
+                <div class="prod-details">
+                  <div class="prod-title">{{ item.name }}</div>
+                  <div class="sold-by">Sold by ELICOM</div>
+                  <div class="color-qty">
+                    <div class="sizes">{{ item.color }} / ({{ item.size }})</div>
+                    <div class="qty-box-modal">
+                      Qty:
+                      <span class="qty-val">{{ item.quantity }}</span>
+                      <span class="qty-arrow" (click)="toggleQtyDropdown(item)">
+                        {{ activeQtyDropdown === (item.productId + '-' + item.size + '-' + item.color) ? '▲' : '▼' }}
+                      </span>
+
+                      <!-- QTY DROPDOWN -->
+                      <div class="dropdown-list show"
+                        *ngIf="activeQtyDropdown === (item.productId + '-' + item.size + '-' + item.color)">
+                        <div *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" (click)="setQty(item, q)">{{ q }}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="price-del">
+                    <div class="price">${{ item.price | number:'1.2-2' }}</div>
+                    <div class="del-icon" (click)="deleteItem(item)">🗑</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="total-area">
+              <div class="hover-all-checkbox-total-price">
+                <div class="top-line-all">
+                  <input type="checkbox" id="allCheck" checked>
+                  <span class="All-text">All</span>
+                </div>
+                Total: <span class="del" id="hoverTotalPrice">${{ cartService.totalPrice | number:'1.2-2' }}</span>
+              </div>
+            </div>
+
+            <div class="view-cart">
+              <a href="cart.html">VIEW CART (<span id="hoverCartQty">{{ cartService.totalItems }}</span>)</a>
+            </div>
           </div>
         </div>
       </div>
@@ -38,9 +107,9 @@
       <a href="#"><i class="far fa-heart"></i></a>
       <a href="#"><i class="far fa-comment-dots"></i></a>
 
-      <!-- GLOBE --> 
-      <div class="currency-menu-wrapper" (mouseenter)="globeDropdown.set(true)" (mouseleave)="globeDropdown.set(false)">
-        <a href="#"><i class="fas fa-globe"></i></a>
+      <!-- GLOBE -->
+      <div class="currency-menu-wrapper">
+        <a href="javascript:void(0)" (click)="globeDropdown.set(!globeDropdown())"><i class="fas fa-globe"></i></a>
         <div class="currency-tooltip-box" *ngIf="globeDropdown()">
           <div class="tooltip-section">
             <p class="section-title">Currency</p>

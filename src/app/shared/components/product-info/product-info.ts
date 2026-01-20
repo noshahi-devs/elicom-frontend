@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductDetailDto } from '../../../services/product';
+import { CartService } from '../../../services/cart';
 
 export type AccordionType = 'desc' | 'sizefit' | null;
 export type SizeTabType = 'product' | 'body';
@@ -32,10 +33,12 @@ interface SizeRow {
   templateUrl: './product-info.html',
   styleUrls: ['./product-info.scss']
 })
-
 export class ProductInfo implements OnInit {
 
   @Input() productData?: ProductDetailDto;
+  @Output() colorSelected = new EventEmitter<string>();
+
+  private cartService = inject(CartService);
 
   product = {
     title: "",
@@ -57,6 +60,8 @@ export class ProductInfo implements OnInit {
     this.colors.forEach(c => c.active = false);
     selected.active = true;
     this.selectedColorName = selected.name;
+    // Emit the image path for the gallery to update
+    this.colorSelected.emit(selected.src);
   }
 
   // SIZES
@@ -70,22 +75,46 @@ export class ProductInfo implements OnInit {
   // AD SLOT (API se aa sakta hai ya null)
   adBanner: { text: string; brand: string } | null = null;
 
+  getImage(img: string): string {
+    if (!img || img === 'string' || img.trim() === '') {
+      const name = (this.productData?.title || '').toLowerCase();
+      if (name.includes('hair removal') || name.includes('hair removel')) return 'https://picsum.photos/seed/beauty1/100/100';
+      if (name.includes('laptop bag')) return 'https://picsum.photos/seed/bag1/100/100';
+      if (name.includes('women summer floral dress')) return 'https://picsum.photos/seed/dress1/100/100';
+      return `https://picsum.photos/seed/${this.productData?.productId || 'p'}/100/100`;
+    }
+    // Broken CDN Fix (MUST BE BEFORE http CHECK)
+    if (img.includes('cdn.elicom.com')) {
+      const seed = img.split('/').pop() || 'p1';
+      return `https://picsum.photos/seed/${seed}/100/100`;
+    }
+
+    if (img.startsWith('http')) return img;
+    return `https://localhost:44311/images/products/${img}`;
+  }
+
   ngOnInit(): void {
     if (this.productData) {
       this.product = {
         title: this.productData.title,
         description: this.productData.description,
-        sku: this.productData.productId.substring(0, 8), // just a dummy SKU part
-        reviewCount: 1250, // Hardcoded for demo
+        sku: this.productData.productId.substring(0, 8),
+        reviewCount: 1250,
         priceNow: this.productData.store.price,
         priceOld: this.productData.store.resellerPrice,
         discount: this.productData.store.resellerDiscountPercentage
       };
 
+      const firstImg = (this.productData.images && this.productData.images.length > 0)
+        ? this.productData.images[0] : '';
+      const colorPreview = this.getImage(firstImg);
+
       if (this.productData.colorOptions) {
         this.colors = this.productData.colorOptions.map((c, i) => ({
           name: c,
-          active: i === 0
+          src: colorPreview, // Use current product image as color preview for now
+          active: i === 0,
+          hot: i === 0
         }));
         this.selectedColorName = this.colors[0]?.name;
       }
@@ -95,8 +124,8 @@ export class ProductInfo implements OnInit {
       }
 
       this.shippingData.seller.name = this.productData.store.storeName;
-      this.details[11].value = this.product.sku;
-      this.details[8].value = this.selectedColorName;
+      if (this.details[11]) this.details[11].value = this.product.sku;
+      if (this.details[8]) this.details[8].value = this.selectedColorName;
     }
 
     this.adBanner = {
@@ -123,7 +152,23 @@ export class ProductInfo implements OnInit {
   }
 
   addToCart() {
-    alert(`Added ${this.quantity} item(s) of size ${this.selectedSize}`);
+    if (!this.selectedSize && this.sizes.length > 0) {
+      alert('Please select a size first');
+      return;
+    }
+
+    // Use the first image from gallery or a fallback for the cart thumbnail
+    const image = (this.productData?.images && this.productData.images.length > 0)
+      ? this.getImage(this.productData.images[0])
+      : this.getImage('');
+
+    this.cartService.addToCart(
+      this.productData,
+      this.quantity,
+      this.selectedSize,
+      this.selectedColorName,
+      image
+    );
   }
 
   shippingData = {
