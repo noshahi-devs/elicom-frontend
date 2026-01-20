@@ -27,22 +27,22 @@ export class DealCardComponent {
     {
       title: 'Super Deals',
       products: [
-        { image: 'assets/images/dealCard5.webp', hoverImage: 'assets/images/dealCard6.webp', price: '$3.88', priceText: 'Flash Sale' },
-        { image: 'assets/images/dealCard1.webp', hoverImage: 'assets/images/dealCard2.jpg', price: '$4.99', priceText: '80% OFF' }
+        { image: 'https://picsum.photos/seed/deal1/150/150', price: '$3.88', priceText: 'Flash Sale' },
+        { image: 'https://picsum.photos/seed/deal2/150/150', price: '$4.99', priceText: '80% OFF' }
       ]
     },
     {
       title: 'Top Trends',
       products: [
-        { image: 'assets/images/dealCard9.webp', price: '$8.09', tag: '#ElegantCasual' },
-        { image: 'assets/images/dealCard10.webp', price: '$8.09', tag: '#PartyLooks' }
+        { image: 'https://picsum.photos/seed/trend1/150/150', price: '$8.09', tag: '#ElegantCasual' },
+        { image: 'https://picsum.photos/seed/trend2/150/150', price: '$8.09', tag: '#PartyLooks' }
       ]
     },
     {
       title: 'Brand Zone',
       products: [
-        { image: 'assets/images/dealCard3.jpg', hoverImage: 'assets/images/dealCard4.webp', price: '$3.88', priceText: 'Hot Sale' },
-        { image: 'assets/images/dealCard7.webp', hoverImage: 'assets/images/dealCard8.webp', price: '$49.58', priceText: '67% OFF' }
+        { image: 'https://picsum.photos/seed/brand1/150/150', price: '$3.88', priceText: 'Hot Sale' },
+        { image: 'https://picsum.photos/seed/brand2/150/150', price: '$49.58', priceText: '67% OFF' }
       ]
     }
   ];

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProductDetailDto } from '../../../services/product';
 
 export type AccordionType = 'desc' | 'sizefit' | null;
 export type SizeTabType = 'product' | 'body';
@@ -34,26 +35,23 @@ interface SizeRow {
 
 export class ProductInfo implements OnInit {
 
+  @Input() productData?: ProductDetailDto;
+
   product = {
-    title: "Women's Mid Rise Straight Leg Denim Pants - Non Stretch Classic Washed Button Fly Zipper",
-    description: 'Premium quality denim pants',
-    sku: 'S225090998294825844',
-    reviewCount: 1000,
-    priceNow: 10.11,
-    priceOld: 13.97,
-    discount: 34
+    title: "",
+    description: '',
+    sku: '',
+    reviewCount: 0,
+    priceNow: 0,
+    priceOld: 0,
+    discount: 0
   };
 
-  rating = 4;
- 
-  // COLORS
-  colors = [
-    { src: 'assets/images/1.webp', name: 'Black', active: true },
-    { src: 'assets/images/2.webp', name: 'Red', active: false, hot: true },
-    { src: 'assets/images/3.webp', name: 'Dark Grey', active: false }
-  ];
+  rating = 5;
 
-  selectedColorName: string = 'Black';
+  // COLORS
+  colors: any[] = [];
+  selectedColorName: string = '';
 
   selectColor(selected: any) {
     this.colors.forEach(c => c.active = false);
@@ -62,7 +60,7 @@ export class ProductInfo implements OnInit {
   }
 
   // SIZES
-  sizes = ['S', 'M', 'L', 'XL'];
+  sizes: string[] = [];
   selectedSize: string = '';
 
   // QTY & FAV
@@ -73,14 +71,38 @@ export class ProductInfo implements OnInit {
   adBanner: { text: string; brand: string } | null = null;
 
   ngOnInit(): void {
-    // simulate API
+    if (this.productData) {
+      this.product = {
+        title: this.productData.title,
+        description: this.productData.description,
+        sku: this.productData.productId.substring(0, 8), // just a dummy SKU part
+        reviewCount: 1250, // Hardcoded for demo
+        priceNow: this.productData.store.price,
+        priceOld: this.productData.store.resellerPrice,
+        discount: this.productData.store.resellerDiscountPercentage
+      };
+
+      if (this.productData.colorOptions) {
+        this.colors = this.productData.colorOptions.map((c, i) => ({
+          name: c,
+          active: i === 0
+        }));
+        this.selectedColorName = this.colors[0]?.name;
+      }
+
+      if (this.productData.sizeOptions) {
+        this.sizes = this.productData.sizeOptions;
+      }
+
+      this.shippingData.seller.name = this.productData.store.storeName;
+      this.details[11].value = this.product.sku;
+      this.details[8].value = this.selectedColorName;
+    }
+
     this.adBanner = {
-      text: 'Pay now, in 4 payments of $4.46, or pay over time with monthly financing.',
+      text: 'Pay now, in 4 payments of $' + (this.product.priceNow / 4).toFixed(2) + ', or pay over time with monthly financing.',
       brand: 'Klarna'
     };
-
-    // agar ad na ho:
-    // this.adBanner = null;
   }
 
   // METHODS

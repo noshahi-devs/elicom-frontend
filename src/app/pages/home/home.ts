@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeroCarouselComponent } from '../../shared/components/hero-carousel/hero-carousel';
 import { CategoryCarouselComponent } from '../../shared/components/category-carousel/category-carousel';
 import { DealCardComponent } from '../../shared/components/deal-card/deal-card';
 import { ProductGridComponent } from '../../shared/components/product-grid/product-grid';
+import { ProductService, GlobalMarketplaceProduct } from '../../services/product';
+import { CategoryService, Category } from '../../services/category';
 
 @Component({
   selector: 'app-home',
@@ -18,57 +20,50 @@ import { ProductGridComponent } from '../../shared/components/product-grid/produ
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
-  products: any[] = [
-    {
-      id: 1,
-      title: 'EMERY ROSE 2pcs Plus Size Casual Outfit',
-      price: 19.17,
-      discount: 24,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg'
-    },
-    {
-      id: 2,
-      title: 'Summer Casual Shirt',
-      price: 12.99,
-      discount: 13,
-      image: 'assets/images/card_3.jpg',
-      hoverImage: 'assets/images/card_4.jpg'
-    },
-    {
-      id: 2,
-      title: 'Summer Casual Shirt',
-      price: 12.99,
-      discount: 13,
-      image: 'assets/images/card_3.jpg',
-      hoverImage: 'assets/images/card_4.jpg'
-    },
-    {
-      id: 2,
-      title: 'Summer Casual Shirt',
-      price: 12.99,
-      discount: 13,
-      image: 'assets/images/card_3.jpg',
-      hoverImage: 'assets/images/card_4.jpg'
-    },
-    {
-      id: 2,
-      title: 'Summer Casual Shirt',
-      price: 12.99,
-      discount: 13,
-      image: 'assets/images/card_3.jpg',
-      hoverImage: 'assets/images/card_4.jpg'
-    },
-    {
-      id: 2,
-      title: 'Summer Casual Shirt',
-      price: 12.99,
-      discount: 13,
-      image: 'assets/images/card_3.jpg',
-      hoverImage: 'assets/images/card_4.jpg'
-    }
-  ];
+  products: GlobalMarketplaceProduct[] = [];
+  categoriesDebug: Category[] = [];
 
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnInit(): void {
+    this.loadProducts();
+    this.loadCategories();
+  }
+
+  loadProducts() {
+    console.log('HomeComponent: Loading products...');
+    this.productService.getGlobalMarketplaceProducts().subscribe({
+      next: (res: GlobalMarketplaceProduct[]) => {
+        console.log('HomeComponent: Products received:', res.length);
+        setTimeout(() => {
+          this.products = res;
+        });
+      },
+      error: (err: any) => {
+        console.error('HomeComponent: Products error:', err);
+      }
+    });
+  }
+
+  loadCategories() {
+    console.log('HomeComponent: Loading categories...');
+    // Load from Homepage endpoint
+    this.categoryService.getHomepageCategories().subscribe((res: any[]) => {
+      console.log('HomeComponent: Homepage Categories received:', res.length);
+      setTimeout(() => {
+        this.categoriesDebug = res;
+      });
+    });
+
+    // Also load from GetAll endpoint just for debug
+    this.categoryService.getAllCategories().subscribe((res: any[]) => {
+      console.log('HomeComponent: GetAll Categories received:', res.length);
+    });
+  }
 }

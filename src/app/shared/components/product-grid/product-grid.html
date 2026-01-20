@@ -2,30 +2,29 @@
   <h4 class="recommend-title">Recommend</h4>
 
   <div class="product-grid">
-    <div class="product-card"
-         *ngFor="let product of visibleProducts">
+    <div class="product-card" *ngFor="let product of visibleProducts"
+      [routerLink]="['/product-detail', product.productId, product.id]">
 
-      <img [src]="product.image"
-           class="product-img main-img">
+      <img [src]="getFirstImage(product.productImage)" class="product-img main-img">
 
-      <img *ngIf="product.hoverImage"
-           [src]="product.hoverImage"
-           class="product-img hover-img">
+      <img *ngIf="getSecondImage(product.productImage)" [src]="getSecondImage(product.productImage)"
+        class="product-img hover-img">
 
       <div class="card-body">
-        <div class="product-title">{{ product.title }}</div>
+        <div class="product-title">{{ product.productName }}</div>
 
         <div class="price-row">
           <div>
-            <span class="price">${{ product.price }}</span>
-            <span *ngIf="product.discount"
-                  class="discount">-{{ product.discount }}%</span>
+            <span class="price">${{ product.price | number:'1.2-2' }}</span>
           </div>
 
-          <button class="cart-btn">
+          <button class="cart-btn" (click)="$event.stopPropagation()">
             <i class="fa-solid fa-cart-shopping"></i>
           </button>
-        </div> 
+        </div>
+        <div class="store-name" style="font-size: 0.75rem; color: #888; margin-top: 4px;">
+          Sold by: {{ product.storeName }}
+        </div>
       </div>
 
     </div>

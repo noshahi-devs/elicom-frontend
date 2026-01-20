@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ProductDetailDto } from '../../../services/product';
 
 @Component({
   selector: 'app-product-gallery',
@@ -8,18 +9,19 @@ import { CommonModule } from '@angular/common';
   templateUrl: './product-gallery.html',
   styleUrls: ['./product-gallery.scss']
 })
-export class ProductGallery {
+export class ProductGallery implements OnInit {
 
-  images: string[] = [
-    'assets/images/card_3.jpg',
-    'assets/images/2.webp',
-    'assets/images/3.webp',
-    'assets/images/4.webp',
-    'assets/images/1.webp',
-    'assets/images/card_4.webp'
-  ];
+  @Input() productData?: ProductDetailDto;
+
+  images: string[] = [];
 
   activeIndex = 0;
+
+  ngOnInit(): void {
+    if (this.productData && this.productData.images) {
+      this.images = this.productData.images;
+    }
+  }
 
   selectImage(index: number) {
     this.activeIndex = index;

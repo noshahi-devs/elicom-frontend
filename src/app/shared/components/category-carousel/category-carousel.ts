@@ -1,6 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../../../services/category';
 
 @Component({
@@ -13,10 +12,12 @@ import { CategoryService } from '../../../services/category';
 export class CategoryCarouselComponent implements OnInit {
 
   categories: any[] = [];
-  myCategories: any[] = [];
   slides: any[][] = [];
 
-  constructor(private adeel: CategoryService) { }
+  constructor(
+    private adeel: CategoryService,
+    private cdr: ChangeDetectorRef
+  ) { }
   currentSlide = 0;
   enableCarousel = false;
 
@@ -30,18 +31,26 @@ export class CategoryCarouselComponent implements OnInit {
     this.loadMyCategories();
   }
 
- 
+
 
   loadMyCategories() {
-    this.adeel.getAllCategories().subscribe({
+    console.group('Category Carousel Loading');
+    this.adeel.getHomepageCategories().subscribe({
       next: (res) => {
-        console.log('API Response:', res);
-        // res is already the array of items
-        this.categories = res;
-        console.log('My Categories:', this.categories);
+        console.log('Success! Count:', res.length, res);
+        setTimeout(() => {
+          this.categories = res || [];
+          this.buildSlides();
+          if (this.categories.length > 0) {
+            console.log('Carousel UI: Data Ready');
+            alert('CATEGORIES ARE IN YOUR BROWSER! Count: ' + this.categories.length);
+          }
+        }, 100);
+        console.groupEnd();
       },
       error: (err) => {
-        console.error('API Error:', err);
+        console.error('Carousel Category Error:', err);
+        console.groupEnd();
       }
     });
   }
