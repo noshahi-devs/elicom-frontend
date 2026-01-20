@@ -5,10 +5,19 @@ import { OrderProcessBreadcrumb } from '../../shared/components/order-process-br
 import { ShippingAddress } from '../../shared/components/shipping-address/shipping-address';
 import { CheckoutProduct } from '../../shared/components/checkout-product/checkout-product';
 import { PaymentMethod } from '../../shared/components/payment-method/payment-method';
+import { CheckoutSummary } from '../../shared/components/checkout-summary/checkout-summary';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule,OrderProcessHeader,OrderProcessBreadcrumb,ShippingAddress,CheckoutProduct,PaymentMethod],
+  imports: [
+    CommonModule,
+    OrderProcessHeader,
+    OrderProcessBreadcrumb,
+    ShippingAddress,
+    CheckoutProduct,
+    PaymentMethod,
+    CheckoutSummary,
+  ],
   templateUrl: './checkout.html',
   styleUrl: './checkout.scss',
 })

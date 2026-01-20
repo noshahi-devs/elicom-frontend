@@ -1,2 +1,111 @@
-<p>payment-method works!</p>
- 
+<!-- Payment Method -->
+<div class="section">
+  <h2 class="section-title">Payment Method</h2>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 0"
+         (click)="setActive(0)">
+    <input type="radio" name="pay" />
+    <img src="assets/images/paypal.png" height="22">
+    <span class="pay-label">PayPal</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 1"
+         (click)="setActive(1)">
+    <input type="radio" name="pay" checked>
+    <img src="assets/images/My Wallet.webp" height="22">
+    <span class="pay-label">Credit/Debit Card</span>
+    <img src="assets/images/Visa.png" height="22">
+    <img src="assets/images/mastercard.png" height="22">
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 2"
+         (click)="setActive(2)">
+    <input type="radio" name="pay">
+    <img src="assets/images/Applepay.png" height="22">
+    <span class="pay-label">Apple Pay</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 3"
+         (click)="setActive(3)">
+    <input type="radio" name="pay">
+    <img src="assets/images/venmo.png" height="18">
+    <span class="pay-label">Venomo</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 4"
+         (click)="setActive(4)">
+    <input type="radio" name="pay">
+    <img src="assets/images/cashpay.png" height="18">
+    <span class="pay-label">Cash App Pay</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 5"
+         (click)="setActive(5)">
+    <input type="radio" name="pay">
+    <img src="assets/images/google.png" height="22">
+    <span class="pay-label">Google Pay</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 6"
+         (click)="setActive(6)">
+    <input type="radio" name="pay">
+    <img src="assets/images/bankofamerica.png" height="18">
+    <span class="pay-label">Bank of America</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 7"
+         (click)="setActive(7)">
+    <input type="radio" name="pay">
+    <img src="assets/images/afterpay.png" height="18">
+    <span class="pay-label">Afterpay</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 8"
+         (click)="setActive(8)">
+    <input type="radio" name="pay">
+    <img src="assets/images/easypaisa.png" height="18">
+    <span class="pay-label">Easypaisa</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 9"
+         (click)="setActive(9)">
+    <input type="radio" name="pay">
+    <img src="assets/images/jazzcash.png" height="18">
+    <span class="pay-label">Jazz Cash</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 10"
+         (click)="setActive(10)">
+    <input type="radio" name="pay">
+    <img src="assets/images/affirm.png" height="18">
+    <span class="pay-label">Afirm</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 11"
+         (click)="setActive(11)">
+    <input type="radio" name="pay">
+    <img src="assets/images/zip.png" height="18">
+    <span class="pay-label">zip</span>
+  </label>
+
+  <label class="pay-option"
+         [class.active]="activeIndex === 12"
+         (click)="setActive(12)">
+    <input type="radio" name="pay">
+    <img src="assets/images/chase.png" height="20">
+    <span class="pay-label">Chase</span>
+  </label>
+
+</div>

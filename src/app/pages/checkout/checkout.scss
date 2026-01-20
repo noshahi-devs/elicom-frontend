@@ -84,21 +84,14 @@
     .rhs {
       width: 30%;
       max-width: 100%;
-      background: #fff;
+      background: transparent;
       border-radius: 16px;
-      padding: 16px;
-
+      padding:0 16px;
       position: relative;
       z-index: 1;
-
       transition: box-shadow 0.35s ease, transform 0.35s ease;
 
-      
-      &:hover {
-        box-shadow:
-          0 16px 32px rgba(0, 0, 0, 0.12);
-      }
-
+    
       @media (max-width: 768px) {
         width: 100%;
       }

@@ -1,1 +1,52 @@
- 
+.section {
+  max-width: 100%;
+  margin: auto;
+  perspective: 1200px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+  margin-top: 10px;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  .pay-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    margin-top: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+
+    &:hover {
+      border: 2px solid #bbb6b6;
+    }
+
+    &.active {
+      border: 2px solid #000;
+      box-shadow: 0 6px 16px rgba(17, 57, 233, 0.25);
+    }
+
+    input {
+      pointer-events: none;
+    }
+
+    .pay-label {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    img {
+      height: 28px;
+    }
+  }
+}
