@@ -1,6 +1,7 @@
 <div class="container-fluid card-section">
   <div class="product-grid">
-    <div class="product-card" *ngFor="let product of visibleProducts">
+    <div class="product-card" *ngFor="let product of visibleProducts" (click)="goToDetail(product)"
+      style="cursor: pointer;">
 
       <div class="img-wrap">
 
@@ -30,7 +31,7 @@
         </div>
 
 
-        
+
         <div class="rating" *ngIf="showRating">
           <span *ngFor="let r of [1,2,3,4,5]; let i = index"
             [ngClass]="i < rating ? 'fa-solid fa-star' : 'fa-regular fa-star'"></span>

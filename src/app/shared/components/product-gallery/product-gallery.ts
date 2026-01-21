@@ -22,7 +22,7 @@ export class ProductGallery implements OnInit {
       const name = (this.productData.title || '').toLowerCase();
 
       // 🚨 CRITICAL: Check if we should override based on product name (Same as Home Grid)
-      if (name.includes('hair removal') || name.includes('hair removel')) {
+      if (name.includes('hair removal') || name.includes('hair removel') || name.includes('hair remover') || name.includes('epilator')) {
         this.images = [
           'https://picsum.photos/seed/beauty1/600/800',
           'https://picsum.photos/seed/beauty2/600/800'

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CartService } from '../../../services/cart';
 
 @Component({
   selector: 'app-checkout-summary',
@@ -9,25 +10,39 @@ import { Component } from '@angular/core';
   styleUrl: './checkout-summary.scss',
 })
 export class CheckoutSummary {
+  cartService = inject(CartService);
 
-  /* ================= ORDER SUMMARY ================= */
+  get itemsCount(): number {
+    return this.cartService.items()
+      .filter(item => item.isChecked)
+      .reduce((acc, item) => acc + item.quantity, 0);
+  }
 
-  itemsCount: number = 1;
-  retailPrice: number = 10.47;
-  shippingFee: number = 3.89;
-  coupons: number = 8.32;
-  promotions: number = 3.5;
-  salesTax: number = 1.91;
+  /** Retail Price = Total of (oldPrice or price) * quantity for checked items */
+  get retailPrice(): number {
+    return this.cartService.items()
+      .filter(p => p.isChecked)
+      .reduce((sum, p) => sum + (p.oldPrice || p.price) * p.quantity, 0);
+  }
+
+  /** Estimated Price = Total of (price * quantity) for checked items */
+  get estimatedPrice(): number {
+    return this.cartService.totalPrice;
+  }
+
+  /** Promotions/Discount = Difference between retail price and estimated price */
+  get totalSavings(): number {
+    return Math.max(this.retailPrice - this.estimatedPrice, 0);
+  }
+
+  shippingFee: number = 0.00; // Free for now or use logic
+  salesTax: number = 0.00;    // Simpler for now
+  coupons: number = 0.00;
+
   onTimeDeliveryText: string = 'FREE';
 
   get orderTotal(): number {
-    return (
-      this.retailPrice +
-      this.shippingFee +
-      this.salesTax -
-      this.coupons -
-      this.promotions
-    );
+    return this.estimatedPrice + this.shippingFee + this.salesTax - this.coupons;
   }
 
   /* ================= CLUB AD (HARD CODED FOR NOW) ================= */

@@ -78,10 +78,12 @@ export class ProductInfo implements OnInit {
   getImage(img: string): string {
     if (!img || img === 'string' || img.trim() === '') {
       const name = (this.productData?.title || '').toLowerCase();
-      if (name.includes('hair removal') || name.includes('hair removel')) return 'https://picsum.photos/seed/beauty1/100/100';
-      if (name.includes('laptop bag')) return 'https://picsum.photos/seed/bag1/100/100';
-      if (name.includes('women summer floral dress')) return 'https://picsum.photos/seed/dress1/100/100';
-      return `https://picsum.photos/seed/${this.productData?.productId || 'p'}/100/100`;
+      if (name.includes('hair removal') || name.includes('hair removel') || name.includes('hair remover') || name.includes('epilator')) {
+        return 'https://picsum.photos/seed/beauty1/300/400';
+      }
+      if (name.includes('laptop bag')) return 'https://picsum.photos/seed/bag1/300/400';
+      if (name.includes('women summer floral dress')) return 'https://picsum.photos/seed/dress1/300/400';
+      return `https://picsum.photos/seed/${this.productData?.productId || 'p'}/300/400`;
     }
     // Broken CDN Fix (MUST BE BEFORE http CHECK)
     if (img.includes('cdn.elicom.com')) {

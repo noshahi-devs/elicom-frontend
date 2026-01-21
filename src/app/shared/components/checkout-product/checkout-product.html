@@ -3,14 +3,20 @@
   <!-- Products Loop -->
   <div class="checkout-container" *ngFor="let product of products">
     <div class="product-card">
-      <img class="product-image" [src]="product.imageUrl" alt="product image">
+      <img class="product-image" [src]="product.image" alt="product image">
       <div class="product-details">
-        <div class="shop-name">{{ product.shopName }} ({{ product.quantity }})</div>
+        <div class="product-name" style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">{{ product.name }}
+        </div>
+        <div class="shop-name">{{ product.storeName }}</div>
+        <div class="variant-info" style="font-size: 12px; color: #666; margin-bottom: 8px;">
+          {{ product.color }} / {{ product.size }}
+        </div>
 
         <div class="price-box">
-          <span class="current-price">${{ getTotalPrice(product) }}</span>
-          <span class="old-price">${{ product.oldPrice }}</span>
-          <span class="discount">-{{ product.discount }}%</span>
+          <span class="current-price">${{ (product.price * product.quantity) | number:'1.2-2' }}</span>
+          <span class="old-price" *ngIf="product.oldPrice > product.price">${{ (product.oldPrice * product.quantity) |
+            number:'1.2-2' }}</span>
+          <span class="discount" *ngIf="product.discount > 0">-{{ product.discount }}%</span>
         </div>
 
         <div class="quantity-selector">

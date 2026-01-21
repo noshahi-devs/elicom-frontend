@@ -1,20 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })
 export class ProductCard {
+  private router = inject(Router);
 
   @Input() products: any[] = [];
 
   // Feature toggles
   showShopName = true;
-  showTrends = true; 
+  showTrends = true;
   showDiscount = true;
   showRating = true;
   showSold = true;
@@ -42,5 +44,11 @@ export class ProductCard {
   couponPrice(product: any): number {
     if (!product.couponDiscount) return product.price;
     return +(product.price - product.couponDiscount).toFixed(2);
+  }
+
+  goToDetail(product: any) {
+    const pId = product.productId || product.id || 'unknown';
+    const sPId = product.storeProductId || product.id || 'unknown';
+    this.router.navigate(['/product-detail', pId, sPId]);
   }
 }

@@ -1,11 +1,12 @@
 import { Component, inject, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { CartService, CartItem as CartItemModel } from '../../../services/cart';
 
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './cart-item.html',
   styleUrls: ['./cart-item.scss'],
 })

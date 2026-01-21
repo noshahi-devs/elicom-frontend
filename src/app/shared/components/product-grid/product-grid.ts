@@ -38,7 +38,7 @@ export class ProductGridComponent implements OnChanges {
     const name = (product.productName || '').toLowerCase();
 
     // Specific Overrides for broken data
-    if (name.includes('hair removel') || name.includes('hair removal')) {
+    if (name.includes('hair removel') || name.includes('hair removal') || name.includes('hair remover') || name.includes('epilator')) {
       return 'https://picsum.photos/seed/beauty1/300/400';
     }
     if (name.includes('laptop bag')) {
@@ -68,7 +68,7 @@ export class ProductGridComponent implements OnChanges {
     const name = (product.productName || '').toLowerCase();
 
     // Specific Overrides for hover
-    if (name.includes('hair removel') || name.includes('hair removal')) {
+    if (name.includes('hair removel') || name.includes('hair removal') || name.includes('hair remover') || name.includes('epilator')) {
       return 'https://picsum.photos/seed/beauty2/300/400';
     }
     if (name.includes('laptop bag')) {

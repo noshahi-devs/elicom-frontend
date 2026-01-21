@@ -61,11 +61,14 @@
                 <div class="vc-product-card p-2 position-relative" *ngFor="let item of getItemsByStore(storeName)">
                     <input type="checkbox" class="form-check-input me-1 mt-5" [checked]="item.isChecked"
                         (change)="onItemCheckboxChange(item)">
-                    <img [src]="item.image">
+                    <img [src]="item.image" [routerLink]="['/product-detail', item.productId, item.storeProductId]"
+                        style="cursor: pointer;">
 
                     <div class="vc-prod-details flex-grow-1">
 
-                        <div class="vc-prod-title">{{ item.name }}</div>
+                        <div class="vc-prod-title"
+                            [routerLink]="['/product-detail', item.productId, item.storeProductId]"
+                            style="cursor: pointer;">{{ item.name }}</div>
 
                         <div class="vc-sold-by">
                             <svg style="width:20px;height:20px;" width="10" height="10" viewBox="0 0 20 20" fill="none"
@@ -173,7 +176,7 @@
                     Reward <span class="orange-text">{{ rewardPoints }}</span> SMARTCART Points
                     <span class="info-icon">?</span>
                 </div>
-                <button class="checkout-btn">
+                <button class="checkout-btn" routerLink="/checkout">
                     <span class="btn-main-text">
                         Checkout Now ({{ selectedItemCount }})
                     </span>

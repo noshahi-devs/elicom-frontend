@@ -64,10 +64,12 @@
                 <div class="product-card show-hover" *ngFor="let item of getItemsByStore(storeName)">
                   <input type="checkbox" class="prod-check" [checked]="item.isChecked"
                     (change)="onItemCheckboxChange(item)">
-                  <img [src]="item.image" />
+                  <img [src]="item.image" [routerLink]="['/product-detail', item.productId, item.storeProductId]"
+                    style="cursor: pointer;" />
 
                   <div class="prod-details">
-                    <div class="prod-title">{{ item.name }}</div>
+                    <div class="prod-title" [routerLink]="['/product-detail', item.productId, item.storeProductId]"
+                      style="cursor: pointer;">{{ item.name }}</div>
                     <div class="sold-by">Sold by {{ item.storeName }}</div>
                     <div class="color-qty">
                       <div class="sizes">{{ item.color }} / ({{ item.size }})</div>
