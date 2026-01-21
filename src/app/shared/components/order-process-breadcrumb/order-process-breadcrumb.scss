@@ -13,11 +13,16 @@
   gap: 10px;
   font-size: 16px;
   color: #999;
-  pointer-events: none;
 }
 
 .breadcrumb-step {
   white-space: nowrap;
+  transition: color 0.2s ease;
+
+  &.clickable:hover {
+    color: #000;
+    text-decoration: underline;
+  }
 }
 
 .active-step {
@@ -26,7 +31,7 @@
 }
 
 .separator {
-  font-size: 16px;        
-  color: #999;            
-  line-height: 1;         
+  font-size: 16px;
+  color: #999;
+  line-height: 1;
 }

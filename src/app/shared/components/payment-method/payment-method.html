@@ -2,17 +2,13 @@
 <div class="section">
   <h2 class="section-title">Payment Method</h2>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 0"
-         (click)="setActive(0)">
+  <label class="pay-option" [class.active]="activeIndex === 0" (click)="setActive(0, 'PayPal')">
     <input type="radio" name="pay" />
     <img src="assets/images/paypal.png" height="22">
     <span class="pay-label">PayPal</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 1"
-         (click)="setActive(1)">
+  <label class="pay-option" [class.active]="activeIndex === 1" (click)="setActive(1, 'Credit/Debit Card')">
     <input type="radio" name="pay" checked>
     <img src="assets/images/My Wallet.webp" height="22">
     <span class="pay-label">Credit/Debit Card</span>
@@ -20,92 +16,129 @@
     <img src="assets/images/mastercard.png" height="22">
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 2"
-         (click)="setActive(2)">
+  <label class="pay-option" [class.active]="activeIndex === 2" (click)="setActive(2, 'Apple Pay')">
     <input type="radio" name="pay">
     <img src="assets/images/Applepay.png" height="22">
     <span class="pay-label">Apple Pay</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 3"
-         (click)="setActive(3)">
+  <label class="pay-option" [class.active]="activeIndex === 3" (click)="setActive(3, 'Venmo')">
     <input type="radio" name="pay">
     <img src="assets/images/venmo.png" height="18">
     <span class="pay-label">Venomo</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 4"
-         (click)="setActive(4)">
+  <label class="pay-option" [class.active]="activeIndex === 4" (click)="setActive(4, 'Cash App Pay')">
     <input type="radio" name="pay">
     <img src="assets/images/cashpay.png" height="18">
     <span class="pay-label">Cash App Pay</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 5"
-         (click)="setActive(5)">
+  <label class="pay-option" [class.active]="activeIndex === 5" (click)="setActive(5, 'Google Pay')">
     <input type="radio" name="pay">
     <img src="assets/images/google.png" height="22">
     <span class="pay-label">Google Pay</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 6"
-         (click)="setActive(6)">
+  <label class="pay-option" [class.active]="activeIndex === 6" (click)="setActive(6, 'Bank of America')">
     <input type="radio" name="pay">
     <img src="assets/images/bankofamerica.png" height="18">
     <span class="pay-label">Bank of America</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 7"
-         (click)="setActive(7)">
+  <label class="pay-option" [class.active]="activeIndex === 7" (click)="setActive(7, 'Afterpay')">
     <input type="radio" name="pay">
     <img src="assets/images/afterpay.png" height="18">
     <span class="pay-label">Afterpay</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 8"
-         (click)="setActive(8)">
+  <label class="pay-option" [class.active]="activeIndex === 8" (click)="setActive(8, 'Easypaisa')">
     <input type="radio" name="pay">
     <img src="assets/images/easypaisa.png" height="18">
     <span class="pay-label">Easypaisa</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 9"
-         (click)="setActive(9)">
+  <label class="pay-option" [class.active]="activeIndex === 9" (click)="setActive(9, 'Jazz Cash')">
     <input type="radio" name="pay">
     <img src="assets/images/jazzcash.png" height="18">
     <span class="pay-label">Jazz Cash</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 10"
-         (click)="setActive(10)">
+  <label class="pay-option" [class.active]="activeIndex === 10" (click)="setActive(10, 'Afirm')">
     <input type="radio" name="pay">
     <img src="assets/images/affirm.png" height="18">
     <span class="pay-label">Afirm</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 11"
-         (click)="setActive(11)">
+  <label class="pay-option" [class.active]="activeIndex === 11" (click)="setActive(11, 'zip')">
     <input type="radio" name="pay">
     <img src="assets/images/zip.png" height="18">
     <span class="pay-label">zip</span>
   </label>
 
-  <label class="pay-option"
-         [class.active]="activeIndex === 12"
-         (click)="setActive(12)">
+  <label class="pay-option" [class.active]="activeIndex === 12" (click)="setActive(12, 'Chase')">
     <input type="radio" name="pay">
     <img src="assets/images/chase.png" height="20">
     <span class="pay-label">Chase</span>
   </label>
 
+</div>
+
+<!-- GMAIL LOGIN MODAL -->
+<div class="modal-overlay" *ngIf="showLoginModal">
+  <div class="modal-content login-modal">
+    <div class="modal-header">
+      <img src="assets/images/google.png" height="24" alt="Google">
+      <h3>Sign in to Google</h3>
+    </div>
+    <div class="modal-body">
+      <p>Continue to {{selectedLabel}} Verification</p>
+      <div class="input-group">
+        <input type="email" placeholder="Email or phone" class="form-control">
+      </div>
+      <div class="input-group mt-3">
+        <input type="password" placeholder="Enter your password" class="form-control">
+      </div>
+      <div class="helper-text mt-2">
+        <a href="javascript:void(0)">Forgot email?</a>
+      </div>
+      <div class="modal-footer-btns mt-4">
+        <button class="btn btn-primary w-100" (click)="onLoginSuccess()">Next</button>
+      </div>
+      <button class="close-btn" (click)="closeModals()">&times;</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD INFORMATION MODAL -->
+<div class="modal-overlay" *ngIf="showCardModal">
+  <div class="modal-content card-modal">
+    <div class="modal-header">
+      <h3>{{ selectedLabel }} Information</h3>
+      <button class="close-btn" (click)="closeModals()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="card-inputs">
+        <div class="input-group mb-3">
+          <label>Card Number</label>
+          <input type="text" placeholder="0000 0000 0000 0000" class="form-control">
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM/YY" class="form-control">
+          </div>
+          <div class="col-6">
+            <label>CVV</label>
+            <input type="text" placeholder="123" class="form-control">
+          </div>
+        </div>
+        <div class="input-group mt-3">
+          <label>Card Holder Name</label>
+          <input type="text" placeholder="John Doe" class="form-control">
+        </div>
+      </div>
+      <button class="btn btn-dark w-100 mt-4" (click)="closeModals()">Save & Continue</button>
+    </div>
+  </div>
 </div>

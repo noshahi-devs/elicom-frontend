@@ -160,66 +160,104 @@
 
 
 .section-card {
-  padding: 16px;
-  background: #fff;
-  border-radius: 16px;
-
-  
-  .input-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-
-  /* 🔥 IMPORTANT FIX */
-  .gift-row input:first-child {
-    flex: 2;       // card number zyada wide
-  }
-
-  .gift-row input:nth-child(2) {
-    flex: 0.5;       // CVV chota
-  }
-
-  .input-row input {
-    min-width: 0;  // 🔥 LINK button ko space milti hai
-    height: 44px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-
-  .apply-btn {
-    height: 44px;
-    min-width: 88px;
-    padding: 0 16px;
-    background: #000;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    flex-shrink: 0; // 🔥 button kabhi shrink nahi hoga
-  }
-
-  .place-order {
-    width: 100%;
-    margin-top: 14px;
     padding: 16px;
-    background: #000;
-    color: #fff;
-    border: none;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  .terms {
-    text-align: center;
+    background: #fff;
+    border-radius: 16px;
     margin-top: 10px;
-    font-size: 12px;
-    color: #666;
-  }
-}
 
+    .section-heading {
+        margin: 0;
+        margin-bottom: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+        text-transform: none;
+    }
+
+    .gift-header {
+        margin-top: 24px;
+    }
+
+    .input-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    /* 🔥 IMPORTANT FIX */
+    .gift-row input:first-child {
+        flex: 2; // card number zyada wide
+    }
+
+    .gift-row input:nth-child(2) {
+        flex: 0.5; // CVV chota
+    }
+
+    .input-row input {
+        flex: 1; // 🔥 Ensures input takes available space
+        min-width: 0; // 🔥 LINK button ko space milti hai
+        height: 44px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .apply-btn {
+        height: 44px;
+        min-width: 88px;
+        padding: 0 16px;
+        background: #000;
+        color: #fff;
+        border: 2px solid #000;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        flex-shrink: 0; // 🔥 button kabhi shrink nahi hoga
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            background: #fff;
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        &:active {
+            transform: translateY(-1px);
+        }
+    }
+
+    .place-order {
+        width: 100%;
+        margin-top: 20px;
+        padding: 16px;
+        background: #000;
+        color: #fff;
+        border: 2px solid #000;
+        font-size: 18px;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            background: #fff;
+            color: #000;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        &:active {
+            transform: translateY(-1px);
+        }
+    }
+
+    .terms {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #666;
+    }
+}

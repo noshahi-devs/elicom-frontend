@@ -50,3 +50,136 @@
     }
   }
 }
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: none;
+  display: block; // center logo and title
+
+  img {
+    margin-bottom: 15px;
+    height: 24px;
+    width: auto;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.login-modal {
+  .input-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+
+    &:focus {
+      border-color: #1a73e8;
+      outline: none;
+    }
+  }
+
+  .helper-text {
+    font-size: 14px;
+    color: #1a73e8;
+    font-weight: 500;
+    text-decoration: none;
+  }
+}
+
+.card-modal {
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 5px;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #5f6368;
+}
+
+.btn-primary {
+  background-color: #1a73e8;
+  border: none;
+  padding: 10px;
+  font-weight: 500;
+  color: white;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #1765cc;
+  }
+}
+
+.btn-dark {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #333;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 5px;
+
+  &:focus {
+    border-color: #1a73e8;
+    outline: none;
+    box-shadow: inset 0 0 0 1px #1a73e8;
+  }
+}
+
+.input-group {
+  display: block;
+}
