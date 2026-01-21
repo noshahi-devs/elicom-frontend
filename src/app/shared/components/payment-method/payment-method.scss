@@ -130,13 +130,26 @@
 
 .close-btn {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
   color: #5f6368;
+  padding: 8px;
+  line-height: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+  z-index: 10;
+
+  &:hover {
+    background: #f1f3f4;
+    color: #000;
+  }
 }
 
 .btn-primary {

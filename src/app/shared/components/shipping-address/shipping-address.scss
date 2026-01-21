@@ -302,6 +302,7 @@
       position: relative;
       display: flex;
       flex-direction: row;
+      align-items: center;
       gap: 14px;
       margin: 3px 0 0 2px;
       border: 1px solid #ccc; // top & bottom borders
@@ -395,11 +396,11 @@
 
       .edit-address {
         margin-left: auto;
+        margin-top: 0; // 🔥 Force no top margin
         height: 30px;
         border: 1px solid #222;
         background: #fff;
         padding: 1px 10px;
-        margin-top: 13px;
         font-size: 11px;
         cursor: pointer;
         font-weight: bold;

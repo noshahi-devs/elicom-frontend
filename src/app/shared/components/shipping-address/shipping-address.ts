@@ -6,6 +6,7 @@ type FieldKey =
   | 'firstName'
   | 'lastName'
   | 'phone'
+  | 'email'
   | 'address1'
   | 'state'
   | 'city'
@@ -27,6 +28,7 @@ export class ShippingAddress {
     firstName: '',
     lastName: '',
     phone: '',
+    email: '',
     address1: '',
     state: '',
     city: '',

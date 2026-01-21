@@ -1,9 +1,9 @@
-<app-order-process-header
-  [showLocation]="true">
+<app-order-process-header [showLocation]="true">
 </app-order-process-header>
 <div class="addToCart-wrapper">
   <!-- breadcrumb -->
-  <app-order-process-breadcrumb [steps]="['Cart', 'Place Order', 'Pay', 'Order Complete']" [activeStep]="0"></app-order-process-breadcrumb>
+  <app-order-process-breadcrumb [steps]="['Cart', 'Place Order', 'Pay', 'Order Complete']"
+    [activeStep]="0"></app-order-process-breadcrumb>
 
   <app-cart-item></app-cart-item>
 </div>
@@ -14,4 +14,3 @@
 
 <!-- Product Cards -->
 <app-product-card [products]="products"></app-product-card>
-

@@ -8,9 +8,7 @@
     <!-- Location -->
     <div class="field static" [class.error]="invalid('location')">
       <label>Location*</label>
-      <select [value]="fields.location"
-              (change)="set('location',$event)"
-              (blur)="touch('location')">
+      <select [value]="fields.location" (change)="set('location',$event)" (blur)="touch('location')">
         <option value="" disabled>Select Location</option>
         <option value="United States">United States</option>
       </select>
@@ -19,46 +17,46 @@
 
     <!-- First / Last -->
     <div class="row">
-      <div class="col-6"> 
-        <div class="field floating"
-             [class.active]="fields.firstName"
-             [class.error]="invalid('firstName')">
-          <input [value]="fields.firstName"
-                 (input)="set('firstName',$event)"
-                 (blur)="touch('firstName')" />
+      <div class="col-6">
+        <div class="field floating" [class.active]="fields.firstName" [class.error]="invalid('firstName')">
+          <input [value]="fields.firstName" (input)="set('firstName',$event)" (blur)="touch('firstName')" />
           <label>First Name*</label>
         </div>
         <div class="error-text" *ngIf="invalid('firstName')">Required</div>
       </div>
 
       <div class="col-6">
-        <div class="field floating"
-             [class.active]="fields.lastName"
-             [class.error]="invalid('lastName')">
-          <input [value]="fields.lastName"
-                 (input)="set('lastName',$event)"
-                 (blur)="touch('lastName')" />
+        <div class="field floating" [class.active]="fields.lastName" [class.error]="invalid('lastName')">
+          <input [value]="fields.lastName" (input)="set('lastName',$event)" (blur)="touch('lastName')" />
           <label>Last Name*</label>
         </div>
         <div class="error-text" *ngIf="invalid('lastName')">Required</div>
       </div>
     </div>
 
-    <!-- Phone -->
-    <div class="field phone" [class.error]="invalid('phone')">
-      <span>US +1</span>
-      <input [value]="fields.phone"
-             (input)="set('phone',$event)"
-             (blur)="touch('phone')" />
+    <!-- Phone & Email -->
+    <div class="row">
+      <div class="col-6">
+        <div class="field phone" [class.error]="invalid('phone')">
+          <span>US +1</span>
+          <input [value]="fields.phone" (input)="set('phone',$event)" (blur)="touch('phone')" />
+        </div>
+        <div class="error-text" *ngIf="invalid('phone')">Required</div>
+      </div>
+
+      <div class="col-6">
+        <div class="field floating" [class.active]="fields.email" [class.error]="invalid('email')">
+          <input [value]="fields.email" (input)="set('email',$event)" (blur)="touch('email')" />
+          <label>Email Address*</label>
+        </div>
+        <div class="error-text" *ngIf="invalid('email')">Required</div>
+      </div>
     </div>
-    <div class="error-text" *ngIf="invalid('phone')">Required</div>
 
     <!-- Address -->
     <div class="field static" [class.error]="invalid('address1')">
       <label>Address*</label>
-      <textarea [value]="fields.address1"
-                (input)="set('address1',$event)"
-                (blur)="touch('address1')"></textarea>
+      <textarea [value]="fields.address1" (input)="set('address1',$event)" (blur)="touch('address1')"></textarea>
     </div>
     <div class="error-text" *ngIf="invalid('address1')">Required</div>
 
@@ -67,9 +65,7 @@
       <div class="col-6">
         <div class="field static province" [class.error]="invalid('state')">
           <label>State / Province*</label>
-          <select [value]="fields.state"
-                  (change)="set('state',$event)"
-                  (blur)="touch('state')">
+          <select [value]="fields.state" (change)="set('state',$event)" (blur)="touch('state')">
             <option value="" disabled>Select</option>
             <option value="New York">New York</option>
             <option value="California">California</option>
@@ -79,13 +75,8 @@
       </div>
 
       <div class="col-6">
-        <div class="field floating"
-             [class.active]="focused.city || fields.city"
-             [class.error]="invalid('city')">
-          <input [value]="fields.city"
-                 (focus)="focus('city')"
-                 (input)="set('city',$event)"
-                 (blur)="blur('city')" />
+        <div class="field floating" [class.active]="focused.city || fields.city" [class.error]="invalid('city')">
+          <input [value]="fields.city" (focus)="focus('city')" (input)="set('city',$event)" (blur)="blur('city')" />
           <label>City*</label>
         </div>
         <div class="error-text" *ngIf="invalid('city')">Required</div>
@@ -93,13 +84,8 @@
     </div>
 
     <!-- Zip -->
-    <div class="field floating"
-         [class.active]="focused.zip || fields.zip"
-         [class.error]="invalid('zip')">
-      <input [value]="fields.zip"
-             (focus)="focus('zip')"
-             (input)="set('zip',$event)"
-             (blur)="blur('zip')" />
+    <div class="field floating" [class.active]="focused.zip || fields.zip" [class.error]="invalid('zip')">
+      <input [value]="fields.zip" (focus)="focus('zip')" (input)="set('zip',$event)" (blur)="blur('zip')" />
       <label>Zip Code*</label>
     </div>
     <div class="error-text" *ngIf="invalid('zip')">Required</div>
@@ -121,6 +107,7 @@
           <strong>{{ savedFields?.firstName }} {{ savedFields?.lastName }}</strong>
           {{ savedFields?.phone }}
         </div>
+        <div class="line-email" style="font-size: 14px; color: #666; margin-bottom: 4px;">{{ savedFields?.email }}</div>
 
         <div class="line-2">{{ savedFields?.address1 }}</div>
 

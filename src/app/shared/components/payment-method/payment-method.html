@@ -87,6 +87,7 @@
 <!-- GMAIL LOGIN MODAL -->
 <div class="modal-overlay" *ngIf="showLoginModal">
   <div class="modal-content login-modal">
+    <button class="close-btn" (click)="closeModals()">&times;</button>
     <div class="modal-header">
       <img src="assets/images/google.png" height="24" alt="Google">
       <h3>Sign in to Google</h3>
@@ -105,7 +106,6 @@
       <div class="modal-footer-btns mt-4">
         <button class="btn btn-primary w-100" (click)="onLoginSuccess()">Next</button>
       </div>
-      <button class="close-btn" (click)="closeModals()">&times;</button>
     </div>
   </div>
 </div>
@@ -113,9 +113,9 @@
 <!-- CARD INFORMATION MODAL -->
 <div class="modal-overlay" *ngIf="showCardModal">
   <div class="modal-content card-modal">
+    <button class="close-btn" (click)="closeModals()">&times;</button>
     <div class="modal-header">
       <h3>{{ selectedLabel }} Information</h3>
-      <button class="close-btn" (click)="closeModals()">&times;</button>
     </div>
     <div class="modal-body">
       <div class="card-inputs">

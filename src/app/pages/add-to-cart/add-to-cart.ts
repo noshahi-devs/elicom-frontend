@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderProcessHeader } from '../../shared/components/order-process-header/order-process-header';
 import { OrderProcessBreadcrumb } from '../../shared/components/order-process-breadcrumb/order-process-breadcrumb';
 import { CartItem } from '../../shared/components/cart-item/cart-item';
 import { ProductCard } from '../../shared/components/product-card/product-card';
+import { ProductService, GlobalMarketplaceProduct } from '../../services/product';
 
 @Component({
   selector: 'app-add-to-cart',
   standalone: true,
   imports: [
-    CommonModule, // ✅ MUST (ngFor, ngIf)
+    CommonModule,
     OrderProcessHeader,
     OrderProcessBreadcrumb,
     CartItem,
@@ -18,320 +19,60 @@ import { ProductCard } from '../../shared/components/product-card/product-card';
   templateUrl: './add-to-cart.html',
   styleUrl: './add-to-cart.scss',
 })
-export class AddToCart {
+export class AddToCart implements OnInit {
+  private productService = inject(ProductService);
+  private cdr = inject(ChangeDetectorRef);
 
   brand = 'SMART CART';
   address = 'Ship to Twnhs, 2841 E Waltann Ln Unit 1';
+  products: any[] = [];
 
-  products: any[] = [
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
-    },
-    {
-      id: 1,
-      title: 'Womens Classic High Waist Jeans',
-      price: 20.95,
-      discount: 29,
-      image: 'assets/images/card_1.jpg',
-      hoverImage: 'assets/images/card_2.jpg',
-      shop: 'SMARTC EZwear',
-      trends: 'assets/images/trends.png',
-      couponDiscount: 3
+  ngOnInit(): void {
+    this.productService.getGlobalMarketplaceProducts().subscribe({
+      next: (res) => {
+        this.products = res.map(p => ({
+          ...p,
+          id: p.id,
+          productId: p.productId,
+          title: p.productName,
+          price: p.price,
+          image: this.getFirstImage(p),
+          hoverImage: this.getSecondImage(p),
+          shop: p.storeName,
+          discount: 25,
+          reviewCount: 45,
+          trends: 'assets/images/trends.png'
+        }));
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  getFirstImage(product: any): string {
+    const imageStr = product.productImage;
+    const name = (product.productName || '').toLowerCase();
+
+    if (name.includes('hair removal') || name.includes('hair remover') || name.includes('epilator')) {
+      return 'https://picsum.photos/seed/beauty1/300/400';
     }
-  ];
-  
+    if (!imageStr || imageStr === 'string' || imageStr.trim() === '') {
+      return `https://picsum.photos/seed/${product.id}/300/400`;
+    }
+    const img = imageStr.split(',')[0].trim();
+    if (!img.startsWith('http')) {
+      return `https://localhost:44311/images/products/${img}`;
+    }
+    return img;
+  }
+
+  getSecondImage(product: any): string {
+    const imageStr = product.productImage;
+    const parts = (imageStr || '').split(',').map((p: any) => p.trim()).filter((p: any) => p !== '' && p !== 'string');
+    if (parts.length > 1) {
+      const img = parts[1];
+      if (!img.startsWith('http')) return `https://localhost:44311/images/products/${img}`;
+      return img;
+    }
+    return `https://picsum.photos/seed/${product.id}_hover/300/400`;
+  }
 }
