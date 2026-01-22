@@ -52,13 +52,26 @@ export class AddToCart implements OnInit {
     const imageStr = product.productImage;
     const name = (product.productName || '').toLowerCase();
 
-    if (name.includes('hair removal') || name.includes('hair remover') || name.includes('epilator')) {
+    // Specific Overrides for broken data
+    if (name.includes('hair removel') || name.includes('hair removal') || name.includes('hair remover') || name.includes('epilator')) {
       return 'https://picsum.photos/seed/beauty1/300/400';
     }
+    if (name.includes('laptop bag')) {
+      return 'https://picsum.photos/seed/bag1/300/400';
+    }
+
     if (!imageStr || imageStr === 'string' || imageStr.trim() === '') {
       return `https://picsum.photos/seed/${product.id}/300/400`;
     }
+
     const img = imageStr.split(',')[0].trim();
+    if (img === 'string' || img === '') return `https://picsum.photos/seed/${product.id}/300/400`;
+
+    if (img.includes('cdn.elicom.com')) {
+      const seed = img.split('/').pop() || 'p1';
+      return `https://picsum.photos/seed/${seed}/300/400`;
+    }
+
     if (!img.startsWith('http')) {
       return `https://localhost:44311/images/products/${img}`;
     }
@@ -67,12 +80,37 @@ export class AddToCart implements OnInit {
 
   getSecondImage(product: any): string {
     const imageStr = product.productImage;
-    const parts = (imageStr || '').split(',').map((p: any) => p.trim()).filter((p: any) => p !== '' && p !== 'string');
+    const name = (product.productName || '').toLowerCase();
+
+    // Specific Overrides for hover
+    if (name.includes('hair removel') || name.includes('hair removal') || name.includes('hair remover') || name.includes('epilator')) {
+      return 'https://picsum.photos/seed/beauty2/300/400';
+    }
+    if (name.includes('laptop bag')) {
+      return 'https://picsum.photos/seed/tech-bag/300/400';
+    }
+
+    if (!imageStr || imageStr === 'string' || imageStr.trim() === '') {
+      return `https://picsum.photos/seed/${product.id}_hover/300/400`;
+    }
+
+    const parts = imageStr.split(',').map((p: any) => p.trim()).filter((p: any) => p !== '' && p !== 'string');
+
     if (parts.length > 1) {
       const img = parts[1];
-      if (!img.startsWith('http')) return `https://localhost:44311/images/products/${img}`;
+      if (img.includes('cdn.elicom.com')) {
+        const seed = img.split('/').pop() || 'p2';
+        return `https://picsum.photos/seed/${seed}/300/400`;
+      }
+      if (!img.startsWith('http')) {
+        return `https://localhost:44311/images/products/${img}`;
+      }
       return img;
     }
-    return `https://picsum.photos/seed/${product.id}_hover/300/400`;
+
+    // Fallback hover for single-image products
+    const firstImg = parts[0] || '';
+    const seed = (firstImg.includes('http') ? (firstImg.split('/').pop() || 'px') : firstImg) + '_hover';
+    return `https://picsum.photos/seed/${seed}/300/400`;
   }
 }
