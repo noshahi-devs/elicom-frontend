@@ -66,18 +66,21 @@
         <div class="field static province" [class.error]="invalid('state')">
           <label>State / Province*</label>
           <select [value]="fields.state" (change)="set('state',$event)" (blur)="touch('state')">
-            <option value="" disabled>Select</option>
-            <option value="New York">New York</option>
-            <option value="California">California</option>
+            <option value="" disabled selected>Select</option>
+            <option *ngFor="let s of states" [value]="s">{{ s }}</option>
           </select>
         </div>
         <div class="error-text" *ngIf="invalid('state')">Required</div>
       </div>
 
       <div class="col-6">
-        <div class="field floating" [class.active]="focused.city || fields.city" [class.error]="invalid('city')">
-          <input [value]="fields.city" (focus)="focus('city')" (input)="set('city',$event)" (blur)="blur('city')" />
+        <div class="field static province" [class.error]="invalid('city')">
           <label>City*</label>
+          <!-- Dropdown dependent on State -->
+          <select [value]="fields.city" (change)="set('city',$event)" (blur)="touch('city')" [disabled]="!fields.state">
+            <option value="" disabled selected>Select</option>
+            <option *ngFor="let c of cities" [value]="c">{{ c }}</option>
+          </select>
         </div>
         <div class="error-text" *ngIf="invalid('city')">Required</div>
       </div>

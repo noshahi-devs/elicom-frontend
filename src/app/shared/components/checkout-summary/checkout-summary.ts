@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { CartService } from '../../../services/cart';
 
 @Component({
@@ -11,6 +11,9 @@ import { CartService } from '../../../services/cart';
 })
 export class CheckoutSummary {
   cartService = inject(CartService);
+
+  @Input() disablePlaceOrder: boolean = false;
+  @Output() placeOrder = new EventEmitter<void>();
 
   get itemsCount(): number {
     return this.cartService.items()

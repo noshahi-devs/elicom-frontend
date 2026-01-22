@@ -252,6 +252,15 @@
         &:active {
             transform: translateY(-1px);
         }
+
+        &:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            color: #666;
+            cursor: not-allowed; // 🔥 Shows invalid cursor
+            transform: none !important;
+            box-shadow: none !important;
+        }
     }
 
     .terms {
