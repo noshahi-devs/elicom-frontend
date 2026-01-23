@@ -1,11 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { SearchSidebar } from '../../shared/components/search-sidebar/search-sidebar';
+import { ProductGridComponent } from '../../shared/components/product-grid/product-grid';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-search-result',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule, SearchSidebar, ProductGridComponent],
   templateUrl: './search-result.html',
   styleUrl: './search-result.scss',
 })
-export class SearchResult {
+export class SearchResult implements OnInit {
+  filterData: any = {};
+  categoryTitle: string = '';
+  isSidebarOpen: boolean = false;
 
+  constructor(private route: ActivatedRoute, private searchService: SearchService) { }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params['cat']) {
+        this.categoryTitle = params['cat'];
+        this.searchService.setSearchTerm(this.categoryTitle);
+      }
+    });
+
+    this.route.queryParams.subscribe(params => {
+      // handle query params if any
+    });
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  onFilterChange(event: any) {
+    this.filterData = event;
+    // We could also mix in the categoryTitle if needed
+    this.filterData.category = this.categoryTitle;
+  }
 }

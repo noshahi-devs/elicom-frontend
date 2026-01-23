@@ -1,4 +1,46 @@
-<div class="search-result">
-     
+<div class="search-result-container">
+
+    <!-- Left Sidebar -->
+    <div class="left-pane">
+        <app-search-sidebar (filterChange)="onFilterChange($event)" [isOpen]="isSidebarOpen"></app-search-sidebar>
+        <!-- Overlay backdrop -->
+        <div class="sidebar-overlay" *ngIf="isSidebarOpen" (click)="toggleSidebar()"></div>
+    </div>
+
+    <!-- Right Content -->
+    <div class="right-pane">
+
+        <!-- Mobile Filter Toggle -->
+        <div class="mobile-filter-bar" (click)="toggleSidebar()">
+            <i class="fas fa-filter"></i> Filter / Sort
+        </div>
+
+        <!-- Filter/Sort Row -->
+        <div class="filter-row">
+            <h2 *ngIf="categoryTitle" style="margin: 0; font-size: 24px;">{{ categoryTitle }}</h2>
+
+            <!-- Checks/Sort moved to sidebar, keeping chips if needed -->
+
+            <!-- Chips -->
+            <div class="chips">
+                <div class="chip">
+                    <img src="assets/images/blackfriday_bag.png" alt="" onerror="this.style.display='none'">
+                    Black Friday
+                </div>
+                <div class="chip">
+                    <img src="assets/images/quickship.png" alt="" onerror="this.style.display='none'">
+                    QuickShip
+                </div>
+                <div class="chip trend">
+                    <img src="assets/images/trends.png" alt="" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-area">
+            <app-product-grid-new [filterData]="filterData"></app-product-grid-new>
+        </div>
+
+    </div>
 </div>
-    
