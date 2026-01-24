@@ -1,12 +1,16 @@
 import { Component, signal, ElementRef, ViewChild, inject, effect, HostListener, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart';
+import { SearchService } from '../../services/search.service';
+import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { AuthModalComponent } from '../components/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule, AuthModalComponent],
   templateUrl: './header.html',
   styleUrls: ['./header.scss']
 })
@@ -14,8 +18,17 @@ export class Header implements AfterViewChecked {
   userDropdown = signal(false);
   cartDropdown = signal(false);
   globeDropdown = signal(false);
+  authModalOpen = signal(false); // Controls the Auth Modal visibility
+  searchTerm = '';
 
   cartService = inject(CartService);
+  searchService = inject(SearchService);
+  authService = inject(AuthService); // Inject AuthService
+  router = inject(Router);
+
+  // currentUser signal derived from AuthService
+  currentUser = this.authService.currentUser$;
+  isAuthenticated = this.authService.isAuthenticated$;
 
   autoHideTimer: any;
   isHovered = false;
@@ -27,6 +40,12 @@ export class Header implements AfterViewChecked {
       if (trigger > 0) {
         this.openModal();
       }
+    });
+
+    // Listen to Auth Service requests to open modal
+    // We subscribe manually since effect() is for signals, or we could use toSignal if we strictly wanted signals
+    this.authService.showAuthModal$.subscribe(show => {
+      if (show) this.authModalOpen.set(true);
     });
   }
 
@@ -44,6 +63,10 @@ export class Header implements AfterViewChecked {
 
     if (!target.closest('.currency-menu-wrapper')) {
       this.globeDropdown.set(false);
+    }
+
+    if (!target.closest('.user-menu-wrapper')) {
+      this.userDropdown.set(false);
     }
   }
 
@@ -148,4 +171,23 @@ export class Header implements AfterViewChecked {
     return this.cartService.getItemsByStore(storeName);
   }
 
+  onSearch() {
+    if (this.searchTerm.trim()) {
+      this.searchService.setSearchTerm(this.searchTerm);
+      this.router.navigate(['/search-result'], { queryParams: { q: this.searchTerm } });
+    }
+  }
+
+  toggleUserMenu() {
+    if (this.authService.isAuthenticated) {
+      this.userDropdown.set(!this.userDropdown());
+    } else {
+      this.authModalOpen.set(true);
+    }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.userDropdown.set(false);
+  }
 }

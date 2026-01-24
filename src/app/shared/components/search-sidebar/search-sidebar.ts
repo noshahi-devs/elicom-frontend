@@ -24,7 +24,6 @@ export class SearchSidebar implements OnInit {
 
     // Filters
     selectedFilters: string[] = [];
-    selectedFilterOption: string = 'recommended'; // Default filter dropdown
     searchTerm: string = '';
 
     @Input() isOpen: boolean = false;
@@ -42,8 +41,6 @@ export class SearchSidebar implements OnInit {
     ngOnInit() {
         this.searchService.searchTerm$.subscribe(term => {
             this.searchTerm = term;
-            // Optionally trigger a filter update if the sidebar itself manages API calls, 
-            // but likely it just displays the term.
         });
     }
 
@@ -54,6 +51,8 @@ export class SearchSidebar implements OnInit {
     toggleViewMore(section: keyof typeof this.showMore) {
         this.showMore[section] = true;
     }
+
+    // ... (existing code)
 
     /* ================= FILTERS ================= */
 
@@ -73,10 +72,11 @@ export class SearchSidebar implements OnInit {
                 this.removeChip(value);
             }
         } else {
-            // Radio logic (Category)
-            // If category matches what's in selectedFilters (if we track it there), remove old?
-            // Ideally we just emit the category.
-            // For now, add to chips for display consistency
+            // For radio (category), we might want to clear other category chips if needed, 
+            // but for now, just adding it is consistent with "one active selection" 
+            // if the user manages unchecking manually or via new selection.
+            // Actually, for radio, we should probably ensure only one category chip exists or just add it.
+            // Let's just add it. The user logic seemed to imply category switching.
             this.addChip(value);
         }
         this.emitFilterChange();
@@ -89,6 +89,14 @@ export class SearchSidebar implements OnInit {
     }
 
     removeChip(text: string) {
+        if (text.startsWith('Price:')) {
+            this.resetPrice();
+            // remove explicitly from chips (resetPrice deals with internal vars)
+            this.selectedFilters = this.selectedFilters.filter(f => f !== text);
+            this.emitFilterChange();
+            return;
+        }
+
         this.selectedFilters = this.selectedFilters.filter(f => f !== text);
 
         // Uncheck input if it exists
@@ -104,7 +112,6 @@ export class SearchSidebar implements OnInit {
     clearAll() {
         this.selectedFilters = [];
         this.resetPrice();
-        this.selectedFilterOption = 'recommended';
 
         // Reset inputs
         setTimeout(() => {
@@ -123,18 +130,27 @@ export class SearchSidebar implements OnInit {
         if (this.maxPrice < this.minPrice + this.priceGap) {
             this.maxPrice = this.minPrice + this.priceGap;
         }
+        this.updatePriceChip();
         this.emitFilterChange();
+    }
+
+    updatePriceChip() {
+        // Remove existing price chip
+        this.selectedFilters = this.selectedFilters.filter(f => !f.startsWith('Price:'));
+        // Add new one
+        this.selectedFilters.push(`Price: $${this.minPrice} - $${this.maxPrice}`);
     }
 
     resetPrice() {
         this.minPrice = 0;
         this.maxPrice = 6062;
+        // logic to remove chip handled in updatePriceChip or caller
+        this.selectedFilters = this.selectedFilters.filter(f => !f.startsWith('Price:'));
     }
 
     private emitFilterChange() {
         this.filterChange.emit({
             filters: this.selectedFilters,
-            sort: this.selectedFilterOption,
             price: { min: this.minPrice, max: this.maxPrice },
             search: this.searchTerm
         });

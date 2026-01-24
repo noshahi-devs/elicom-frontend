@@ -38,10 +38,17 @@ export class HomeComponent implements OnInit {
 
   loadProducts() {
     console.log('HomeComponent: Loading products...');
-    this.productService.getGlobalMarketplaceProducts().subscribe({
-      next: (res: GlobalMarketplaceProduct[]) => {
-        console.log('HomeComponent: Products received:', res.length);
-        this.products = res;
+    // Using getProductsForCards to fetch all products as requested ("sary product")
+    this.productService.getProductsForCards(0, 50).subscribe({
+      next: (res: any) => {
+        // Handle response robustly (checking result/items)
+        let items: any[] = [];
+        if (Array.isArray(res)) items = res;
+        else if (res && Array.isArray(res.items)) items = res.items;
+        else if (res && Array.isArray(res.result)) items = res.result;
+
+        console.log('HomeComponent: Products received:', items.length);
+        this.products = items;
         this.cdr.detectChanges(); // Trigger immediately
       },
       error: (err: any) => {

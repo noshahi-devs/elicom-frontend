@@ -19,10 +19,28 @@
         <div class="filter-row">
             <h2 *ngIf="categoryTitle" style="margin: 0; font-size: 24px;">{{ categoryTitle }}</h2>
 
-            <!-- Checks/Sort moved to sidebar, keeping chips if needed -->
+            <!-- Sort Dropdown (Moved from Sidebar) -->
+            <div class="sort-box" id="sortBox" tabindex="0" (click)="toggleSortDropdown()">
+                <div class="sort-label">Sort By</div>
+
+                <div class="sort-select">
+                    <div class="sort-value">{{ getSortLabel(filterData.sort) }}</div>
+                    <div class="arrow"></div>
+                </div>
+
+                <div class="dropdown" [class.show]="showSortDropdown">
+                    <div class="opt" (click)="onSortChange('recommended')">Recommended</div>
+                    <div class="opt" (click)="onSortChange('newest')">Newest</div>
+                    <div class="opt" (click)="onSortChange('price-low')">Price: Low to High</div>
+                    <div class="opt" (click)="onSortChange('price-high')">Price: High to Low</div>
+                </div>
+            </div>
+
+            <!-- Chips are now managed by sidebar logic / dynamic filters -->
 
             <!-- Chips -->
-            <div class="chips">
+            <!-- Chips are now managed by sidebar logic / dynamic filters -->
+            <div class="chips" *ngIf="false">
                 <div class="chip">
                     <img src="assets/images/blackfriday_bag.png" alt="" onerror="this.style.display='none'">
                     Black Friday

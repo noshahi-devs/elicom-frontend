@@ -13,6 +13,7 @@
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     transition: 0.3s;
+    margin-left: 20px;
 }
 
 .sidebar {
@@ -21,8 +22,8 @@
     width: 280px;
     padding: 15px;
     /* Reduced vertical padding */
-    padding-left: 10px;
-    /* Reduced left padding to fix "margin left" perception */
+    padding-left: 0;
+    /* Minimized left padding */
     color: #000;
     background: #fff;
     /* height: 81vh; removed fixed height to let content dictate up to max-height */

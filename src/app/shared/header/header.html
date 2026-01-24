@@ -6,18 +6,36 @@
 
     <!-- SEARCH -->
     <div class="search-bar">
-      <input type="text" placeholder="Search...">
-      <button><i class="fas fa-search"></i></button>
+      <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
+      <button (click)="onSearch()"><i class="fas fa-search"></i></button>
     </div>
 
     <!-- ICONS -->
     <div class="header-icons">
 
       <!-- USER -->
+      <!-- USER -->
       <div class="user-menu-wrapper">
-        <span class="user-icon">
-          <i class="far fa-user"></i>
+        <span class="user-icon" (click)="toggleUserMenu()" style="cursor: pointer;">
+          <i class="far" [ngClass]="(isAuthenticated | async) ? 'fa-user-circle' : 'fa-user'"></i>
+          <span *ngIf="isAuthenticated | async" class="user-greeting">
+            Hi, {{ (currentUser | async)?.name || 'User' }}
+          </span>
         </span>
+
+        <!-- PROFILE DROPDOWN -->
+        <div class="user-dropdown" *ngIf="userDropdown() && (isAuthenticated | async)">
+          <div class="user-info">
+            <p class="name">{{ (currentUser | async)?.fullName || (currentUser | async)?.userName }}</p>
+            <p class="email">{{ (currentUser | async)?.emailAddress }}</p>
+          </div>
+          <hr>
+          <ul>
+            <li><a href="javascript:void(0)"><i class="fas fa-id-card"></i> Profile Info</a></li>
+            <li><a href="javascript:void(0)"><i class="fas fa-key"></i> Change Password</a></li>
+            <li (click)="logout()"><a href="javascript:void(0)"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
+        </div>
       </div>
 
 
@@ -187,4 +205,7 @@
       </div>
     </nav>
   </div>
+  </div>
+  </div>
 </header>
+<app-auth-modal *ngIf="authModalOpen()" (close)="authModalOpen.set(false)"></app-auth-modal>

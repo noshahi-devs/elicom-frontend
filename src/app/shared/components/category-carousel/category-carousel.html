@@ -12,7 +12,8 @@
 
       <!-- ROW 1 -->
       <div class="row-circles">
-        <div class="circle" *ngFor="let cat of slide.slice(0, itemsPerRow)">
+        <div class="circle" *ngFor="let cat of slide.slice(0, itemsPerRow)" (click)="onCategoryClick(cat)"
+          style="cursor: pointer;">
           <img [src]="getCategoryImage(cat)" [alt]="cat.name">
           <p>{{ cat.name }}</p>
         </div>
@@ -20,7 +21,8 @@
 
       <!-- ROW 2 -->
       <div class="row-circles">
-        <div class="circle" *ngFor="let cat of slide.slice(itemsPerRow)">
+        <div class="circle" *ngFor="let cat of slide.slice(itemsPerRow)" (click)="onCategoryClick(cat)"
+          style="cursor: pointer;">
           <img [src]="getCategoryImage(cat)" [alt]="cat.name">
           <p>{{ cat.name }}</p>
         </div>

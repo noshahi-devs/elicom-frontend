@@ -3,21 +3,21 @@
 
   <div class="product-grid">
     <div class="product-card" *ngFor="let product of visibleProducts"
-      [routerLink]="['/product-detail', product.productId, product.id]">
+      [routerLink]="['/product-detail', product.productId, product.storeProductId || product.id]">
 
       <img [src]="getFirstImage(product)" class="product-img main-img">
 
       <img *ngIf="getSecondImage(product)" [src]="getSecondImage(product)" class="product-img hover-img">
 
       <div class="card-body">
-        <div class="product-title">{{ product.productName }}</div>
+        <div class="product-title">{{ getTitle(product) }}</div>
 
         <div class="price-row">
           <div>
             <span class="price">${{ product.price | number:'1.2-2' }}</span>
           </div>
 
-          <button class="cart-btn">
+          <button class="cart-btn" (click)="addToCart(product, $event)">
             <i class="fa-solid fa-cart-shopping"></i>
           </button>
         </div>

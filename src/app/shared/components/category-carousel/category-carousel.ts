@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../services/category';
+import { Router } from '@angular/router';
+import { SearchService } from '../../../services/search.service';
 
 @Component({
   selector: 'app-category-carousel',
@@ -16,7 +18,9 @@ export class CategoryCarouselComponent implements OnInit {
 
   constructor(
     private adeel: CategoryService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private searchService: SearchService
   ) { }
   currentSlide = 0;
   enableCarousel = false;
@@ -31,7 +35,7 @@ export class CategoryCarouselComponent implements OnInit {
     this.loadMyCategories();
   }
 
-
+  // ... (existing layout code)
 
   loadMyCategories() {
     console.group('Category Carousel Loading');
@@ -50,8 +54,6 @@ export class CategoryCarouselComponent implements OnInit {
       }
     });
   }
-
-
 
   /* 🔹 RESPONSIVE LOGIC */
   @HostListener('window:resize')
@@ -99,6 +101,13 @@ export class CategoryCarouselComponent implements OnInit {
     }
     const seed = cat.id || cat.categoryId || cat.name || 'default';
     return `https://picsum.photos/seed/${seed}/110/110`;
+  }
+
+  onCategoryClick(cat: any) {
+    const term = cat.name;
+    this.searchService.setSearchTerm(term);
+    // Navigate to search-result (or reuse component if already there)
+    this.router.navigate(['/search-result'], { queryParams: { cat: term } });
   }
 
   next() {

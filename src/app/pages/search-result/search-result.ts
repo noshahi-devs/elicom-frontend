@@ -38,8 +38,32 @@ export class SearchResult implements OnInit {
   }
 
   onFilterChange(event: any) {
-    this.filterData = event;
-    // We could also mix in the categoryTitle if needed
-    this.filterData.category = this.categoryTitle;
+    this.filterData = { ...this.filterData, ...event };
+    // Keep category if not overwritten
+    if (!this.filterData.category && this.categoryTitle) {
+      this.filterData.category = this.categoryTitle;
+    }
+  }
+
+  /* SORTING Logic */
+  showSortDropdown = false;
+
+  toggleSortDropdown() {
+    this.showSortDropdown = !this.showSortDropdown;
+  }
+
+  onSortChange(value: string) {
+    this.filterData = { ...this.filterData, sort: value };
+    this.showSortDropdown = false;
+  }
+
+  getSortLabel(value: string): string {
+    const map: any = {
+      'recommended': 'Recommended',
+      'newest': 'Newest',
+      'price-low': 'Price: Low to High',
+      'price-high': 'Price: High to Low'
+    };
+    return map[value] || 'Recommended';
   }
 }
