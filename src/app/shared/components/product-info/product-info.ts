@@ -170,18 +170,13 @@ export class ProductInfo implements OnInit {
       this.selectedSize,
       this.selectedColorName,
       image
-    ).subscribe({
-      next: () => {
-        // Show success message (or auto-open cart done by header effect)
-        console.log('Added to cart');
-        // Optionally trigger side cart here if header effect misses it
-      },
-      error: (err) => {
-        console.error('Add to cart failed', err);
-        // Auth modal handling is done in service, but if other error deal with it
-      }
-    });
+    );
+
+    // Show success message (or auto-open cart done by header effect)
+    console.log('Added to cart');
+    // Optionally trigger side cart here if header effect misses it
   }
+
 
   shippingData = {
     location: 'Phoenix, ARIZONA, United States',

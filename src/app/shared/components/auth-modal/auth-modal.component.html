@@ -8,14 +8,7 @@
         <div *ngIf="view === 'signin'" class="auth-view">
             <h2>Sign In</h2>
 
-            <button class="google-btn">
-                <img src="assets/icons/google.svg" alt="Google" onerror="this.style.display='none'">
-                <!-- Fallback if icon missing -->
-                <span *ngIf="!true">G</span>
-                Continue to Google
-            </button>
-
-            <div class="divider"><span>OR</span></div>
+            <!-- Divider/Google Btn Removed -->
 
             <form [formGroup]="signInForm" (ngSubmit)="onSignIn()">
                 <div class="form-group">
@@ -56,12 +49,7 @@
         <div *ngIf="view === 'signup'" class="auth-view">
             <h2>Sign Up</h2>
 
-            <button class="google-btn">
-                <img src="assets/icons/google.svg" alt="Google" onerror="this.style.display='none'">
-                Continue with Google
-            </button>
-
-            <div class="divider"><span>OR</span></div>
+            <!-- Divider/Google Btn Removed -->
 
             <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
                 <div class="form-row">
@@ -82,7 +70,19 @@
 
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" formControlName="phone" placeholder="Phone number">
+                    <div class="phone-input-group">
+                        <div class="country-select">
+                            <img [src]="selectedCountry.flag" alt="flag">
+                            <i class="fas fa-chevron-down"></i>
+                            <select (change)="onCountryChange($event)">
+                                <option *ngFor="let c of countries" [value]="c.dial_code"
+                                    [selected]="c.code === selectedCountry.code">
+                                    {{c.name}} ({{c.dial_code}})
+                                </option>
+                            </select>
+                        </div>
+                        <input type="tel" formControlName="phone" placeholder="Phone number">
+                    </div>
                 </div>
 
                 <div class="form-group">

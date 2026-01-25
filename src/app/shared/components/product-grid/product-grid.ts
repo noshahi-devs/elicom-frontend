@@ -241,10 +241,9 @@ export class ProductGridComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.cartService.addToCart(product, 1).subscribe({
-      next: () => console.log('Added to cart'),
-      error: (err) => console.error('Error adding to cart', err)
-    });
+    const image = this.getFirstImage(product);
+    this.cartService.addToCart(product, 1, '', '', image);
+    console.log('Added to cart');
   }
 }
 
