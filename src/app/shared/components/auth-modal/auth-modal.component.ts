@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService, LoginDto, RegisterDto } from '../../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-auth-modal',
@@ -114,18 +115,28 @@ export class AuthModalComponent {
             rememberClient: true
         };
 
-        this.authService.login(credentials).subscribe({
-            next: () => {
+        this.authService.login(credentials)
+            .subscribe({
+                next: () => {
+                    this.authenticated.emit();
+                    this.close.emit();
+                },
+                error: (err) => {
+                    console.error('Login failed', err);
+                    // Use backend error message if available, otherwise fallback
+                    if (err.error && err.error.error && err.error.error.message) {
+                        this.errorMessage = err.error.error.message;
+                    } else if (err.error && err.error.message) {
+                        this.errorMessage = err.error.message;
+                    } else {
+                        this.errorMessage = 'Invalid email or password.';
+                    }
+                }
+            })
+            .add(() => {
+                // Ensure loader stops in all cases
                 this.isLoading = false;
-                this.authenticated.emit();
-                this.close.emit();
-            },
-            error: (err) => {
-                this.isLoading = false;
-                console.error('Login failed', err);
-                this.errorMessage = 'Invalid email or password.';
-            }
-        });
+            });
     }
 
     onSignUp() {
@@ -134,31 +145,47 @@ export class AuthModalComponent {
         this.isLoading = true;
         this.errorMessage = '';
 
-        // Mapping form to RegisterDto
-        // Note: API requires 'userName', we'll use email as username for now
-        const data: RegisterDto = {
-            name: this.signUpForm.value.firstName,
-            surname: this.signUpForm.value.lastName,
-            userName: this.signUpForm.value.email,
+        const data = {
             emailAddress: this.signUpForm.value.email,
-            password: this.signUpForm.value.password
+            password: this.signUpForm.value.password,
+            country: this.selectedCountry.name,
+            phoneNumber: this.signUpForm.value.phone
         };
 
-        this.authService.register(data).subscribe({
-            next: () => {
+        this.authService.registerSmartStoreCustomer(data)
+            .subscribe({
+                next: () => {
+                    // 1. Switch to Sign In view immediately
+                    this.view = 'signin';
+
+                    // 2. Pre-fill the email for convenience
+                    this.signInForm.patchValue({
+                        email: this.signUpForm.value.email
+                    });
+
+                    // Reset Sign Up form so it's clean if they come back
+                    this.signUpForm.reset();
+                    // Re-init phone logic
+                    this.updatePhoneCode();
+
+                    // 3. Show Success Alert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registration Successful',
+                        text: 'Account created! Please log in.',
+                        timer: 2000, // Reduced timer
+                        showConfirmButton: false
+                    });
+                },
+                error: (err) => {
+                    console.error('Register failed', err);
+                    this.errorMessage = 'Registration failed. Please try again.';
+                }
+            })
+            .add(() => {
+                // Ensure loader stops
                 this.isLoading = false;
-                // Optionally auto-login or show "Check email" message
-                // Per requirements: "verify email message then return to login"
-                this.view = 'signin';
-                alert('Registration successful! Please sign in.');
-                // Or if we want to follow strict flow: show message inside modal
-            },
-            error: (err) => {
-                this.isLoading = false;
-                console.error('Register failed', err);
-                this.errorMessage = 'Registration failed. Please try again.';
-            }
-        });
+            });
     }
 
     onClose() {

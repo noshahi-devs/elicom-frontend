@@ -191,10 +191,32 @@ export class Header implements AfterViewChecked {
     }
   }
 
+  userMenuTimer: any;
+
+  onMouseEnterUser() {
+    // Only show if logged in
+    // We can check the signal value or the service property directly if it's synchronous enough
+    // But since isAuthenticated is an Observable in the template, let's strictly check:
+    if (this.authService.isAuthenticated) {
+      this.userDropdown.set(true);
+      if (this.userMenuTimer) clearTimeout(this.userMenuTimer);
+    }
+  }
+
+  onMouseLeaveUser() {
+    if (this.authService.isAuthenticated) {
+      this.userMenuTimer = setTimeout(() => {
+        this.userDropdown.set(false);
+      }, 300); // 300ms delay
+    }
+  }
+
   toggleUserMenu() {
     if (this.authService.isAuthenticated) {
-      this.userDropdown.set(!this.userDropdown());
+      // If logged in, clicking icon goes to User Index
+      this.router.navigate(['/user/index']);
     } else {
+      // If not logged in, open login modal
       this.authModalOpen.set(true);
     }
   }
@@ -202,5 +224,6 @@ export class Header implements AfterViewChecked {
   logout() {
     this.authService.logout();
     this.userDropdown.set(false);
+    this.router.navigate(['/']);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 import { ProductDetailDto } from '../../../services/product';
 import { CartService } from '../../../services/cart';
 import Swal from 'sweetalert2';
@@ -40,6 +41,7 @@ export class ProductInfo implements OnInit {
   @Output() colorSelected = new EventEmitter<string>();
 
   private cartService = inject(CartService);
+  private authService = inject(AuthService);
 
   product = {
     title: "",
@@ -155,11 +157,39 @@ export class ProductInfo implements OnInit {
   }
 
   addToCart() {
+    // 1. Validate Size
     if (!this.selectedSize && this.sizes.length > 0) {
-      alert('Please select a size first');
+      Swal.fire({
+        icon: 'error',
+        title: 'Size Required',
+        text: 'Please select a correct size before adding to cart',
+        confirmButtonColor: '#d33',
+        timer: 3000
+      });
       return;
     }
 
+    // 2. Validate Login
+    if (!this.authService.isAuthenticated) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Login Required',
+        text: 'Please login to add items to your cart',
+        showCancelButton: true,
+        confirmButtonText: 'Login Now',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#3085d6', // Brand color ideally
+        cancelButtonColor: '#d33'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Open global auth modal
+          this.authService.openAuthModal();
+        }
+      });
+      return;
+    }
+
+    // 3. Add to Cart
     // Use the first image from gallery or a fallback for the cart thumbnail
     const image = (this.productData?.images && this.productData.images.length > 0)
       ? this.getImage(this.productData.images[0])
@@ -174,7 +204,13 @@ export class ProductInfo implements OnInit {
     );
 
     // Show success message (or auto-open cart done by header effect)
-    Swal.fire("Good job!", "You clicked the button!", "success");
+    Swal.fire({
+      title: "Added to Cart!",
+      text: "Item has been added to your shopping bag.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false
+    });
     // Optionally trigger side cart here if header effect misses it
   }
 

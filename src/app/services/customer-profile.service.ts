@@ -2,13 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface CustomerProfileDto {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
+export interface CreateCustomerProfileDto {
+    userId: number;
+    fullName: string;
     email?: string;
     phoneNumber?: string;
-    // Add other fields as needed based on API response
+    addressLine1?: string;
+    addressLine2?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    country?: string;
+    profilePictureUrl?: string;
+}
+
+export interface CustomerProfileDto extends CreateCustomerProfileDto {
+    id: string; // Guid
 }
 
 @Injectable({
@@ -19,7 +28,7 @@ export class CustomerProfileService {
 
     constructor(private http: HttpClient) { }
 
-    createProfile(profile: CustomerProfileDto): Observable<any> {
+    createProfile(profile: CreateCustomerProfileDto): Observable<any> {
         return this.http.post(`${this.baseUrl}/Create`, profile);
     }
 
@@ -31,9 +40,11 @@ export class CustomerProfileService {
         return this.http.delete(`${this.baseUrl}/Delete`, { params: { id } });
     }
 
-    // Assuming there might be a Get method, if not we rely on Create/Update returns
     getProfile(id: string): Observable<any> {
-        // Guessing Get endpoint exists typical of this pattern
         return this.http.get(`${this.baseUrl}/Get`, { params: { id } });
+    }
+
+    getByUserId(userId: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetByUserId`, { params: { userId: userId.toString() } });
     }
 }

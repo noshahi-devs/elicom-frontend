@@ -31,6 +31,13 @@ export interface LoginDto {
     rememberClient?: boolean;
 }
 
+export interface RegisterSmartStoreInput {
+    emailAddress: string;
+    password: string;
+    country: string;
+    phoneNumber: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -53,6 +60,10 @@ export class AuthService {
         private router: Router
     ) { }
 
+    private _customerProfileService: any; // Direct injection might cause cycle if not careful, but typically fine.
+    // Ideally we inject it in constructor, but let's stick to HttpClient to avoid circular dep if AuthService is used in CustomerProfileService (unlikely but safe)
+    // Actually, let's just use the URL pattern as before for simplicity and robustness in this file.
+
     openAuthModal() {
         this._showAuthModal.next(true);
     }
@@ -60,24 +71,87 @@ export class AuthService {
     // --- Auth Actions ---
 
     login(credentials: LoginDto): Observable<any> {
-        // Placeholder login - typically this would be /api/TokenAuth/Authenticate
-        // Since user didn't provide it, we'll try to guess or use a mock flow if fails.
-        // For now assuming a standard ASP.NET Boilerplate TokenAuth endpoint.
         const url = `${this.baseUrl}/api/TokenAuth/Authenticate`;
         return this.http.post(url, credentials).pipe(
             tap((response: any) => {
+                console.log('Login response:', response);
+
+                // ABP wraps responses in {result: {...}, success: true, error: null}
                 if (response && response.result && response.result.accessToken) {
+                    console.log('Login successful, setting session');
                     this.setSession(response.result.accessToken, response.result.userId);
-                    // Ideally fetch full profile here, but we'll set a basic user for now
+
+                    // Fetch or Create Customer Profile after login using the UserId from response
+                    this.ensureCustomerProfile(response.result.userId, credentials.userNameOrEmailAddress);
+
                     this.updateCurrentUser({
                         userName: credentials.userNameOrEmailAddress,
                         emailAddress: credentials.userNameOrEmailAddress
                     });
+                } else {
+                    console.error('Unexpected response format:', response);
                 }
             })
         );
     }
 
+    private ensureCustomerProfile(userId: number, email: string) {
+        const getUrl = `${this.baseUrl}/api/services/app/CustomerProfile/GetByUserId?userId=${userId}`;
+
+        // This request now uses AuthInterceptor, so headers are attached correctly!
+        this.http.get(getUrl).subscribe({
+            next: (profile) => {
+                console.log('Customer Profile confirmed:', profile);
+            },
+            error: (err) => {
+                // Determine if 404 (Not Found) or other error
+                // If 404, we must create. If 401, interceptor might not be worked (caught earlier).
+                // Assuming 404 or just general failure to find, we try create.
+
+                const createUrl = `${this.baseUrl}/api/services/app/CustomerProfile/Create`;
+                const newProfile = {
+                    userId: userId,
+                    fullName: 'Customer User', // Default name
+                    email: email,
+                };
+
+                this.http.post(createUrl, newProfile).subscribe({
+                    next: (res) => console.log('Customer Profile created successfully!', res),
+                    error: (createErr) => {
+                        // Critical: Do not block UI/App even if this fails.
+                        console.error('Failed to create customer profile. This might affect User Index.', createErr);
+                    }
+                });
+            }
+        });
+    }
+
+    getToken(): string | null {
+        return localStorage.getItem('authToken');
+    }
+
+
+    registerSmartStoreCustomer(data: RegisterSmartStoreInput): Observable<any> {
+        const url = `${this.baseUrl}/api/services/app/Account/RegisterSmartStoreCustomer`;
+        return this.http.post(url, data);
+    }
+
+    forgotPassword(email: string): Observable<any> {
+        const url = `${this.baseUrl}/api/services/app/Account/ForgotPassword`;
+        return this.http.post(url, null, { params: { email } });
+    }
+
+    resetPassword(input: any): Observable<any> {
+        const url = `${this.baseUrl}/api/services/app/Account/ResetPassword`;
+        return this.http.post(url, input);
+    }
+
+    sendSampleEmail(): Observable<any> {
+        const url = `${this.baseUrl}/api/services/app/Account/SendSampleEmail`;
+        return this.http.post(url, {});
+    }
+
+    // Keep legacy register if needed, but we'll use the new one primarily
     register(data: RegisterDto): Observable<any> {
         const url = `${this.baseUrl}/api/services/app/Account/Register`;
         return this.http.post(url, data);

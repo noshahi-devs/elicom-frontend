@@ -32,7 +32,8 @@
                 </div>
 
                 <button type="submit" class="primary-btn" [disabled]="signInForm.invalid || isLoading">
-                    {{ isLoading ? 'Logging in...' : 'Log In' }}
+                    <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin"></i>
+                    {{ isLoading ? ' Logging in...' : 'Log In' }}
                 </button>
             </form>
 
@@ -112,7 +113,8 @@
                 </div>
 
                 <button type="submit" class="primary-btn" [disabled]="signUpForm.invalid || isLoading">
-                    {{ isLoading ? 'Signing Up...' : 'Sign Up' }}
+                    <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin"></i>
+                    {{ isLoading ? ' Signing Up...' : 'Sign Up' }}
                 </button>
             </form>
 

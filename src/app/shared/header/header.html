@@ -15,7 +15,7 @@
 
       <!-- USER -->
       <!-- USER -->
-      <div class="user-menu-wrapper">
+      <div class="user-menu-wrapper" (mouseenter)="onMouseEnterUser()" (mouseleave)="onMouseLeaveUser()">
         <span class="user-icon" (click)="toggleUserMenu()" style="cursor: pointer;">
           <i class="far" [ngClass]="(isAuthenticated | async) ? 'fa-user-circle' : 'fa-user'"></i>
           <span *ngIf="isAuthenticated | async" class="user-greeting">
@@ -26,13 +26,17 @@
         <!-- PROFILE DROPDOWN -->
         <div class="user-dropdown" *ngIf="userDropdown() && (isAuthenticated | async)">
           <div class="user-info">
-            <p class="name">{{ (currentUser | async)?.fullName || (currentUser | async)?.userName }}</p>
+            <p class="name">{{ (currentUser | async)?.fullName || 'My Account' }}</p>
             <p class="email">{{ (currentUser | async)?.emailAddress }}</p>
           </div>
           <hr>
           <ul>
-            <li><a href="javascript:void(0)"><i class="fas fa-id-card"></i> Profile Info</a></li>
-            <li><a href="javascript:void(0)"><i class="fas fa-key"></i> Change Password</a></li>
+            <li><a [routerLink]="['/user/index']"><i class="fas fa-th-large"></i> Personal Center</a></li>
+            <li><a [routerLink]="['/user/index/profile']"><i class="fas fa-id-card"></i> My Profile</a></li>
+            <li><a [routerLink]="['/user/index/orders']"><i class="fas fa-box"></i> My Orders</a></li>
+            <li><a [routerLink]="['/user/index/coupons']"><i class="fas fa-ticket-alt"></i> My Coupons</a></li>
+            <li><a [routerLink]="['/user/index/viewed']"><i class="fas fa-eye"></i> Recently Viewed</a></li>
+            <hr style="border-top: 1px solid #f0f0f0; margin: 5px 0;">
             <li (click)="logout()"><a href="javascript:void(0)"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
           </ul>
         </div>

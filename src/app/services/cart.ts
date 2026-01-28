@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 
 export interface CartItem {
     productId: string;
@@ -21,11 +21,24 @@ export interface CartItem {
 })
 export class CartService {
     // Using signals for reactive state
-    private cartItems = signal<CartItem[]>([]);
+    private cartItems = signal<CartItem[]>(this.loadCartFromStorage());
     private showCartTrigger = signal<number>(0);
 
     items = this.cartItems.asReadonly();
     cartAutoOpen = this.showCartTrigger.asReadonly();
+
+    constructor() {
+        // Auto-save to localStorage whenever cart changes
+        effect(() => {
+            const items = this.cartItems();
+            localStorage.setItem('cartItems', JSON.stringify(items));
+        });
+    }
+
+    private loadCartFromStorage(): CartItem[] {
+        const stored = localStorage.getItem('cartItems');
+        return stored ? JSON.parse(stored) : [];
+    }
 
     get totalItems() {
         return this.cartItems().reduce((acc, item) => acc + item.quantity, 0);
