@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../../services/search.service';
@@ -10,28 +10,31 @@ import { SearchService } from '../../../services/search.service';
     templateUrl: './search-sidebar.html',
     styleUrl: './search-sidebar.scss'
 })
-export class SearchSidebar implements OnInit {
+export class SearchSidebar implements OnInit, OnChanges {
     // Collapse State
     collapsedSections: Record<string, boolean> = {};
 
-    // View More State
-    showMore = {
-        category: false,
-        size: false,
-        details: false,
-        pattern: false
-    };
+    // View More State (Simplified for dynamic)
+    showMore: Record<string, boolean> = {};
 
     // Filters
     selectedFilters: string[] = [];
     searchTerm: string = '';
 
-    @Input() isOpen: boolean = false;
-
     // Price Slider
     minPrice = 0;
-    maxPrice = 6062;
-    priceGap = 50;
+    maxPrice = 10000;
+    priceGap = 10;
+
+    // Inputs for Dynamic Filters
+    @Input() isOpen: boolean = false;
+    @Input() categories: string[] = [];
+    @Input() colors: string[] = [];
+    @Input() sizes: string[] = [];
+    @Input() types: string[] = [];
+    @Input() fits: string[] = [];
+    @Input() lengths: string[] = [];
+    @Input() priceLimit: { min: number, max: number } = { min: 0, max: 10000 };
 
     // Outputs
     @Output() filterChange = new EventEmitter<any>();
@@ -42,6 +45,18 @@ export class SearchSidebar implements OnInit {
         this.searchService.searchTerm$.subscribe(term => {
             this.searchTerm = term;
         });
+    }
+
+    ngOnChanges() {
+        if (this.priceLimit) {
+            // Set slider to full range of current results if not already filtered
+            if (this.minPrice === 0 || this.minPrice < this.priceLimit.min) {
+                this.minPrice = this.priceLimit.min;
+            }
+            if (this.maxPrice === 10000 || this.maxPrice > this.priceLimit.max) {
+                this.maxPrice = this.priceLimit.max;
+            }
+        }
     }
 
     toggleSection(section: string) {
@@ -142,8 +157,8 @@ export class SearchSidebar implements OnInit {
     }
 
     resetPrice() {
-        this.minPrice = 0;
-        this.maxPrice = 6062;
+        this.minPrice = this.priceLimit.min;
+        this.maxPrice = this.priceLimit.max;
         // logic to remove chip handled in updatePriceChip or caller
         this.selectedFilters = this.selectedFilters.filter(f => !f.startsWith('Price:'));
     }

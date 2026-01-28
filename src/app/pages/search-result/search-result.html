@@ -2,7 +2,10 @@
 
     <!-- Left Sidebar -->
     <div class="left-pane">
-        <app-search-sidebar (filterChange)="onFilterChange($event)" [isOpen]="isSidebarOpen"></app-search-sidebar>
+        <app-search-sidebar (filterChange)="onFilterChange($event)" [isOpen]="isSidebarOpen"
+            [categories]="availableCategories" [colors]="availableColors" [sizes]="availableSizes"
+            [types]="availableTypes" [fits]="availableFits" [lengths]="availableLengths" [priceLimit]="priceRange">
+        </app-search-sidebar>
         <!-- Overlay backdrop -->
         <div class="sidebar-overlay" *ngIf="isSidebarOpen" (click)="toggleSidebar()"></div>
     </div>
@@ -57,7 +60,18 @@
 
         <!-- Product Grid -->
         <div class="product-area">
-            <app-product-grid-new [filterData]="filterData"></app-product-grid-new>
+            <app-product-grid-new [filterData]="filterData" (productsLoaded)="onProductsLoaded($event)">
+            </app-product-grid-new>
+        </div>
+
+        <hr style="margin: 40px 0; border: none; border-top: 1px solid #eee;">
+
+        <!-- Smart Suggestions Section -->
+        <div class="suggestions-area">
+            <h3 style="margin-bottom: 20px; font-weight: 600;">Recommended For You</h3>
+            <app-product-grid-new [filterData]="{ category: categoryTitle, sort: 'recommended' }"
+                [visibleCountOverride]="10">
+            </app-product-grid-new>
         </div>
 
     </div>

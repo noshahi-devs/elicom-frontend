@@ -48,14 +48,22 @@ export class CartService {
             updated[existingIndex].quantity += quantity;
             this.cartItems.set(updated);
         } else {
+            // Resolve properties robustly for both Detail (nested store) and Grid (flat) formats
+            const storeId = product.store?.storeId || product.storeProductId || '';
+            const storeName = product.store?.storeName || product.storeName || 'Unknown Store';
+            const price = product.store?.price ?? product.price ?? 0;
+            const oldPrice = product.store?.resellerPrice ?? product.originalPrice ?? 0;
+            const discount = product.store?.resellerDiscountPercentage ?? product.resellerDiscountPercentage ?? 0;
+            const name = product.title || product.productName || 'Product';
+
             const newItem: CartItem = {
                 productId: product.productId,
-                storeProductId: product.store?.storeId || '',
-                storeName: product.store?.storeName || 'Unknown Store',
-                name: product.title,
-                price: product.store?.price || 0,
-                oldPrice: product.store?.resellerPrice || 0,
-                discount: product.store?.resellerDiscountPercentage || 0,
+                storeProductId: storeId,
+                storeName: storeName,
+                name: name,
+                price: price,
+                oldPrice: oldPrice,
+                discount: discount,
                 quantity: quantity,
                 image: image,
                 size: size,

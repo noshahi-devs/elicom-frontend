@@ -2,6 +2,7 @@ import { Component, inject, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService, CartItem as CartItemModel } from '../../../services/cart';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart-item',
@@ -77,7 +78,19 @@ export class CartItem implements AfterViewChecked {
 
   // ================= DELETE =================
   removeItem(item: CartItemModel) {
-    this.cartService.removeItem(item.productId, item.size, item.color);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cartService.removeItem(item.productId, item.size, item.color);
+        Swal.fire("Deleted!", "Your item has been deleted.", "success");
+      }
+    });
   }
 
   // ================= PRICE CALCULATIONS =================

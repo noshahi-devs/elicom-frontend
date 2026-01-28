@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductDetailDto } from '../../../services/product';
 import { CartService } from '../../../services/cart';
+import Swal from 'sweetalert2';
 
 export type AccordionType = 'desc' | 'sizefit' | null;
 export type SizeTabType = 'product' | 'body';
@@ -173,7 +174,7 @@ export class ProductInfo implements OnInit {
     );
 
     // Show success message (or auto-open cart done by header effect)
-    console.log('Added to cart');
+    Swal.fire("Good job!", "You clicked the button!", "success");
     // Optionally trigger side cart here if header effect misses it
   }
 

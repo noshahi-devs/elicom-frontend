@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 type FieldKey =
   | 'location'
@@ -47,6 +48,31 @@ export class ShippingAddress {
   states: string[] = US_STATES.sort();
   cities: string[] = [];
 
+  countries = [
+    { name: 'Australia', code: 'AU', dial_code: '+61', flag: 'https://flagcdn.com/au.svg' },
+    { name: 'Brazil', code: 'BR', dial_code: '+55', flag: 'https://flagcdn.com/br.svg' },
+    { name: 'Canada', code: 'CA', dial_code: '+1', flag: 'https://flagcdn.com/ca.svg' },
+    { name: 'China', code: 'CN', dial_code: '+86', flag: 'https://flagcdn.com/cn.svg' },
+    { name: 'France', code: 'FR', dial_code: '+33', flag: 'https://flagcdn.com/fr.svg' },
+    { name: 'Germany', code: 'DE', dial_code: '+49', flag: 'https://flagcdn.com/de.svg' },
+    { name: 'India', code: 'IN', dial_code: '+91', flag: 'https://flagcdn.com/in.svg' },
+    { name: 'Japan', code: 'JP', dial_code: '+81', flag: 'https://flagcdn.com/jp.svg' },
+    { name: 'Mexico', code: 'MX', dial_code: '+52', flag: 'https://flagcdn.com/mx.svg' },
+    { name: 'Pakistan', code: 'PK', dial_code: '+92', flag: 'https://flagcdn.com/pk.svg' },
+    { name: 'Saudi Arabia', code: 'SA', dial_code: '+966', flag: 'https://flagcdn.com/sa.svg' },
+    { name: 'Turkey', code: 'TR', dial_code: '+90', flag: 'https://flagcdn.com/tr.svg' },
+    { name: 'UAE', code: 'AE', dial_code: '+971', flag: 'https://flagcdn.com/ae.svg' },
+    { name: 'United Kingdom', code: 'GB', dial_code: '+44', flag: 'https://flagcdn.com/gb.svg' },
+    { name: 'United States', code: 'US', dial_code: '+1', flag: 'https://flagcdn.com/us.svg' }
+  ];
+
+  selectedCountry = this.countries.find(c => c.dial_code === '+92') || this.countries[0];
+
+  constructor() {
+    // Init phone with code
+    if (!this.fields.phone) this.fields.phone = this.selectedCountry.dial_code;
+  }
+
   /* ================= HELPERS ================= */
 
   set(field: FieldKey, e: Event) {
@@ -61,6 +87,20 @@ export class ShippingAddress {
       // Reset city selection
       this.fields.city = '';
       this.touch('city');
+    }
+  }
+
+  onCountryChange(event: any) {
+    const dialCode = event.target.value;
+    const country = this.countries.find(c => c.dial_code === dialCode);
+    if (country) {
+      this.selectedCountry = country;
+      // Update phone
+      let currentPhone = this.fields.phone || '';
+      if (!currentPhone.startsWith(this.selectedCountry.dial_code)) {
+        this.fields.phone = this.selectedCountry.dial_code;
+        this.touch('phone');
+      }
     }
   }
 
@@ -86,7 +126,7 @@ export class ShippingAddress {
     // Special validation for Phone logic
     if (field === 'phone') {
       const storedVal = val.replace(/\D/g, ''); // Remove non-digits
-      return storedVal.length < 10 || storedVal.length > 12;
+      return storedVal.length < 10 || storedVal.length > 15; // Increased max length for intl numbers
     }
 
     return false;
@@ -107,6 +147,14 @@ export class ShippingAddress {
     this.savedFields = { ...this.fields };
     this.showSummary = true;
     this.addressSaved.emit();
+
+    Swal.fire({
+      title: "Success!",
+      text: "Shipping address saved successfully.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false
+    });
   }
 
   /* ================= EDIT ================= */

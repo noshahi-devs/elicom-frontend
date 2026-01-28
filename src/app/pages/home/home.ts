@@ -6,6 +6,7 @@ import { DealCardComponent } from '../../shared/components/deal-card/deal-card';
 import { ProductGridComponent } from '../../shared/components/product-grid/product-grid';
 import { ProductService, GlobalMarketplaceProduct } from '../../services/product';
 import { CategoryService, Category } from '../../services/category';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -37,10 +38,21 @@ export class HomeComponent implements OnInit {
   }
 
   loadProducts() {
+    Swal.fire({
+      title: 'Loading Products...',
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      timer: 2000, // Safety timer
+    });
+
     console.log('HomeComponent: Loading products...');
     // Using getProductsForCards to fetch all products as requested ("sary product")
     this.productService.getProductsForCards(0, 50).subscribe({
       next: (res: any) => {
+        Swal.close();
         // Handle response robustly (checking result/items)
         let items: any[] = [];
         if (Array.isArray(res)) items = res;
@@ -58,11 +70,18 @@ export class HomeComponent implements OnInit {
   }
 
   loadCategories() {
-    console.log('HomeComponent: Loading categories...');
-    this.categoryService.getAllCategories().subscribe((res: any[]) => {
-      console.log('HomeComponent: Debug Categories received:', res.length);
-      this.categoriesDebug = res;
-      this.cdr.detectChanges(); // Trigger immediately
+    console.log('HomeComponent: Triggering robust category load...');
+    // We subscribe to the shared cache stream. 
+    // If it's already loading from another component (e.g. Nav), we will just join the stream.
+    this.categoryService.getAllCategories().subscribe({
+      next: (res: any[]) => {
+        console.log('HomeComponent: Categories arrived reliably. Count:', res.length);
+        this.categoriesDebug = res;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('HomeComponent: Critical category load failure', err);
+      }
     });
   }
 }

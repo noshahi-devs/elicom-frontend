@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../services/category';
 import { Router } from '@angular/router';
@@ -11,9 +11,9 @@ import { SearchService } from '../../../services/search.service';
   templateUrl: './category-carousel.html',
   styleUrls: ['./category-carousel.scss']
 })
-export class CategoryCarouselComponent implements OnInit {
+export class CategoryCarouselComponent implements OnInit, OnChanges {
 
-  categories: any[] = [];
+  @Input() categories: any[] = [];
   slides: any[][] = [];
 
   constructor(
@@ -32,25 +32,33 @@ export class CategoryCarouselComponent implements OnInit {
 
   ngOnInit(): void {
     this.calculateLayout();
-    this.loadMyCategories();
+    if (!this.categories || this.categories.length === 0) {
+      this.loadMyCategories();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['categories'] && this.categories) {
+      console.log('Carousel: Received items via Input. Count:', this.categories.length);
+      this.buildSlides();
+      this.cdr.detectChanges();
+    }
   }
 
   // ... (existing layout code)
 
   loadMyCategories() {
-    console.group('Category Carousel Loading');
+    console.log('Carousel: Falling back to global robust stream...');
+    // Use the shared cached observable from the service
     this.adeel.getAllCategories().subscribe({
-      next: (res) => {
-        console.log('Carousel: Received All Categories. Count:', res.length);
+      next: (res: any[]) => {
+        console.log('Carousel: Categories received via shared stream. Count:', res.length);
         this.categories = res || [];
         this.buildSlides();
-        this.cdr.detectChanges(); // Refresh UI immediately
-        console.log('Carousel: Slides built. Total slides:', this.slides.length);
-        console.groupEnd();
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Carousel Category Error:', err);
-        console.groupEnd();
+        console.error('Carousel: Robust category load failure', err);
       }
     });
   }
@@ -94,13 +102,22 @@ export class CategoryCarouselComponent implements OnInit {
   getCategoryImage(cat: any): string {
     if (cat.imageUrl && cat.imageUrl !== 'string' && cat.imageUrl.includes('.')) {
       if (cat.imageUrl.startsWith('http')) return cat.imageUrl;
-      if (cat.imageUrl === 'test.jpg' || cat.imageUrl === 'category.png') {
+      const img = cat.imageUrl.toLowerCase();
+      if (img === 'test.jpg' || img === 'category.png' || img === 'hair.png') {
         return `https://picsum.photos/seed/${cat.name}/110/110`;
       }
       return `https://localhost:44311/images/products/${cat.imageUrl}`;
     }
     const seed = cat.id || cat.categoryId || cat.name || 'default';
     return `https://picsum.photos/seed/${seed}/110/110`;
+  }
+
+  handleImageError(event: any, cat: any) {
+    const seed = cat.id || cat.categoryId || cat.name || 'default';
+    const fallbackUrl = `https://picsum.photos/seed/${seed}/110/110`;
+
+    if (event.target.src === fallbackUrl) return;
+    event.target.src = fallbackUrl;
   }
 
   onCategoryClick(cat: any) {

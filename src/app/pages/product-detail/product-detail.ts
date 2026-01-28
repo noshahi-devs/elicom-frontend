@@ -5,6 +5,7 @@ import { Breadcrumb } from '../../shared/breadcrumb/breadcrumb';
 import { ProductGallery } from '../../shared/components/product-gallery/product-gallery';
 import { ProductInfo } from '../../shared/components/product-info/product-info';
 import { ProductService, ProductDetailDto } from '../../services/product';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-detail',
@@ -48,10 +49,21 @@ export class ProductDetail implements OnInit {
   }
 
   loadProductDetail(productId: string, storeProductId: string) {
+    Swal.fire({
+      title: 'Fetching Product Details...',
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      timer: 3000, // Safety timer
+    });
+
     this.isLoading = true;
     this.errorHappened = false;
     this.productService.getProductDetail(productId, storeProductId).subscribe({
       next: (res) => {
+        Swal.close();
         console.log('ProductDetail Receive Result:', res);
         this.productData = res;
         this.isLoading = false;

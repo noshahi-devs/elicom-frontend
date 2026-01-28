@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService, ProductCardDto } from '../../../services/product';
 import { CartService } from '../../../services/cart';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-grid-new',
@@ -14,11 +15,13 @@ import { CartService } from '../../../services/cart';
 export class ProductGridComponent implements OnInit, OnChanges {
   @Input() filterData: any = {};
   @Input() products: any[] | null = null;
+  @Input() visibleCountOverride: number | null = null;
+  @Output() productsLoaded = new EventEmitter<any[]>();
 
   allProducts: ProductCardDto[] = [];
   visibleProducts: ProductCardDto[] = [];
 
-  visibleCount = 20;
+  visibleCount = 30; // 6 rows * 5 columns
 
   constructor(
     private productService: ProductService,
@@ -27,6 +30,8 @@ export class ProductGridComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
+    if (this.visibleCountOverride) this.visibleCount = this.visibleCountOverride;
+
     if (this.products && this.products.length > 0) {
       this.allProducts = this.products;
       this.applyFilters();
@@ -63,6 +68,7 @@ export class ProductGridComponent implements OnInit, OnChanges {
         }
 
         this.allProducts = items;
+        this.productsLoaded.emit(this.allProducts);
         this.applyFilters();
         this.cdr.detectChanges(); // Fix NG0100
       },
@@ -78,7 +84,7 @@ export class ProductGridComponent implements OnInit, OnChanges {
 
     let filtered = [...this.allProducts];
 
-    // 1. Category Filter
+    // 1. Category Filter (Strict or fuzzy)
     if (this.filterData.category) {
       const cat = this.filterData.category.toLowerCase();
       filtered = filtered.filter(p =>
@@ -87,13 +93,19 @@ export class ProductGridComponent implements OnInit, OnChanges {
       );
     }
 
-    // 2. Search Term
-    if (this.filterData.search) {
-      const term = this.filterData.search.toLowerCase();
-      filtered = filtered.filter(p =>
-        (p.title && p.title.toLowerCase().includes(term)) ||
-        (p.storeName && p.storeName.toLowerCase().includes(term))
-      );
+    // 2. Custom Filters (Size, Color, etc. from sidebar chips)
+    if (this.filterData.filters && this.filterData.filters.length > 0) {
+      this.filterData.filters.forEach((f: string) => {
+        const lowF = f.toLowerCase();
+        if (lowF.startsWith('price:')) return; // handled separately
+
+        // Check if it's a color or size match
+        filtered = filtered.filter(p =>
+          ((p as any).color && (p as any).color.toLowerCase() === lowF) ||
+          ((p as any).size && (p as any).size.toLowerCase() === lowF) ||
+          (p.categoryName && p.categoryName.toLowerCase() === lowF)
+        );
+      });
     }
 
     // 3. Price Filter
@@ -122,33 +134,47 @@ export class ProductGridComponent implements OnInit, OnChanges {
   }
 
   get showViewMore(): boolean {
-    return this.visibleProducts.length < this.allProducts.length; // Simplified logic, ideally check against filtered length
+    return this.allProducts.length > 30 && this.visibleProducts.length < this.allProducts.length;
   }
 
   viewMore() {
-    this.visibleCount += 20;
+    this.visibleCount += 30; // Add 6 more rows
     this.applyFilters(); // Re-slice
   }
 
   getFirstImage(product: any): string {
     // 1. Get raw value from one of the possible fields
     let val = product.image1 || product.productImage || product.imageUrl || product.image2;
-    // Use card_1.jpg as placeholder since placeholder.png is missing
-    const fallback = 'assets/images/card_1.jpg';
 
-    if (!val || val === 'string') return fallback;
+    // 2. Name-based fallback (copied from product-info logic)
+    if (!val || val === 'string' || val.trim() === '') {
+      const name = (this.getTitle(product) || '').toLowerCase();
+      if (name.includes('hair removal') || name.includes('hair removel') || name.includes('hair remover') || name.includes('epilator')) {
+        return 'https://picsum.photos/seed/beauty1/300/400';
+      }
+      if (name.includes('laptop bag')) return 'https://picsum.photos/seed/bag1/300/400';
+      if (name.includes('women summer floral dress')) return 'https://picsum.photos/seed/dress1/300/400';
+      // Default fallback
+      return `https://picsum.photos/seed/${product.id || product.productId || 'p'}/300/400`;
+    }
 
-    // 2. Handle comma-separated strings
+    // 3. Handle comma-separated strings
     if (val && typeof val === 'string' && val.includes(',')) {
       val = val.split(',')[0]; // Take first
     }
     val = val ? val.trim() : '';
-    if (!val) return fallback;
+    if (!val) return 'assets/images/card_1.jpg'; // Ultimate fallback
 
-    // 3. Absolute vs Relative
+    // 4. Broken CDN or Missing File Fix (MUST BE BEFORE http CHECK)
+    if (val.includes('cdn.elicom.com') || val.includes('hair.png')) {
+      const seed = val.split('/').pop() || (this.getTitle(product));
+      return `https://picsum.photos/seed/${seed}/300/400`;
+    }
+
+    // 5. Absolute vs Relative
     if (val.startsWith('http')) return val;
 
-    // 4. Prepend Base URL
+    // 6. Prepend Base URL
     const baseUrl = 'https://localhost:44311';
 
     if (!val.startsWith('/')) {
@@ -183,6 +209,12 @@ export class ProductGridComponent implements OnInit, OnChanges {
     // cleanup
     if (val.includes(',')) val = val.split(',')[0].trim();
 
+    // Broken CDN or Missing File Fix
+    if (val.includes('cdn.elicom.com') || val.includes('hair.png')) {
+      const seed = val.split('/').pop() || 'p2';
+      return `https://picsum.photos/seed/${seed}/300/400`;
+    }
+
     if (val.startsWith('http')) return val;
 
     const baseUrl = 'https://localhost:44311';
@@ -196,31 +228,50 @@ export class ProductGridComponent implements OnInit, OnChanges {
   }
 
   getTitle(product: any): string {
-    return product.title || product.productName || product.name || 'Untitled Product';
+    const t = product.title || product.productName || product.name || 'Untitled Product';
+    return t.trim();
   }
 
   handleImageError(event: any, product: any, type: string) {
-    // Generate a simple hash from product ID or Title to pick a consistent random image
-    const seed = (product.id || product.productId || product.title || 'default').toString();
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) {
-      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    const title = this.getTitle(product).toLowerCase();
+    let fallbackUrl = '';
+
+    // Specific Fallbacks for Known Broken Products or filenames
+    if (title.includes('hair remov') || (product.imageUrl && product.imageUrl.includes('hair.png'))) {
+      fallbackUrl = type === 'main'
+        ? 'https://picsum.photos/seed/hair1/300/400'
+        : 'https://picsum.photos/seed/hair2/300/400';
+    } else if (title.includes('laptop bag')) {
+      fallbackUrl = type === 'main'
+        ? 'https://picsum.photos/seed/bag1/300/400'
+        : 'https://picsum.photos/seed/bag2/300/400';
+    } else if (title.includes('women summer floral dress')) {
+      fallbackUrl = type === 'main'
+        ? 'https://picsum.photos/seed/dress1/300/400'
+        : 'https://picsum.photos/seed/dress2/300/400';
+    } else {
+      // Generic consistent random fallback
+      const seed = (product.id || product.productId || title || 'default').toString();
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+      }
+
+      const totalCards = 8;
+      const index = Math.abs(hash) % totalCards + 1;
+
+      // For main image
+      if (type !== 'hover') {
+        fallbackUrl = `assets/images/card_${index}.jpg`;
+      } else {
+        // For hover, ensure it's different
+        const nextIndex = (index % totalCards) + 1;
+        fallbackUrl = `assets/images/card_${nextIndex}.jpg`;
+      }
     }
 
-    // We have card_1.jpg to card_8.jpg (approx)
-    const totalCards = 8;
-    const index = Math.abs(hash) % totalCards + 1; // 1 to 8
-
-    let fallbackUrl = `assets/images/card_${index}.jpg`;
-
-    // For hover image, use a different one (next index) to show valid hover effect
-    if (type === 'hover') {
-      const nextIndex = (index % totalCards) + 1;
-      fallbackUrl = `assets/images/card_${nextIndex}.jpg`;
-    }
-
-    // Prevent infinite loop if fallback also fails (though unlikely for local assets)
-    if (event.target.src.includes(fallbackUrl)) return;
+    // Prevent infinite loop
+    if (event.target.src === fallbackUrl || event.target.src.includes(fallbackUrl)) return;
 
     event.target.src = fallbackUrl;
   }
@@ -242,8 +293,10 @@ export class ProductGridComponent implements OnInit, OnChanges {
     }
 
     const image = this.getFirstImage(product);
+
+    // ...
+
     this.cartService.addToCart(product, 1, '', '', image);
-    console.log('Added to cart');
+    Swal.fire("Good job!", "You clicked the button!", "success");
   }
 }
-

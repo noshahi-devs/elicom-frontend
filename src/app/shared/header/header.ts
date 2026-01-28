@@ -6,6 +6,7 @@ import { SearchService } from '../../services/search.service';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { AuthModalComponent } from '../components/auth-modal/auth-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -121,7 +122,19 @@ export class Header implements AfterViewChecked {
   }
 
   removeItem(item: CartItem) {
-    this.cartService.removeItem(item.productId, item.size, item.color);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cartService.removeItem(item.productId, item.size, item.color);
+        Swal.fire("Deleted!", "Your item has been deleted.", "success");
+      }
+    });
   }
 
   scrollAmount = 200;

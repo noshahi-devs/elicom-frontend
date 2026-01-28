@@ -10,7 +10,7 @@
       <label>Location*</label>
       <select [value]="fields.location" (change)="set('location',$event)" (blur)="touch('location')">
         <option value="" disabled>Select Location</option>
-        <option value="United States">United States</option>
+        <option *ngFor="let c of countries" [value]="c.name">{{ c.name }}</option>
       </select>
     </div>
     <div class="error-text" *ngIf="invalid('location')">Required</div>
@@ -37,9 +37,23 @@
     <!-- Phone & Email -->
     <div class="row">
       <div class="col-6">
-        <div class="field phone" [class.error]="invalid('phone')">
-          <span>US +1</span>
-          <input [value]="fields.phone" (input)="set('phone',$event)" (blur)="touch('phone')" />
+        <div class="field phone" [class.error]="invalid('phone')"
+          style="padding: 0; border: none; background: transparent;">
+          <div class="phone-input-group">
+            <div class="country-select">
+              <img [src]="selectedCountry.flag" alt="flag">
+              <i class="fas fa-chevron-down"></i>
+              <select (change)="onCountryChange($event)">
+                <option *ngFor="let c of countries" [value]="c.dial_code" [selected]="c.code === selectedCountry.code">
+                  {{c.name}} ({{c.dial_code}})
+                </option>
+              </select>
+            </div>
+            <div class="field floating" [class.active]="fields.phone" style="flex:1; margin-bottom: 0;">
+              <input [value]="fields.phone" (input)="set('phone',$event)" (blur)="touch('phone')" />
+              <label>Phone Number*</label>
+            </div>
+          </div>
         </div>
         <div class="error-text" *ngIf="invalid('phone')">Required</div>
       </div>
